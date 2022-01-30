@@ -1,0 +1,28 @@
+## Autostart Applications
+### Polkit (to elevate user rights in GUI apps)
+exec /usr/bin/lxpolkit
+
+### Background Applications
+exec "solaar -w hide"
+exec "nm-applet --indicator"
+exec "flatpak run com.nextcloud.desktopclient.nextcloud --background"
+{{- if eq .chezmoi.hostname "rauros" }}
+exec swaymsg "workspace 2; exec flatpak run im.riot.Riot"
+exec "ckb-next --background --close"
+{{- else if eq .chezmoi.hostname "instdt" }}
+exec swaymsg "workspace 6; exec flatpak run im.riot.Riot"
+exec swaymsg "workspace 6; exec flatpak run com.microsoft.Teams"
+exec swaymsg "workspace 6; exec flatpak run com.skype.Client"
+{{- end }}
+
+### Foreground Applications
+exec swaymsg "workspace 1; exec alacritty --title PriTerminal"
+exec swaymsg "workspace 1; exec alacritty"
+{{- if eq .chezmoi.hostname "instdt" }}
+exec swaymsg "workspace 7; exec alacritty --title SecTerminal"
+exec swaymsg "workspace 7; exec alacritty"
+{{- end }}
+
+# Import variables to systemd/dbus env
+# Needed to fix links clicked in Flatpak apps which do not open in Firefox 
+exec "dbus-update-activation-environment --systemd DISPLAY MOZ_DBUS_REMOTE MOZ_ENABLE_WAYLAND; systemctl --user start sway-session.target"

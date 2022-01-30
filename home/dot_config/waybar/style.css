@@ -1,0 +1,101 @@
+@define-color background rgba(0, 0, 0, 0.7);
+@define-color foreground #e5e5e5;
+@define-color gray_trnsp rgba(100, 100, 100, 0.5);
+@define-color fucsia     rgba(200, 0, 0, 1);
+@define-color black      #222222;
+@define-color yellow     #fabd2f;
+@define-color red        #fb4934;
+@define-color green      #b8bb26;
+@define-color blue       #053efc;
+
+* {
+  font-family: MesloLGS Nerd Font;
+  font-size: 15px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: @background;
+  color: @foreground;
+  border-bottom: 3px solid @gray_trnsp;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+#workspaces button:hover {
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: inherit;
+  border-bottom: 3px solid @gray_trnsp;
+}
+
+#workspaces button.focused {
+  border-bottom: 3px solid @green;
+}
+
+#workspaces button.urgent {
+  border-bottom: 3px solid @red;
+}
+
+#mode {
+  background-color: @fucsia;
+  color: @black;
+  border-top: 5px solid @black;
+  border-bottom: 5px solid @black;
+}
+
+#pulseaudio.muted, 
+#network.disabled,
+#network.disconnected,
+#temperature.critical,
+#battery.critical,
+#memory.critical,
+#cpu.load.critical,
+#cpu.critical {
+  border-bottom: 3px solid @red;
+  border-top: 3px solid @red;
+}
+
+#battery.charging {
+  border-bottom: 3px solid @green;
+}
+
+#clock-time,
+#mode,
+#window,
+#pulseaudio,
+#pulseaudio.sources,
+#network,
+#cpu,
+#cpu.load,
+#disk,
+#temperature,
+#tray,
+#memory,
+#backlight,
+#custom-uptime,
+#battery,
+#custom-modules-separator,
+#clock {
+  margin: 0 4px;
+}
+
+#pulseaudio.sources.muted, 
+#pulseaudio.sources.bluetooth,
+#pulseaudio.sources {
+  border-bottom: 3px transparent;
+  border-top: 3px transparent;
+}
+
+#pulseaudio.bluetooth {
+  border-bottom: 3px solid @blue;
+  border-top: 3px solid @blue;
+}
+
+#custom-modules-separator {
+  font-size: 10px;
+  color: @fucsia;
+}

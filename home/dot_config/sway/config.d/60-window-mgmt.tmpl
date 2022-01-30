@@ -1,0 +1,35 @@
+# Floating Windows
+for_window [title="^Element"] floating enable
+for_window [class="Element"] floating enable
+for_window [app_id="desktopclient.nextcloud.com.nextcloud"] floating disabled
+for_window [app_id="com.nextcloud.desktopclient.nextcloud"] floating disabled
+for_window [instance="nextcloud"] floating enabled
+for_window [class="Steam"] floating enable
+for_window [instance="Steam"] floating enable
+for_window [class="ckb-next"] floating enable
+for_window [app_id="ckb-next"] floating enable
+for_window [app_id="gnome-disks"] floating enable
+for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="mpv"] floating enable
+for_window [instance="mpv"] floating enable
+for_window [app_id="imv"] floating enable
+for_window [instance="imv"] floating enable
+for_window [app_id="solaar"] floating enable
+for_window [title="^Firefox - Sharing Indicator"] floating enable
+for_window [title="^Page Info - "] floating enable
+for_window [title="^Bitwarden - Mozilla Firefox"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [title="^Skype"] floating enable
+for_window [class="Skype"] floating enable
+for_window [class="Microsoft Teams - Preview"] floating enable
+
+{{- if eq .chezmoi.hostname "rauros" }}
+
+# Automatic Window Placement
+assign [title="^Element"] workspace 2
+assign [title="^Mozilla Firefox"] workspace 3
+
+# Automatic Window Layout
+for_window [app_id="firefox"] layout tabbed
+for_window [class="firefox"] layout tabbed
+{{- end }}

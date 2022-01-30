@@ -1,0 +1,6 @@
+file:///home/{{ .chezmoi.username }}/Nextcloud
+{{- if eq .chezmoi.hostname "rauros" "anduin" }}
+file:///home/{{ .chezmoi.username }}/Nextcloud/Documents/RPG RPG
+{{- else if eq .chezmoi.hostname "instdt" }}
+smb://10.249.93.86/sysops/ sysops on 10.249.93.86
+{{- end }}

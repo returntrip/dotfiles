@@ -1,0 +1,9 @@
+{{- if eq .chezmoi.hostname "anduin" }}
+.config/dunst/
+.config/mpv/
+.config/sway/
+.config/systemd/user/sway-session.target
+.config/systemd/user/sway.service
+.config/waybar/
+.config/wofi/
+{{- end }}

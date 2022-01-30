@@ -1,0 +1,24 @@
+[character]
+success_symbol = "[❯❯](bold green)"
+error_symbol = "[❯❯](bold red)"
+
+[hostname]
+ssh_only = false
+
+[docker_context]
+disabled = false
+
+[username]
+show_always = true
+style_user = "white"
+
+[git_branch]
+symbol = " "
+
+[custom.toolbox]
+style = "fg:bold blue"
+description = "The activated toolbox container"
+command = "echo ${DISTTAG%container}"
+when = """ [[ -f /run/.containerenv && -f /run/.toolboxenv ]] """
+format = "[\\[⬢  $output\\]]($style) "
+disabled = false

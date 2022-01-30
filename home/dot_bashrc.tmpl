@@ -46,10 +46,6 @@ set -o noclobber
 # Ignore command beginning with space character and duplicated history entries
 HISTCONTROL=ignoreboth
 
-# Enable history expansion with space
-# E.g. typing !!<space> will replace the !! with your last command
-bind Space:magic-space
-
 # Update window size after every command 
 shopt -s checkwinsize
 
@@ -80,6 +76,8 @@ if [[ "$(hostname)" != "toolbox" ]] ; then
     pathmunge /var/lib/flatpak/exports/bin after
 fi
 
+{{- if eq .chezmoi.hostname "rauros" }}
+
 ## Devtools paths
 if [[ -d "$HOME/development/android-studio/bin" ]] ; then
     pathmunge $HOME/development/android-studio/bin after
@@ -92,6 +90,7 @@ fi
 if [[ -d "$HOME/development/dart-sdk/bin" ]] ; then
     pathmunge $HOME/development/dart-sdk/bin after
 fi
+{{- end }}
 
 # toolbox customisation
 ## toolbox path customisation
@@ -104,19 +103,24 @@ fi
 export PATH
 unset -f pathmunge
 
-export CDPATH=/home/returntrip/devel/repos:/home/returntrip/devel/packaging:/home/returntrip/Nextcloud/Documents/Work:/home/returntrip/Nextcloud
+# CDPATH
+CDPATH=/home/{{ .chezmoi.username }}/devel:/home/{{ .chezmoi.username }}/devel/repos:/home/{{ .chezmoi.username }}/Nextcloud
+{{- if eq .chezmoi.hostname "rauros" "anduin" }}
+CDPATH=$CDPATH:/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi.username }}/Nextcloud/Documents
+{{- end }}
+export CDPATH
 
 # Turn on parallel history with starship
 # https://github.com/starship/starship/issues/1337#issuecomment-644690560
 # https://github.com/ZeePal/workstation-ubuntu/blob/master/roles/starship/tasks/main.yml#L128
 shopt -s histappend
 eval "$(starship init bash)"
- function _pre_starship_prompt_commands {
-     local STATUS=$?  # Passthrough the last exit code for starship
-     history -a
-     return $STATUS
-}
-PROMPT_COMMAND="_pre_starship_prompt_commands;starship_precmd"
+# function _pre_starship_prompt_commands {
+#     local STATUS=$?  # Passthrough the last exit code for starship
+#     history -a
+#     return $STATUS
+#}
+#PROMPT_COMMAND="_pre_starship_prompt_commands;starship_precmd"
 
 # ble.sh
 [[ ${BLE_VERSION-} ]] && ble-attach

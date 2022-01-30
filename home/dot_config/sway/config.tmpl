@@ -1,0 +1,44 @@
+# Read `man 5 sway` for a complete reference.
+
+## Variables
+
+### Logo key. Use Mod1 for Alt.
+set $mod Mod4
+
+### Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+### Your preferred terminal emulator
+set $term alacritty
+
+### Your preferred application launcher
+### Note: pass the final command to swaymsg so that the resulting window can be opened
+### on the original workspace that the command was run on.
+set $menu 'wofi --show dmenu,drun,run | xargs swaymsg exec --'
+
+### Set transparency
+set $transparent 0.9
+set $opaque 1
+for_window [class=".*"] opacity $transparent
+for_window [app_id=".*"] opacity $transparent
+bindsym $mod+t exec 'swaymsg opacity plus .1 > /dev/null || swaymsg opacity set 0.9'
+
+## Status Bar:
+### Read `man 5 sway-bar` for more information about this section.
+### Waybar
+bar {
+    swaybar_command waybar
+}
+
+## Font
+font pango:DejaVuSansMono 10, MesloLGS Nerd Font Mono 10
+
+## Gaps
+smart_gaps on
+gaps inner 10
+
+include /etc/sway/config.d/*
+include ~/.config/sway/config.d/*
