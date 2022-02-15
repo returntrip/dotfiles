@@ -22,6 +22,10 @@ for_window [window_role="pop-up"] floating enable
 for_window [title="^Skype"] floating enable
 for_window [class="Skype"] floating enable
 for_window [class="Microsoft Teams - Preview"] floating enable
+for_window [app_id="lxqt-policykit-agent"] {
+    floating enable
+    move position center
+}
 
 {{- if eq .chezmoi.hostname "rauros" }}
 
