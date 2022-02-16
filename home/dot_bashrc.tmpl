@@ -71,7 +71,7 @@ export EDITOR=vim
 export PAGER=less
 
 # User specific environment and startup programs
-## To execute flatpaks without needing `fatpak run` including autocomplete
+## To execute flatpaks without needing `flatpak run` including autocomplete
 if [[ "$(hostname)" != "toolbox" ]] ; then
     pathmunge /var/lib/flatpak/exports/bin after
 fi
@@ -79,16 +79,16 @@ fi
 {{- if eq .chezmoi.hostname "rauros" }}
 
 ## Devtools paths
-if [[ -d "$HOME/development/android-studio/bin" ]] ; then
-    pathmunge $HOME/development/android-studio/bin after
+if [[ -d "$HOME"/development/android-studio/bin ]] ; then
+    pathmunge "$HOME"/development/android-studio/bin after
 fi
 
-if [[ -d "$HOME/development/flutter/bin" ]] ; then
-    pathmunge $HOME/development/flutter/bin after
+if [[ -d "$HOME"/development/flutter/bin ]] ; then
+    pathmunge "$HOME"/development/flutter/bin after
 fi
 
-if [[ -d "$HOME/development/dart-sdk/bin" ]] ; then
-    pathmunge $HOME/development/dart-sdk/bin after
+if [[ -d "$HOME"/development/dart-sdk/bin ]] ; then
+    pathmunge "$HOME"/development/dart-sdk/bin after
 fi
 {{- end }}
 
@@ -96,7 +96,7 @@ fi
 ## toolbox path customisation
 if [[ "$(hostname)" = "toolbox" ]] ; then
     PATH=$(echo $PATH | sed -e 's;:\?/var/lib/flatpak/exports/bin;;' -e 's;/var/lib/flatpak/exports/bin:\?;;')
-    pathmunge $HOME/.local/toolbox/bin after
+    pathmunge "$HOME"/.local/toolbox/bin after
 	export TERM=xterm-256color
 fi
 
