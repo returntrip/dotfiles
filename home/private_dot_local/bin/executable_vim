@@ -1,5 +1,5 @@
 #!/bin/sh
-if [[ -Z TOOLBOX_PATH ]]; then
+if [[ -v TOOLBOX_PATH ]]; then
     exec io.neovim.nvim "$@"
 else
     exec flatpak run io.neovim.nvim "$@"
