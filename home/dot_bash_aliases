@@ -21,12 +21,12 @@ ssh () {
 ## PGP Enc/Dec functions
 secret () {
         output=~/"${1}".$(date +%s).enc
-        gpg --encrypt --armor --output ${output} -r 0xE8D9210D206385D6 -r stefano@figura.im "${1}" && echo "${1} -> ${output}"
+        gpg --encrypt --armor --output "${output}" -r 0xE8D9210D206385D6 -r stefano@figura.im "${1}" && echo "${1} -> ${output}"
 }
 
 reveal () {
         output=$(echo "${1}" | rev | cut -c16- | rev)
-        gpg --decrypt --output ${output} "${1}" && echo "${1} -> ${output}"
+        gpg --decrypt --output "${output}" "${1}" && echo "${1} -> ${output}"
 }
 
 ## Coloured `ls`
