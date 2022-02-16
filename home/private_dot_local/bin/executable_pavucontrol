@@ -1,2 +1,6 @@
 #!/bin/sh
-exec flatpak run org.pulseaudio.pavucontrol "$@"
+if [[ -v TOOLBOX_PATH ]]; then
+    exec org.pulseaudio.pavucontrol "$@"
+else
+    exec flatpak run org.pulseaudio.pavucontrol "$@"
+fi
