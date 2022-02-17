@@ -7,6 +7,8 @@ rpm-ostree upgrade
 
 podman pull registry.fedoraproject.org/fedora-toolbox:$(awk -F '=' '/VERSION_ID/{print $2}' /etc/os-release)
 
+podman pull quay.io/returntrip/base-fedora-toolbox:$(awk -F '=' '/VERSION_ID/{print $2}' /etc/os-release)
+
 toolbox run sudo dnf update -y
 
 toolbox run --container base sudo dnf update -y
