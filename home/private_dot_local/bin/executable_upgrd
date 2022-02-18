@@ -2,18 +2,17 @@
 
 RELEASE=$(awk -F '=' '/VERSION_ID/{print $2}' /etc/os-release)
 
-#flatpak -y update
+flatpak -y update
 
-#rpm-ostree upgrade
+rpm-ostree upgrade
 
-#podman pull registry.fedoraproject.org/fedora-toolbox:"$RELEASE"
+podman pull registry.fedoraproject.org/fedora-toolbox:"$RELEASE"
 
-
-#podman pull quay.io/returntrip/base-fedora-toolbox:"$RELEASE"
+podman pull quay.io/returntrip/base-fedora-toolbox:"$RELEASE"
 
 for container in base fedora-toolbox-"$RELEASE"
 do
     toolbox run --container "$container" sudo dnf update -y
 done
 
-#fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
+fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
