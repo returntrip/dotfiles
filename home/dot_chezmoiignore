@@ -7,3 +7,6 @@
 .config/waybar/
 .config/wofi/
 {{- end }}
+{{- if ne .chezmoi.hostname "rauros" }}
+.local/share/flatpak/overrides/com.valvesoftware.Steam
+{{- end }}
