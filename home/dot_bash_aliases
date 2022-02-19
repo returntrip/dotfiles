@@ -46,11 +46,6 @@ export GROFF_NO_SGR=1				   # for gnome-terminal
 ## Coloured `grep`
 alias grep='grep --color=auto'
 
-## dotgit for git dotfiles including autocompletion
-alias dotgit='/usr/bin/git --git-dir=/home/returntrip/.dotgit/ --work-tree=/home/returntrip'
-[ -f "/usr/share/bash-completion/completions/git" ] && source /usr/share/bash-completion/completions/git
-__git_complete dotgit _git
-
 ## Interactive cp, mv and rm commands
 alias cp='cp -i'
 alias mv='mv -i'
