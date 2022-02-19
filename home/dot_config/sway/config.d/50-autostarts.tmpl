@@ -25,4 +25,4 @@ exec swaymsg "workspace 7; exec alacritty"
 
 # Import variables to systemd/dbus env
 # Needed to fix links clicked in Flatpak apps which do not open in Firefox 
-exec "dbus-update-activation-environment --systemd DISPLAY MOZ_DBUS_REMOTE MOZ_ENABLE_WAYLAND; systemctl --user start sway-session.target"
+exec "dbus-update-activation-environment --systemd DISPLAY MOZ_DBUS_REMOTE MOZ_ENABLE_WAYLAND XDG_CURRENT_DESKTOP; systemctl --user start sway-session.target"
