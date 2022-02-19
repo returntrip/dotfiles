@@ -159,7 +159,7 @@ bindsym $mod+r mode "resize"
 
 ### Screenshot
 ##### Select window/area and edit screenshot
-bindsym --release Print exec ~/.config/sway/scripts/swapshot
+bindsym --release Print exec ~/.local/bin/swapshot
 ##### Select area and copy to clipboard
 bindsym --release $mod+Print exec grim -g \"$(slurp)" - | wl-copy
 
