@@ -108,7 +108,6 @@ CDPATH=/home/{{ .chezmoi.username }}/devel:/home/{{ .chezmoi.username }}/devel/r
 {{- if eq .chezmoi.hostname "rauros" "anduin" }}
 CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi.username }}/Nextcloud/Documents
 {{- end }}
-export CDPATH
 
 # Turn on parallel history with starship
 # https://github.com/starship/starship/issues/1337#issuecomment-644690560
