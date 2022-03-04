@@ -21,5 +21,5 @@ fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
 
 if [[ -z ${BLE_VERSION} ]]; then
     echo yoooo
-    ble-update
+    ble update
 fi
