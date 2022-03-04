@@ -20,5 +20,5 @@ done
 fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
 
 if [[ -z ${BLE_VERSION} ]]; then
-    ble update
+    exec ble-update
 fi
