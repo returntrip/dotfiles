@@ -18,3 +18,7 @@ do
 done
 
 fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
+
+if [[ -v "$BLE_VERSION" ]]; then
+    ble-update
+fi
