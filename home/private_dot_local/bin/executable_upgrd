@@ -1,8 +1,8 @@
 #!/bin/bash
 
-RELEASE=$(awk -F '=' '/VERSION_ID/{print $2}' /etc/os-release)
+#RELEASE=$(awk -F '=' '/VERSION_ID/{print $2}' /etc/os-release)
 
-flatpak -y update
+#flatpak -y update
 
 flatpak remove -y --unused
 
