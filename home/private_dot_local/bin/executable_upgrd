@@ -4,7 +4,7 @@
 
 #flatpak -y update
 
-flatpak remove -y --unused
+#flatpak remove -y --unused
 
 rpm-ostree upgrade
 
