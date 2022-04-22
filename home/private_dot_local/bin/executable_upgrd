@@ -2,11 +2,11 @@
 
 RELEASE=$(awk -F '=' '/VERSION_ID/{print $2}' /etc/os-release)
 
-#flatpak -y update
+flatpak -y update
 
-#flatpak remove -y --unused
+flatpak remove -y --unused
 
-#rpm-ostree upgrade
+rpm-ostree upgrade
 
 #podman pull registry.fedoraproject.org/fedora-toolbox:"$RELEASE"
 
