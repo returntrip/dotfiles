@@ -12,7 +12,6 @@ exec "ckb-next --background --close"
 {{- else if eq .chezmoi.hostname "instdt" }}
 exec swaymsg "workspace 6; exec flatpak run im.riot.Riot"
 exec swaymsg "workspace 6; exec flatpak run com.microsoft.Teams"
-exec swaymsg "workspace 6; exec flatpak run com.skype.Client"
 {{- end }}
 
 ### Foreground Applications
