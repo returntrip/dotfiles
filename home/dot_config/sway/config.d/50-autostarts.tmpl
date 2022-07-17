@@ -8,7 +8,6 @@ exec "nm-applet --indicator"
 exec "flatpak run com.nextcloud.desktopclient.nextcloud --background"
 {{- if eq .chezmoi.hostname "rauros" }}
 exec swaymsg "workspace 2; exec flatpak run im.riot.Riot"
-exec "ckb-next --background --close"
 {{- else if eq .chezmoi.hostname "instdt" }}
 exec swaymsg "workspace 6; exec flatpak run im.riot.Riot"
 exec swaymsg "workspace 6; exec flatpak run com.microsoft.Teams"
