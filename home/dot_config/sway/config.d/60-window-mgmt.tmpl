@@ -1,5 +1,5 @@
 # Floating Windows
-for_window [title="^Element"] floating enable
+#for_window [title="^Element"] floating enable
 for_window [class="Element"] floating enable
 for_window [app_id="desktopclient.nextcloud.com.nextcloud"] floating disabled
 for_window [app_id="com.nextcloud.desktopclient.nextcloud"] floating disabled
@@ -30,7 +30,7 @@ for_window [app_id="lxqt-policykit-agent"] {
 {{- if eq .chezmoi.hostname "rauros" }}
 
 # Automatic Window Placement
-assign [title="^Element"] workspace 2
+assign [class="Element"] workspace 2
 assign [title="^Mozilla Firefox"] workspace 3
 
 # Automatic Window Layout
