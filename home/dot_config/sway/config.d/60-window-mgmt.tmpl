@@ -1,5 +1,4 @@
 # Floating Windows
-#for_window [title="^Element"] floating enable
 for_window [class="Element"] floating enable
 for_window [app_id="desktopclient.nextcloud.com.nextcloud"] floating disabled
 for_window [app_id="com.nextcloud.desktopclient.nextcloud"] floating disabled
@@ -19,7 +18,6 @@ for_window [title="^Firefox - Sharing Indicator"] floating enable
 for_window [title="^Page Info - "] floating enable
 for_window [title="^Bitwarden - Mozilla Firefox"] floating enable
 for_window [window_role="pop-up"] floating enable
-for_window [title="^Skype"] floating enable
 for_window [class="Skype"] floating enable
 for_window [class="Microsoft Teams - Preview"] floating enable
 for_window [app_id="lxqt-policykit-agent"] {
@@ -31,7 +29,8 @@ for_window [app_id="lxqt-policykit-agent"] {
 
 # Automatic Window Placement
 assign [class="Element"] workspace 2
-assign [title="^Mozilla Firefox"] workspace 3
+#assign [title="^Mozilla Firefox"] workspace 3
+assign [app_id="firefox"] workspace 3
 
 # Automatic Window Layout
 for_window [app_id="firefox"] layout tabbed
