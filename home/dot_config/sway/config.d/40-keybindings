@@ -117,7 +117,6 @@
     # Remove Titlebar
     bindsym $mod+shift+r {
        font pango:monospace 0
-       titlebar_border_thickness 0
        titlebar_padding 0
        floating disabled
        move position center
