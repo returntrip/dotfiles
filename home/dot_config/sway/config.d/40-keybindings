@@ -114,11 +114,10 @@
     for_window [app_id=".*"] opacity $transparent
     bindsym $mod+t exec 'swaymsg opacity plus .1 > /dev/null || swaymsg opacity set 0.9'
  
-    # Remove Titlebar
-    bindsym $mod+shift+u exec 'swaymsg border toggle && swaymsg floating toggle'
-
-    # Restore Titlebar
-    bindsym $mod+u exec 'swaymsg border normal && swaymsg floating disable'
+    # Enable Windowed Games Fix - remove titlebar and disable float
+    bindsym $mod+shift+u exec 'swaymsg border none && swaymsg floating disable'
+    # Disable Windowed Games Fix - enable titlebar and enable float
+    bindsym $mod+u exec 'swaymsg border normal && swaymsg floating enable'
     
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
