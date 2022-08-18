@@ -115,9 +115,9 @@
     bindsym $mod+t exec 'swaymsg opacity plus .1 > /dev/null || swaymsg opacity set 0.9'
  
     # Enable Windowed Games Fix - remove titlebar and disable float
-    bindsym $mod+shift+u exec 'swaymsg border none && swaymsg floating disable'
+    bindsym $mod+shift+u exec 'swaymsg border none && swaymsg floating disable; swaymsg opacity plus .1 > /dev/null || swaymsg opacity set 0.9'
     # Disable Windowed Games Fix - enable titlebar and enable float
-    bindsym $mod+u exec 'swaymsg border normal && swaymsg floating enable'
+    bindsym $mod+u exec 'swaymsg border normal && swaymsg floating enable; swaymsg opacity plus .1 > /dev/null || swaymsg opacity set 0.9 '
     
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
