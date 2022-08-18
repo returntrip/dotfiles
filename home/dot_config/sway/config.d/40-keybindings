@@ -115,12 +115,7 @@
     bindsym $mod+t exec 'swaymsg opacity plus .1 > /dev/null || swaymsg opacity set 0.9'
  
     # Remove Titlebar
-    bindsym $mod+shift+r {
-       font pango:monospace 0
-       titlebar_padding 0
-       floating disabled
-       move position center
-    }
+    bindsym $mod+shift+t exec 'swaymsg font pango:monospace 0 titlebar_border_thickness 0 titlebar_padding 0 floating disabled move position center'
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
 
