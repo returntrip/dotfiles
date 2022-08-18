@@ -108,7 +108,15 @@
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
-
+ 
+    # Remove Titlebar
+    bindsym $mod+T {
+       font pango:monospace 0
+       titlebar_border_thickness 0
+       titlebar_padding 0
+       floating disabled
+       move position center
+    }
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
 
