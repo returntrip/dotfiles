@@ -108,9 +108,14 @@
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
+
+    # Set transparency
+    for_window [class=".*"] opacity $transparent
+    for_window [app_id=".*"] opacity $transparent
+    bindsym $mod+t exec 'swaymsg opacity plus .1 > /dev/null || swaymsg opacity set 0.9'
  
     # Remove Titlebar
-    bindsym $mod+T {
+    bindsym $mod+shift+t {
        font pango:monospace 0
        titlebar_border_thickness 0
        titlebar_padding 0
