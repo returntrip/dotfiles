@@ -115,10 +115,11 @@
     bindsym $mod+t exec 'swaymsg opacity plus .1 > /dev/null || swaymsg opacity set 0.9'
  
     # Remove Titlebar
-    bindsym $mod+shift+u exec for'swaymsg font pango:monospace 0 titlebar_border_thickness 0 titlebar_padding 0 floating disabled move position center'
+    #bindsym $mod+shift+u exec 'swaymsg font pango:monospace 0 titlebar_border_thickness 0 titlebar_padding 0 floating disabled move position center'
+    bindsym $mod+shift+u exec 'swaymsg floating disabled move position center border none'
 
     # Restore Titlebar
-    bindsym $mod+u exec for'swaymsg font pango:DejaVuSansMono 10, MesloLGS Nerd Font Mono 10 titlebar_border_thickness 0 titlebar_padding 0 floating disabled move position center'
+    #bindsym $mod+u exec 'swaymsg font pango:DejaVuSansMono 10, MesloLGS Nerd Font Mono 10 titlebar_border_thickness 0 titlebar_padding 0 floating disabled move position center'
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
 
