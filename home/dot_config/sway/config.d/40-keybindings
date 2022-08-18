@@ -117,7 +117,7 @@
     # Remove Titlebar
     #bindsym $mod+shift+u exec 'swaymsg font pango:monospace 0 titlebar_border_thickness 0 titlebar_padding 0 floating disabled move position center'
     bindsym $mod+shift+u {floating disabled 
-    move position center
+    move center
     border none
     }
 
