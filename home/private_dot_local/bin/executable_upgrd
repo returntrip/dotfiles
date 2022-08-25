@@ -20,4 +20,4 @@ done
 
 fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
 
-[[ -f "$BLE_UPD" ]] && source "$BLE_UPD" && ble-update
+[[ -f "$BLE_UPD" ]] && source "$BLE_UPD" --update
