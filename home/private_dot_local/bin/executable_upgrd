@@ -18,3 +18,5 @@ do
 done
 
 fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
+
+ble-update
