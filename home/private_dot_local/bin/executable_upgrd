@@ -20,4 +20,4 @@ done
 
 fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
 
-[[ -f "$BLE_UPD" ]] && source toolbox run --container base bash -c "$BLE_UPD" --update
+[[ -f "$BLE_UPD" ]] && source toolbox run --container base bash -c 'source '$BLE_UPD' --update'
