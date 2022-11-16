@@ -111,6 +111,9 @@ CDPATH=/home/{{ .chezmoi.username }}/devel:/home/{{ .chezmoi.username }}/devel/r
 CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi.username }}/Nextcloud/Documents
 {{- end }}
 
+
+[[ -e "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh" ]] && source "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh"
+
 # Turn on parallel history with starship
 # https://github.com/starship/starship/issues/1337#issuecomment-644690560
 # https://github.com/ZeePal/workstation-ubuntu/blob/master/roles/starship/tasks/main.yml#L128
