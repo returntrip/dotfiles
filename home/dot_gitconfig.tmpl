@@ -1,0 +1,24 @@
+[user]
+{{- if eq .chezmoi.osRelease.id "fedoraremixforwsl" }}
+    email = "stefano.figura@tietoevry.com"
+{{- end }}
+{{- if eq .chezmoi.hostname "rauros" }}
+    email = "stefano@figura.im"
+{{- end }}
+    name = returntrip
+    signingkey = 0xE8D9210D206385D6
+[core]
+{{- if eq .chezmoi.osRelease.id "fedoraremixforwsl" }}
+    editor = nvim
+{{- end }}
+{{- if eq .chezmoi.hostname "rauros" }}
+    editor = io.neovim.nvim
+{{- end }}
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+[mergetool]
+    prompt = false
+    path = nvim
+[color]
+    ui = auto

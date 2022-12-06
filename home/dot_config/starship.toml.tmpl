@@ -15,6 +15,12 @@ style_user = "white"
 [git_branch]
 symbol = " "
 
+{{- if eq .chezmoi.osRelease.id "fedoraremixforwsl" }}
+[container]
+disabled = true
+{{- end  }}
+
+{{- if (or (eq .chezmoi.hostname "anduin") (eq .chezmoi.hostname "rauros")) }}
 [custom.toolbox]
 style = "fg:bold blue"
 description = "The activated toolbox container"
@@ -22,3 +28,4 @@ command = "echo ${DISTTAG%container}"
 when = """ [[ -f /run/.containerenv && -f /run/.toolboxenv ]] """
 format = "[\\[⬢  $output\\]]($style) "
 disabled = false
+{{- end }}

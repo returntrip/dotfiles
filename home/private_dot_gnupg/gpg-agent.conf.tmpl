@@ -4,9 +4,13 @@ enable-ssh-support
 ttyname $GPG_TTY
 default-cache-ttl 60
 max-cache-ttl 120
+{{- if eq .chezmoi.hostname "rauros" "anduin" }}
 pinentry-program /usr/bin/pinentry-gnome3
+{{- end }}
+{{- if eq .chezmoi.osRelease.id "fedoraremixforwsl" }}
+pinentry-program /usr/bin/pinentry-tty
+{{- end }}
 #pinentry-program /usr/bin/pinentry-curses
-#pinentry-program /usr/bin/pinentry-tty
 #pinentry-program /usr/bin/pinentry-gtk-2
 #pinentry-program /usr/bin/pinentry-x11
 #pinentry-program /usr/local/bin/pinentry-curses
