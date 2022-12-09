@@ -9,12 +9,14 @@ addalias() {
 ## ssh start $SHELL if tmux not found
 ssh () {
     TERM=xterm
-    if [ $# -eq 0 ] || [[ $@ =~ ^-.* ]]; then
-        command ssh
+    if [ $# -lt 2 ]; then
+        if  [ $# -eq 1 ] && [[ ! "$*" =~ ^-.* ]]; then
+            command ssh -t "$@" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
+        else
+            command ssh
+        fi
     elif [ $# -gt 1 ]; then
         command ssh "$@"
-    else
-        command ssh -t "$@" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
     fi
 }
 
