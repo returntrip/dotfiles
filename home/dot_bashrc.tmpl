@@ -108,7 +108,7 @@ unset -f pathmunge
 # CDPATH
 CDPATH=/home/{{ .chezmoi.username }}/devel:/home/{{ .chezmoi.username }}/devel/repos
 {{- if eq .chezmoi.hostname "rauros" "anduin" }}
-CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi.username }}/Nextcloud/:/home/{{ .chezmoi.username }}/Nextcloud/Documents
+CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi.username }}/Nextcloud:/home/{{ .chezmoi.username }}/Nextcloud/Documents
 {{- end }}
 
 
