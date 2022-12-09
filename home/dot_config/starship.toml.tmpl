@@ -107,6 +107,9 @@ format = '\[[$symbol($version)]($style)\]'
 
 [kubernetes]
 format = '\[[$symbol$context( \($namespace\))]($style)\]'
+disabled = false
+symbol = "⛵"
+style = "dimmed cyan"
 
 [lua]
 format = '\[[$symbol($version)]($style)\]'
@@ -169,7 +172,7 @@ format = '\[[$symbol($version)]($style)\]'
 format = '\[[$symbol$environment]($style)\]'
 
 [sudo]
-format = '\[[as $symbol]\]'
+disabled = false
 
 [swift]
 format = '\[[$symbol($version)]($style)\]'
