@@ -460,6 +460,7 @@ bleopt default_keymap=auto
 {{- if eq .chezmoi.osRelease.id "fedoraremixforwsl" }}
 bleopt complete_auto_delay=300
 {{- end }}
+
 #bleopt complete_auto_delay=100
 
 
