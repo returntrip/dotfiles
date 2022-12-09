@@ -1,0 +1,21 @@
+{{- if (or (eq .chezmoi.hostname "anduin") (eq .chezmoi.osRelease.id "fedoraremixforwsl")) }}
+.gtk-bookmarks
+.local/bin/**
+.local/toolbox/
+.local/share/
+.terminfo/
+.mozilla/
+.var/
+.config/alacritty/
+.config/blesh/
+.config/dunst/
+.config/gtk-3.0/
+.config/mpv/
+.config/sway/
+.config/systemd/user/
+.config/waybar/
+.config/wofi/
+{{- end }}
+{{- if ne .chezmoi.hostname "rauros" }}
+.local/share/flatpak/overrides/com.valvesoftware.Steam
+{{- end }}
