@@ -21,6 +21,8 @@ do
 done
 
 fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
+
+[[ -f "$BLE_UPD" ]] && toolbox run --container base bash -c 'source '$BLE_UPD' --update'
 {{-  end }}
 {{- end }}
 
@@ -30,4 +32,4 @@ sudo dnf upgrade
 {{-  end }}
 {{- end }}
 
-[[ -f "$BLE_UPD" ]] && toolbox run --container base bash -c 'source '$BLE_UPD' --update'
+[[ -f "$BLE_UPD" ]] && source '$BLE_UPD' --update
