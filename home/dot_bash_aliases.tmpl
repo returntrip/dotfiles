@@ -63,7 +63,9 @@ alias dmesg='dmesg --color=always'
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # nvim
 alias vim='nvim'
+{{-   end }}
 {{- end }}
+
 
 {{- if eq .chezmoi.hostname "rauros" }}
 alias codium='toolbox run --container vscode bash -l -c codium'
