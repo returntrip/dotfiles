@@ -1,6 +1,8 @@
 {{- if (or (eq .chezmoi.hostname "anduin") (eq .chezmoi.osRelease.id "fedoraremixforwsl")) }}
 .gtk-bookmarks
 .local/bin/**
+!.local/bin
+!.local/bin/upgrd
 .local/toolbox/
 .local/share/
 .terminfo/

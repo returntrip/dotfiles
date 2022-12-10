@@ -1,5 +1,7 @@
 #!/bin/bash
 
+{{- if eq .chezmoi.os "linux" }}
+{{-  if nq (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 RELEASE=$(awk -F '=' '/VERSION_ID/{print $2}' /etc/os-release)
 BLE_UPD=~/.local/share/blesh/ble.sh
 
@@ -19,5 +21,13 @@ do
 done
 
 fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
+{{-  end }}
+{{- end }}
+
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+sudo dnf upgrade
+{{-  end }}
+{{- end }}
 
 [[ -f "$BLE_UPD" ]] && toolbox run --container base bash -c 'source '$BLE_UPD' --update'
