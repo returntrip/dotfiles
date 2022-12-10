@@ -457,7 +457,8 @@ bleopt default_keymap=auto
 ## The following setting controls the delay of auto-complete after the last
 ## user input. The unit is millisecond.
 
-{{- if eq .chezmoi.osRelease.id "fedoraremixforwsl" }}
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 bleopt complete_auto_delay=300
 {{- end }}
 

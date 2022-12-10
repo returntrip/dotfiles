@@ -59,7 +59,8 @@ alias diff='diff --color=auto'
 ## Coloured `dmesg`
 alias dmesg='dmesg --color=always'
 
-{{- if eq .chezmoi.osRelease.id "fedoraremixforwsl" }}
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # nvim
 alias vim='nvim'
 {{- end }}
