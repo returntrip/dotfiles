@@ -457,9 +457,10 @@ bleopt default_keymap=auto
 ## The following setting controls the delay of auto-complete after the last
 ## user input. The unit is millisecond.
 
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 bleopt complete_auto_delay=300
+{{-  end }}
 {{- end }}
 
 #bleopt complete_auto_delay=100

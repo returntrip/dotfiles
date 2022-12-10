@@ -59,13 +59,12 @@ alias diff='diff --color=auto'
 ## Coloured `dmesg`
 alias dmesg='dmesg --color=always'
 
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # nvim
 alias vim='nvim'
-{{-   end }}
+{{-  end }}
 {{- end }}
-
 
 {{- if eq .chezmoi.hostname "rauros" }}
 alias codium='toolbox run --container vscode bash -l -c codium'

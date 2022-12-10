@@ -7,9 +7,10 @@ max-cache-ttl 120
 {{- if eq .chezmoi.hostname "rauros" "anduin" }}
 pinentry-program /usr/bin/pinentry-gnome3
 {{- end }}
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 pinentry-program /usr/bin/pinentry-tty
+{{-  end }}
 {{- end }}
 #pinentry-program /usr/bin/pinentry-curses
 #pinentry-program /usr/bin/pinentry-gtk-2

@@ -18,11 +18,12 @@ format = '\[[$user]($style)\]'
 symbol = " "
 format = '\[[$symbol$branch]($style)\]'
 
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 [container]
 disabled = true
-{{- end  }}
+{{-  end }}
+{{- end }}
 
 {{- if (or (eq .chezmoi.hostname "anduin") (eq .chezmoi.hostname "rauros")) }}
 [custom.toolbox]

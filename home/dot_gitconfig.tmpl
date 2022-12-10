@@ -1,7 +1,8 @@
 [user]
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
     email = "stefano.figura@tietoevry.com"
+{{-  end }}
 {{- end }}
 {{- if eq .chezmoi.hostname "rauros" }}
     email = "stefano@figura.im"
@@ -9,9 +10,10 @@
     name = returntrip
     signingkey = 0xE8D9210D206385D6
 [core]
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
     editor = nvim
+{{-  end }}
 {{- end }}
 {{- if eq .chezmoi.hostname "rauros" }}
     editor = io.neovim.nvim
