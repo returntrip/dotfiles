@@ -63,6 +63,8 @@ alias dmesg='dmesg --color=always'
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # nvim
 alias vim='nvim'
+#terraform auto complete
+complete -C /usr/bin/terraform terraform
 {{-  end }}
 {{- end }}
 
