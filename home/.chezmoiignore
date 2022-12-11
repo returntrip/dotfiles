@@ -1,4 +1,5 @@
-{{- if (or (eq .chezmoi.hostname "anduin") (eq .chezmoi.osRelease.id "fedoraremixforwsl")) }}
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (or (eq .chezmoi.hostname "anduin") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
 .gtk-bookmarks
 .local/bin/**
 !.local/bin
@@ -16,7 +17,9 @@
 .config/systemd/user/
 .config/waybar/
 .config/wofi/
-{{- end }}
-{{- if ne .chezmoi.hostname "rauros" }}
+{{-  end }}
+{{-  if ne .chezmoi.hostname "rauros" }}
 .local/share/flatpak/overrides/com.valvesoftware.Steam
+{{-  end }}
 {{- end }}
+
