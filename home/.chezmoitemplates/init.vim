@@ -1,9 +1,9 @@
 "" Plugins system start
 call plug#begin()
 Plug 'tpope/vim-sensible'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+Plug 'preservim/vim-markdown'
 call plug#end()
 "" `vim-markdown` settings
 let g:mkdp_auto_close = 1 " Markdown preview: do not close the preview tab when switching to other buffers
