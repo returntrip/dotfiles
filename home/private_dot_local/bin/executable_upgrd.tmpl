@@ -24,10 +24,4 @@ fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
 {{-  end }}
 {{- end }}
 
-{{- if eq .chezmoi.os "linux" }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-sudo dnf upgrade
-{{-  end }}
-{{- end }}
-
 [[ -f "$BLE_UPD" ]] && source $BLE_UPD --update
