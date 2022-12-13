@@ -8,6 +8,11 @@ addalias() {
 
 ## ssh start $SHELL if tmux not found
 ssh () {
+    {{- if eq .chezmoi.os "linux" }}
+    {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+    gpg-connect-agent -q updatestartuptty /bye > /dev/null
+    {{-  end }}
+    {{- end }}
     TERM=xterm
     if [ $# -lt 2 ]; then
         if  [ $# -eq 1 ] && [[ ! "$*" =~ ^-.* ]]; then
