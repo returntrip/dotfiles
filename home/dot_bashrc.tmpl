@@ -104,7 +104,7 @@ fi
 
 {{- if eq .chezmoi.os "linux" }}
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-if [[ -d "/home/linuxbrew/.linuxbrw/bin" ]] ; then
+if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]] ; then
     pathmunge /home/linuxbrew/.linuxbrew/bin after
 fi
 {{-  end }}
