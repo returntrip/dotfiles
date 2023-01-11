@@ -1,0 +1,2 @@
+#!/bin/bash
+usbipd.exe wsl attach -i 1050:0407 -d fedoraremix

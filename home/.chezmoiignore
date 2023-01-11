@@ -23,4 +23,3 @@
 .local/share/flatpak/overrides/com.valvesoftware.Steam
 {{-  end }}
 {{- end }}
-
