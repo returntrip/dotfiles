@@ -5,6 +5,8 @@
 !.local/bin
 !.local/bin/upgrd
 !.local/bin/yka
+!.local/bin/vmtft
+!.local/bin/vmbearer
 .local/toolbox/
 .local/share/
 .terminfo/
@@ -23,3 +25,6 @@
 .local/share/flatpak/overrides/com.valvesoftware.Steam
 {{-  end }}
 {{- end }}
+.local/bin/yka
+.local/bin/vmtft
+.local/bin/vmbearer
