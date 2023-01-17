@@ -1,5 +1,29 @@
 {{- if eq .chezmoi.os "linux" }}
 {{-  if (or (eq .chezmoi.hostname "anduin") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+#.gtk-bookmarks
+#.local/bin/**
+#!.local/bin
+#!.local/bin/upgrd
+#!.local/bin/yka
+#!.local/bin/vmtft
+#!.local/bin/vmbearer
+#.local/toolbox/
+#.local/share/
+#.terminfo/
+#.mozilla/
+#.var/
+.config/alacritty/
+.config/dunst/
+.config/gtk-3.0/
+.config/mpv/
+.config/sway/
+.config/systemd/user/
+.config/waybar/
+.config/wofi/
+{{-  end }}
+{{-  if eq .chezmoi.hostname "anduin" }}
+{{-  end }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 .gtk-bookmarks
 .local/bin/**
 !.local/bin
@@ -12,19 +36,12 @@
 .terminfo/
 .mozilla/
 .var/
-.config/alacritty/
-.config/dunst/
-.config/gtk-3.0/
-.config/mpv/
-.config/sway/
-.config/systemd/user/
-.config/waybar/
-.config/wofi/
 {{-  end }}
 {{-  if ne .chezmoi.hostname "rauros" }}
 .local/share/flatpak/overrides/com.valvesoftware.Steam
+.local/bin/swapshot
+.local/bin/grimshot
+.local/bin/ff2mpv.py b/.local/bin/ff2mpv.py
+
 {{-  end }}
 {{- end }}
-.local/bin/yka
-.local/bin/vmtft
-.local/bin/vmbearer
