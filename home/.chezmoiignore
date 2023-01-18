@@ -38,3 +38,6 @@
 .terminfo/
 {{-  end }}
 {{- end }}
+.local/bin/yka
+.local/bin/vmtft
+.local/bin/vmbearer
