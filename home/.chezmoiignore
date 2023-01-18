@@ -13,14 +13,19 @@
 !.local/bin/vmbearer
 .local/toolbox/
 .local/share/
-.terminfo/
 .mozilla/
 .var/
 {{-  end }}
 {{-  if ne .chezmoi.hostname "rauros" }}
-.local/bin/ff2mpv.py b/.local/bin/ff2mpv.py
+.local/bin/ff2mpv.py
 .local/bin/grimshot
+.local/bin/pactl
+.local/bin/pavucontrol
 .local/bin/swapshot
+.local/bin/sway
+.local/bin/sway-service.sh
+.local/bin/waybar-uptime
+.local/bin/waybar-weather
 .local/share/flatpak/overrides/com.valvesoftware.Steam
 .config/alacritty/
 .config/dunst/
@@ -30,5 +35,6 @@
 .config/systemd/user/
 .config/waybar/
 .config/wofi/
+.terminfo/
 {{-  end }}
 {{- end }}
