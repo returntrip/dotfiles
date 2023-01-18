@@ -1,0 +1,2 @@
+#!/bin/bash
+awk '$1 != "token" { print } $1 == "token" { $3="\"'$BTOKEN'\""; print }; { print >"terraform.tfvars" }' terraform.tfvars

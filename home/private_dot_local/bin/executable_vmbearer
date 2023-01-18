@@ -1,0 +1,26 @@
+#!/bin/bash
+user=$1
+password=$2
+org=$3
+IP=$4
+
+if [ -z "$IP" ]
+then
+    echo "Syntax $0 user password organization hostname_or_IP_address"
+    exit 1
+fi
+
+options=""
+os=$(uname -s)
+is_linux=$(echo "$os" | grep -i linux)
+if [ -n "$is_linux" ]
+then
+  options="-w 0"
+fi
+
+auth=$(echo -n "$user@$org:$password" |base64 $options)
+
+curl -s -I -k --header "Accept: application/*;version=32.0" \
+    --header "Authorization: Basic $auth" \
+    --request POST https://$IP/api/sessions | \
+    awk '/X-VMWARE-VCLOUD-ACCESS-TOKEN/ { gsub("\r",""); print $2 }'
