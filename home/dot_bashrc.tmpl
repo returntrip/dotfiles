@@ -1,7 +1,9 @@
 # .bashrc
 
+{{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
 # ble.sh
 [[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
+{{- end }}
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -136,5 +138,7 @@ eval "$(starship init bash)"
 #}
 #PROMPT_COMMAND="_pre_starship_prompt_commands;starship_precmd"
 
+{{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
 # ble.sh
 [[ ${BLE_VERSION-} ]] && ble-attach
+{{- end }}

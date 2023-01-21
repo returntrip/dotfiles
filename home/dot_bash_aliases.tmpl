@@ -68,10 +68,16 @@ alias dmesg='dmesg --color=always'
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # nvim
 alias vim='nvim'
+{{-  end }}
+{{- end }}
+
+{{- if stat "/usr/bin/exa" }}
+alias tree='exa --tree'
+{{- end }}
+
+{{- if stat "/usr/bin/terraform" }}
 # terraform auto complete
 complete -C /usr/bin/terraform terraform
-alias tree='exa --tree'
-{{-  end }}
 {{- end }}
 
 {{- if eq .chezmoi.hostname "rauros" }}
