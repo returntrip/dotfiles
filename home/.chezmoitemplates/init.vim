@@ -32,4 +32,4 @@ set termguicolors "truecolor
 colorscheme  torte
 
 " for yaml/yml files set 2 spaces
-autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
