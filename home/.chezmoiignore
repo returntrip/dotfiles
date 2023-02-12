@@ -41,3 +41,4 @@
 .local/bin/yka
 .local/bin/vmtft
 .local/bin/vmbearer
+.ssh/config
