@@ -18,21 +18,6 @@ format = '\[[$user]($style)\]'
 symbol = " "
 format = '\[[$symbol$branch]($style)\]'
 
-{{- if eq .chezmoi.os "linux" }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-[container]
-disabled = true
-{{-  end }}
-{{- end }}
-
-[custom.toolbox]
-style = "fg:bold blue"
-description = "The activated toolbox container"
-command = "echo ${DISTTAG%container}"
-when = """ [[ -f /run/.containerenv && -f /run/.toolboxenv ]] """
-format = "[\\[⬢  $output\\]]($style) "
-disabled = false
-
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
 
