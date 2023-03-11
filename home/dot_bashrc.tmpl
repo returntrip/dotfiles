@@ -104,9 +104,13 @@ if [[ -d "$HOME"/development/dart-sdk/bin ]] ; then
 fi
 {{- end }}
 
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]] ; then
     pathmunge /home/linuxbrew/.linuxbrew/bin after
 fi
+{{-  end }}
+{{- end }}
 
 export PATH
 unset -f pathmunge
@@ -119,7 +123,14 @@ CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi
 
 
 {{- if eq .chezmoi.hostname "rauros" "anduin" }}
+# Oracle CLI
 [[ -e "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh" ]] && source "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh"
+
+# asdf
+if [[ -d "$HOME/.asdf" ]] ; then
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
+fi
 {{- end }}
 
 # Turn on parallel history with starship
