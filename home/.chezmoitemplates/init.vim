@@ -5,6 +5,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'godlygeek/tabular'
 Plug 'preservim/vim-markdown'
 Plug 'hashivim/vim-terraform'
+Plug 'dense-analysis/ale'
 call plug#end()
 "" `vim-markdown` settings
 let g:mkdp_auto_close = 1 " Markdown preview: do not close the preview tab when switching to other buffers
