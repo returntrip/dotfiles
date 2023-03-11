@@ -20,6 +20,11 @@ do
     toolbox run --container "$container" sudo dnf update -y
 done
 
+if [[ -d "$HOME/.asdf" ]] ; then
+    asdf update
+    asdf plugin update --all
+fi
+
 fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
 {{-  end }}
 {{- end }}
