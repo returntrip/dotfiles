@@ -21,8 +21,14 @@ do
 done
 
 if [[ -d "$HOME/.asdf" ]] ; then
+    CUR_PACKS=$(asdf current | awk '/tool-versions$/{print $1}')
+    #OUT_PACKS=$(asdf latest --all | awk '/missing/{print $1}')
     asdf update
     asdf plugin update --all
+    for PACKS in ${CUR_PACKS}; do
+        asdf install "$PACKS" latest
+        asdf global "$PACKS" latest
+    done
 fi
 
 fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
