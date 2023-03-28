@@ -1,6 +1,11 @@
 #!/bin/bash
 
 BLE_UPD=~/.local/share/blesh/ble.sh
+
+if [[ -d "$HOME/.local/share/chezmoi ]] ; then
+    chezmoi git -- pull
+fi
+
 {{- if eq .chezmoi.os "linux" }}
 {{-  if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 RELEASE=$(awk -F '=' '/VERSION_ID/{print $2}' /etc/os-release)
