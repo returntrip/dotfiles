@@ -40,7 +40,7 @@ fwupdmgr refresh; fwupdmgr get-updates; fwupdmgr update
 {{-  end }}
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]] ; then
-    brew upgrade
+    brew update && brew upgrade
 fi
 {{-  end }}
 {{- end }}
