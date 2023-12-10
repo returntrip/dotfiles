@@ -159,7 +159,7 @@
     },
 
     "temperature": {
-        {{- if eq .chezmoi.hostname "rauros" "anduin"}}
+        {{- if eq .chezmoi.hostname "rauros" "t490s-sb"}}
         "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
         "input-filename": "temp1_input",
         {{- else if eq .chezmoi.hostname "instdt"}}

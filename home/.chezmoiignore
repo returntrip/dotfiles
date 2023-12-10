@@ -1,7 +1,7 @@
 {{- if eq .chezmoi.os "linux" }}
-{{-  if (or (eq .chezmoi.hostname "anduin") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+{{-  if (or (eq .chezmoi.hostname "t490s-sb") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
 {{-  end }}
-{{-  if eq .chezmoi.hostname "anduin" }}
+{{-  if eq .chezmoi.hostname "t490s-sb" }}
 {{-  end }}
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 .gtk-bookmarks

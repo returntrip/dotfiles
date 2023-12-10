@@ -72,7 +72,7 @@ gpgconf --launch gpg-agent
 export EDITOR=vim
 export PAGER=less
 
-{{- if (or (eq .chezmoi.hostname "anduin") (eq .chezmoi.hostname "rauros")) }}
+{{- if (or (eq .chezmoi.hostname "t490s-sb") (eq .chezmoi.hostname "rauros")) }}
 # User specific environment and startup programs
 ## To execute flatpaks without needing `flatpak run` including autocomplete
 if [[ "$(hostname)" != "toolbox" ]] ; then
@@ -117,12 +117,12 @@ unset -f pathmunge
 
 # CDPATH
 CDPATH=/home/{{ .chezmoi.username }}/devel:/home/{{ .chezmoi.username }}/devel/repos
-{{- if eq .chezmoi.hostname "rauros" "anduin" }}
+{{- if eq .chezmoi.hostname "rauros" "t490s-sb" }}
 CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi.username }}/Nextcloud:/home/{{ .chezmoi.username }}/Nextcloud/Documents
 {{- end }}
 
 
-{{- if eq .chezmoi.hostname "rauros" "anduin" }}
+{{- if eq .chezmoi.hostname "rauros" "t490s-sb" }}
 # Oracle CLI
 [[ -e "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh" ]] && source "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh"
 

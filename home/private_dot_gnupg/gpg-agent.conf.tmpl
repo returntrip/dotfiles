@@ -4,7 +4,7 @@ enable-ssh-support
 ttyname $GPG_TTY
 default-cache-ttl 60
 max-cache-ttl 120
-{{- if eq .chezmoi.hostname "rauros" "anduin" }}
+{{- if eq .chezmoi.hostname "rauros" "t490s-sb" }}
 pinentry-program /usr/bin/pinentry-gnome3
 {{- end }}
 {{- if eq .chezmoi.os "linux" }}
