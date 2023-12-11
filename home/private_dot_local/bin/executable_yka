@@ -1,2 +1,3 @@
 #!/bin/bash
-usbipd.exe wsl attach -i 1050:0407 -d "$WSL_DISTRO_NAME"
+usbipd attach --busid 2-1 -w "$WSL_DISTRO_NAME"
+
