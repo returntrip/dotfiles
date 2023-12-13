@@ -37,7 +37,7 @@ fi
 # export SYSTEMD_PAGER=
 
 # Source aliases and functions
-if [ -d "$HOME"/.krew/bin] ; then
+if [[ -d "$HOME"/.krew/bin]] ; then
     pathmunge "${KREW_ROOT:-$HOME/.krew}/bin" after 
 fi
 
