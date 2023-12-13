@@ -36,12 +36,10 @@ fi
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
-
 # Source aliases and functions
 if [ -d "$HOME"/.krew/bin] ; then
     pathmunge "${KREW_ROOT:-$HOME/.krew}/bin" after 
 fi
-
 
 # Source aliases and functions
 if [ -f "$HOME"/.bash_aliases ] ; then
