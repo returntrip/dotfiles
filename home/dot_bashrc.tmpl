@@ -5,6 +5,10 @@
 [[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
 {{- end }}
 
+{{- if stat (joinPath .chezmoi.homeDir "/.krew/bin") }}
+pathmunge "${KREW_ROOT:-$HOME/.krew}/bin" after 
+{{- end }}
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
