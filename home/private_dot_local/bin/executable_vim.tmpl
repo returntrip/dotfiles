@@ -3,6 +3,6 @@
 {{-  if (or (eq .chezmoi.hostname "t490s-sb") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
 exec nvim "$@"
 {{-  end }}
-{{- else }}
 exec flatpak run io.neovim.nvim "$@"
+{{- else }}
 {{- end }}
