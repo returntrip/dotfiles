@@ -26,6 +26,7 @@
 .local/bin/sway-service.sh
 .local/bin/waybar-uptime
 .local/bin/waybar-weather
+.local/bin/vim
 .local/share/flatpak/overrides/com.valvesoftware.Steam
 .config/alacritty/
 .config/dunst/
