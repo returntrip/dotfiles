@@ -65,7 +65,7 @@ alias diff='diff --color=auto'
 alias dmesg='dmesg --color=always'
 
 {{- if eq .chezmoi.os "linux" }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") (eq .chezmoi.hostname "rauros") }}
+{{-  if (or (eq .chezmoi.hostname "rauros") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
 # nvim
 alias vim='nvim'
 {{-  end }}
