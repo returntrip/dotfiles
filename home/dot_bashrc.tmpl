@@ -69,7 +69,13 @@ HISTFILESIZE=100000
 HISTTIMEFORMAT='%F %T '
 
 # Set $EDITOR and $PAGER
+{{- if eq .chezmoi.os "linux" }}
+{{-  if eq .chezmoi.hostname "rauros" }}
 export EDITOR=vim
+{{-  end }}
+{{- else }}
+export EDITOR=nvim
+{{- end }}
 export PAGER=less
 
 {{- if (or (eq .chezmoi.hostname "t490s-sb") (eq .chezmoi.hostname "rauros")) }}
