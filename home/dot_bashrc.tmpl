@@ -68,11 +68,6 @@ HISTFILESIZE=100000
 # %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
 
-# gpg config with Yubikey
-export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-gpgconf --launch gpg-agent
-
 # Set $EDITOR and $PAGER
 export EDITOR=vim
 export PAGER=less
@@ -114,6 +109,10 @@ fi
 if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]] ; then
     pathmunge /home/linuxbrew/.linuxbrew/bin after
 fi
+# gpg config with Yubikey
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
 {{-  end }}
 {{- end }}
 
