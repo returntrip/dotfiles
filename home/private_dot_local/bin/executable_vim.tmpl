@@ -2,7 +2,7 @@
 #!/bin/sh
 {{-  if (or (eq .chezmoi.hostname "t490s-sb") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
 exec nvim "$@"
-{{-  end }}
-exec flatpak run io.neovim.nvim "$@"
 {{- else }}
+exec flatpak run io.neovim.nvim "$@"
+{{-  end }}
 {{- end }}
