@@ -72,9 +72,9 @@ HISTTIMEFORMAT='%F %T '
 {{- if eq .chezmoi.os "linux" }}
 {{-  if eq .chezmoi.hostname "rauros" }}
 export EDITOR=vim
-{{-  end }}
 {{- else }}
 export EDITOR=nvim
+{{-  end }}
 {{- end }}
 export PAGER=less
 
