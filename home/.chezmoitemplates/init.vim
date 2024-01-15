@@ -8,9 +8,9 @@ Plug 'hashivim/vim-terraform'
 Plug 'dense-analysis/ale'
 Plug 'alker0/chezmoi.vim'
 {{- if eq .chezmoi.os "linux" }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{-  if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
-{{- end }}
+{{-  end }}
 {{- end }}
 call plug#end()
 "" `vim-markdown` settings
