@@ -7,7 +7,11 @@ Plug 'preservim/vim-markdown'
 Plug 'hashivim/vim-terraform'
 Plug 'dense-analysis/ale'
 Plug 'alker0/chezmoi.vim'
+{{- if eq .chezmoi.os "linux" }}
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
+{{- end }}
+{{- end }}
 call plug#end()
 "" `vim-markdown` settings
 let g:mkdp_auto_close = 1 " Markdown preview: do not close the preview tab when switching to other buffers
