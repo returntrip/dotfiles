@@ -71,34 +71,28 @@ alias vim='nvim'
 {{-  end }}
 {{- end }}
 
-# Fetch the list of Distrobox containers and store it in a global variable
+{{- if eq .chezmoi.hostname "rauros" }}
+# Find $command in homebrew container
+## Fetch the list of Distrobox containers and store it in a global variable
 if [ ! -n "$container" ]; then
 CONTAINERS=$(distrobox list | awk 'NR>1 {print $3}')
-
-# Convert the string to an array
 mapfile -t CONTAINERS <<< "$CONTAINERS"
-
-# Redefine the command_not_found_handle function
 command_not_found_handle() {
-  # Save the original command and arguments
   local COMMAND="$1"
   shift
   local ARGS="$@"
-  # Loop through the containers
   local PATH="$PATH":/home/linuxbrew/.linuxbrew/bin/
   for CONTAINER in "${CONTAINERS[@]}"; do
-    # Check if the command exists in the container
     if distrobox-enter --name "$CONTAINER" -- which "$COMMAND" > /dev/null 2>&1; then
-      # If successful, run the command in the container and return from the function
       distrobox-enter --name "$CONTAINER" -- "$COMMAND $ARGS"
       return
     fi
   done
-  # If the command is not found in any container, print the error message and return 127
   echo "$COMMAND: could not be found."
   return 127
 }
 fi
+{{- end }}
 
 {{- if stat "/usr/bin/exa" }}
 alias tree='exa --tree'
