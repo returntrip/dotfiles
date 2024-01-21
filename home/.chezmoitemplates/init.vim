@@ -16,7 +16,15 @@ Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
 {{- end }}
 call plug#end()
 "" vviki 
+{{- if eq .chezmoi.os "linux" }}
+{{-  if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+nnoremap <leader>ww :e ~/Nextcloud/wiki/index.adoc<cr>
+let g:vviki_root = "~/Nextcloud/wiki"
+{{-  else }}
 nnoremap <leader>ww :e ~/wiki/index.adoc<cr>
+let g:vviki_root = "~/wiki"
+{{-  end }}
+{{- end }}
 "" `vim-markdown` settings
 let g:mkdp_auto_close = 1 " Markdown preview: do not close the preview tab when switching to other buffers
 let g:vim_markdown_folding_disabled = 1 " disable header folding
