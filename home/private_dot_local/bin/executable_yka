@@ -1,3 +1,2 @@
 #!/bin/bash
-usbipd.exe attach --busid 2-1 -w "$WSL_DISTRO_NAME"
-
+usbipd.exe attach -w --busid 2-1
