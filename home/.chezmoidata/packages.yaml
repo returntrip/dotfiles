@@ -7,5 +7,6 @@ packages:
     - 'jq'
     - 'nvim'
     - 'ripgrep'
+    - 'tmux'
     - 'yq'
     casks:
