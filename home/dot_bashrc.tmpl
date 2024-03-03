@@ -136,12 +136,12 @@ CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi
 # Oracle CLI
 [[ -e "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh" ]] && source "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh"
 
-# asdf
-if [[ -d "$HOME/.asdf" ]] ; then
-    . "$HOME/.asdf/asdf.sh"
-    . "$HOME/.asdf/completions/asdf.bash"
-fi
 {{- end }}
+
+# asdf
+if [[ -f "$(brew --prefix asdf)/libexec/asdf.sh" ]] ; then
+  . "$(brew --prefix asdf)/libexec/asdf.sh" 
+fi
 
 # Turn on parallel history with starship
 # https://github.com/starship/starship/issues/1337#issuecomment-644690560
