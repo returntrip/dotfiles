@@ -158,17 +158,9 @@ if [[ -f "$(brew --prefix asdf)/libexec/asdf.sh" ]] ; then
   . "$(brew --prefix asdf)/libexec/asdf.sh" 
 fi
 
-# Turn on parallel history with starship
-# https://github.com/starship/starship/issues/1337#issuecomment-644690560
-# https://github.com/ZeePal/workstation-ubuntu/blob/master/roles/starship/tasks/main.yml#L128
-shopt -s histappend
-eval "$(starship init bash)"
-# function _pre_starship_prompt_commands {
-#     local STATUS=$?  # Passthrough the last exit code for starship
-#     history -a
-#     return $STATUS
-#}
-#PROMPT_COMMAND="_pre_starship_prompt_commands;starship_precmd"
+if type brew &>/dev/null; then
+    eval "$(starship init bash)"
+fi
 
 {{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
 # ble.sh
