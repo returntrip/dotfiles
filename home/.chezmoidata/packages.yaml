@@ -1,0 +1,10 @@
+packages:
+  linux:
+    brews:
+    - 'asdf'
+    - 'kubectl'
+    - 'jq'
+    - 'nvim'
+    - 'ripgrep'
+    - 'yq'
+    casks:
