@@ -2,6 +2,7 @@ packages:
   linux:
     brews:
     - 'asdf'
+    - 'bash-completion'
     - 'kubectl'
     - 'jq'
     - 'nvim'
