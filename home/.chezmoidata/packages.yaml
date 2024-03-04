@@ -3,10 +3,18 @@ packages:
     brews:
     - 'asdf'
     - 'bash-completion'
+    - 'chezmoi'
+    - 'clusterctl'
+    - 'helm'
+    - 'k9s'
+    - 'krew'
+    - 'kind'
     - 'kubectl'
+    - 'kustomize'
     - 'jq'
     - 'nvim'
     - 'ripgrep'
+    - 'skaffold'
     - 'tmux'
     - 'yq'
     casks:
