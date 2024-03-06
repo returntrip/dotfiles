@@ -17,4 +17,5 @@ packages:
     - 'skaffold'
     - 'tmux'
     - 'yq'
+    - 'yt-dlp'
     casks:
