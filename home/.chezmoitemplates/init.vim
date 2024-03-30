@@ -58,3 +58,10 @@ let g:terraform_align=1
 let g:terraform_fmt_on_save=1
 let g:terraform_fold_sections=1
 autocmd Filetype terraform setlocal foldlevel=1
+" Buffer Mangement
+nnoremap <leader>n :bnext<cr>
+nnoremap <leader>p :bprevious<cr>
+nnoremap <leader>d :bdelete<cr>
+nnoremap <leader>dd :%bd<cr>
+nnoremap <leader>bb :buffers<cr>:b<space>
+nnoremap <leader><tab> :b#<cr>
