@@ -62,6 +62,6 @@ autocmd Filetype terraform setlocal foldlevel=1
 nnoremap <leader>n :bnext<cr>
 nnoremap <leader>p :bprevious<cr>
 nnoremap <leader>d :bdelete<cr>
-nnoremap <leader>dd :%bd<cr>
+nnoremap <leader>dd :up <bar> %bd <bar> e# <bar> bd# <bar> <cr> <bar> '"
 nnoremap <leader>bb :buffers<cr>:b<space>
 nnoremap <leader><tab> :b#<cr>
