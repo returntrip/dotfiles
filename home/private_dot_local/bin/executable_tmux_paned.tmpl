@@ -1,0 +1,4 @@
+#!/bin/bash
+TMPFILE=$(mktemp)
+tmux capture-pane -pS - >| $TMPFILE
+tmux new-window -n:panelditor "$EDITOR $TMPFILE"
