@@ -18,6 +18,10 @@
 {{- if eq .chezmoi.hostname "rauros" }}
     editor = io.neovim.nvim
 {{- end }}
+{{ if lookPath "difft" }}
+[diff]
+    external = difft
+{{ end }}
 [merge]
     tool = vimdiff
     conflictstyle = diff3
