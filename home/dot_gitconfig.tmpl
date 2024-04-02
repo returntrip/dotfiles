@@ -9,9 +9,9 @@
 {{- end }}
     name = returntrip
     signingkey = 0xE8D9210D206385D6
-[core]
 {{- if eq .chezmoi.os "linux" }}
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+[core]
     editor = nvim
 {{-  end }}
 {{- end }}
