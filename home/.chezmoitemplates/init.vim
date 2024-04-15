@@ -49,19 +49,22 @@ set title
 "" Colors
 set termguicolors "truecolor
 colorscheme  torte
-" for yaml/yml files set 2 spaces
+"" for yaml/yml files set 2 spaces
 autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-" terraform plugin settings
+"" terraform plugin settings
 let g:hcl_align=1
 let g:hcl_fold_sections=1
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
 let g:terraform_fold_sections=1
 autocmd Filetype terraform setlocal foldlevel=1
-" Buffer Mangement
+"" Buffer Mangement
 nnoremap <leader>n :bnext<cr>
 nnoremap <leader>p :bprevious<cr>
 nnoremap <leader>d :bdelete<cr>
 nnoremap <leader>dd :up <bar> %bd <bar> e# <bar> bd# <bar> <cr> <bar> '"
 nnoremap <leader>bb :buffers<cr>:b<space>
 nnoremap <leader><tab> :b#<cr>
+"" Spellcheck
+nnoremap <leader>sc :setlocal spell spelllang=en_gb<CR>
+nnoremap <leader>so :setlocal nospell<CR>
