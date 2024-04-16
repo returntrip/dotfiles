@@ -1,4 +1,15 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+## Install homebrew
+if grep -q "Bluefin" /etc/os-release; then
+    echo "YES I UNDERSTAND" | ujust install-brew
+else
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+## Install ble.sh
+cd "$HOME" || exit
+git clone --recursive https://github.com/akinomyoga/ble.sh.git
+cd ble.sh || exit
+make
+make INSDIR="$HOME/.local/share/blesh" install
 {{ end -}}
