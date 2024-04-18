@@ -1,3 +1,6 @@
+{{- $work := false -}}{{/* true if this machine is used for work */}}
+{{- $personal := false -}}{{/* true if this machine is for personal usage */}}
+
 [git]
     autoCommit = true
 
