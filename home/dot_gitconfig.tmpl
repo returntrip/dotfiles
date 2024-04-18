@@ -1,5 +1,5 @@
 [user]
-{{- $work }}
+{{- .work }}
     email = {{ .work-email || quote }}
 {{- end }}
 {{- if eq .chezmoi.hostname "rauros" "t490s-sb" }}
