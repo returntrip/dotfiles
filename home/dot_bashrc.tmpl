@@ -111,10 +111,10 @@ fi
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]] ; then
     pathmunge /home/linuxbrew/.linuxbrew/bin after
 fi
+{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # gpg config with Yubikey
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
