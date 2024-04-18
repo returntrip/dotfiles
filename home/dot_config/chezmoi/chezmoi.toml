@@ -1,2 +1,6 @@
 [git]
     autoCommit = true
+
+[data]
+    work_mail = "stefano.figura@tietoevry.com"
+    personal_mail = "stefano@figura.im"
