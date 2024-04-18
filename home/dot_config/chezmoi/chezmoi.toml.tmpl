@@ -21,7 +21,7 @@
 
 {{- $email := "stefano@figura.im" -}}
 {{- $name := "returntrip" -}}
-{{- if $work -}}
+{{- if not $work -}}
 {{-   $email = "stefano.figura@tietoevry.com" -}}
 {{-   $name = "Stefano Figura" -}}      
 {{- end -}}
@@ -32,5 +32,6 @@
 [data]
     work = {{ $work }}
     personal = {{ $personal }}
+    t
     email = {{ $email | quote }}
     name = {{ $name | quote }}
