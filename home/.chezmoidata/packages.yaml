@@ -9,6 +9,7 @@ packages:
     - 'chezmoi'
     - 'clusterctl'
     - 'difftastic'
+    - 'gcc'
     - 'helm'
     - 'jq'
     - 'k9s'
