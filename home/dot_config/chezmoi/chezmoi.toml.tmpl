@@ -12,7 +12,7 @@
 {{- end -}}
 
 {{- if $tty -}}
-{{-   if or (eq .chezmoi.hostname "W5CG2241T4") (eq .chezmoi.osRelease.id "ubuntu") -}}
+{{-   if or (eq .chezmoi.hostname "W5CG2241T4") (eq .chezmoi.osRelease.id "ubuntu" "fedoraremixforwsl") -}}
 {{-     $work = true -}}
 {{-   else -}}
 {{-   $personal = true -}}
