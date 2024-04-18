@@ -1,8 +1,6 @@
 [user]
-{{- if eq .chezmoi.hostname "rauros" "t490s-sb" }}
-    email = "stefano@figura.im"
-{{- end }}
-    name = returntrip
+    email = {{ .email | quote }}
+    name = {{ .name | quote }}
     signingkey = 0xE8D9210D206385D6
 {{- if eq .chezmoi.os "linux" }}
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}

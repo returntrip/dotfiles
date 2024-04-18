@@ -1,5 +1,30 @@
 {{- $work := false -}}{{/* true if this machine is used for work related tasks */}}
 {{- $personal := false -}}{{/* true if this machine is used for personal tasks */}}
+{{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+
+{{/* detect WSL or SSH sessions */}}
+{{- if or (env "SSH_TTY") (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+{{-   $headless = true -}}
+{{- end -}}
+
+{{- if eq .chezmoi.hostname "rauros" "t490s-sb" -}}
+{{-   $personal = true -}}
+{{- end -}}
+
+{{- if $headless -}}
+{{-   if eq .chezmoi.hostname "W5CG2241T4" -}}
+{{-     $work = true -}}
+{{-   else -}}
+{{-   $personal = true -}}
+{{-   end -}}
+{{- end -}}
+
+{{- $email := "stefano@figura.im" -}}
+{{- $name := "returntrip" -}}
+{{- if $work -}}
+{{-   $email = "stefano.figura@tietoevry.com" -}}
+{{-   $name = "Stefano Figura" -}}      
+{{- end -}}
 
 [git]
     autoCommit = true
@@ -7,5 +32,5 @@
 [data]
     work = {{ $work }}
     personal = {{ $personal }}
-    work_mail = "stefano.figura@tietoevry.com"
-    personal_mail = "stefano@figura.im"
+    email = {{ $email | quote }}
+    name = {{ $name | quote }}
