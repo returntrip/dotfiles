@@ -1,18 +1,18 @@
 {{- $work := false -}}{{/* true if this machine is used for work related tasks */}}
 {{- $personal := false -}}{{/* true if this machine is used for personal tasks */}}
-{{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+{{- $tty := false -}}{{/* true if this machine is a terminal based */}}
 
 {{/* detect WSL or SSH sessions */}}
 {{- if or (env "SSH_TTY") (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-{{-   $headless = true -}}
+{{-   $tty = true -}}
 {{- end -}}
 
 {{- if eq .chezmoi.hostname "rauros" "t490s-sb" -}}
 {{-   $personal = true -}}
 {{- end -}}
 
-{{- if $headless -}}
-{{-   if eq .chezmoi.hostname "W5CG2241T4" -}}
+{{- if $tty -}}
+{{-   if or (eq .chezmoi.hostname "W5CG2241T4") (eq .chezmoi.osRelease.id "ubuntu") -}}
 {{-     $work = true -}}
 {{-   else -}}
 {{-   $personal = true -}}
