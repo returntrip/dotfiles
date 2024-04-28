@@ -1,16 +1,13 @@
 {{- $work := false -}}{{/* true if this machine is used for work related tasks */}}
 {{- $personal := false -}}{{/* true if this machine is used for personal tasks */}}
 {{- $tty := false -}}{{/* true if this machine is a terminal based */}}
-
 {{/* detect WSL or SSH sessions */}}
 {{- if or (env "SSH_TTY") (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
 {{-   $tty = true -}}
 {{- end -}}
-
 {{- if eq .chezmoi.hostname "rauros" "t490s-sb" -}}
 {{-   $personal = true -}}
 {{- end -}}
-
 {{- if $tty -}}
 {{-   if or (eq .chezmoi.hostname "W5CG2241T4") (eq .chezmoi.osRelease.id "ubuntu" "fedoraremixforwsl") -}}
 {{-     $work = true -}}
@@ -18,14 +15,12 @@
 {{-   $personal = true -}}
 {{-   end -}}
 {{- end -}}
-
-{{- $email := "stefano@figura.im" -}}
+{{- $email :=  (bitwardenSecrets "354ca96f-9e26-4a37-979f-b160014a2f37").value -}}
 {{- $name := "returntrip" -}}
 {{- if $work -}}
-{{-   $email = "stefano.figura@tietoevry.com" -}}
-{{-   $name = "Stefano Figura" -}}      
+{{-   $email =  (bitwardenSecrets "50f6d975-7c16-4f10-a24f-b160013dbe1d").value -}}
+{{-   $name = "Stefano Figura" -}}
 {{- end -}}
-
 [git]
     autoCommit = true
 
