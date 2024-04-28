@@ -153,12 +153,13 @@ if type brew &>/dev/null; then
   fi
 fi
 
-# asdf
-if [[ -f "$(brew --prefix asdf)/libexec/asdf.sh" ]] ; then
-  . "$(brew --prefix asdf)/libexec/asdf.sh" 
+# mise
+if type mise &>/dev/null; then
+    eval "$(mise activate bash)"
 fi
 
-if type brew &>/dev/null; then
+# starship
+if type startship &>/dev/null; then
     eval "$(starship init bash)"
 fi
 
