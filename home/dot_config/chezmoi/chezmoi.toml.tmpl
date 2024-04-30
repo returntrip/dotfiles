@@ -15,16 +15,18 @@
 {{-   $personal = true -}}
 {{-   end -}}
 {{- end -}}
-{{- $email :=  (bitwardenSecrets "354ca96f-9e26-4a37-979f-b160014a2f37").value -}}
+{{- $email :=  (bitwardenSecrets "354ca96f-9e26-4a37-979f-b160014a2f37" .accessToken).value -}}
 {{- $name := "returntrip" -}}
 {{- if $work -}}
-{{-   $email =  (bitwardenSecrets "50f6d975-7c16-4f10-a24f-b160013dbe1d").value -}}
+{{-   $email =  (bitwardenSecrets "50f6d975-7c16-4f10-a24f-b160013dbe1d" .accessToken).value -}}
 {{-   $name = "Stefano Figura" -}}
 {{- end -}}
 [git]
     autoCommit = true
 
 [data]
+    {{/* include BWS access token file */}}
+    {{ include "dot_config/chezmoi/chezmoi.toml.bws" }}
     work = {{ $work }}
     personal = {{ $personal }}
     email = {{ $email | quote }}
