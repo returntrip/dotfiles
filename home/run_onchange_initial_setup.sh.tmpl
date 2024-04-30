@@ -12,7 +12,4 @@ git clone --recursive https://github.com/akinomyoga/ble.sh.git
 cd ble.sh || exit
 make
 make INSDIR="$HOME/.local/share/blesh" install
-## Create BWS secret
-read -p "Enter your bitwarden secrets' access token: " bws_token
-echo "accessToken = \"$bws_token\"" > /var/home/"$HOME"/.local/share/chezmoi/chezmoi.toml.bws
 {{ end -}}
