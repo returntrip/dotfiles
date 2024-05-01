@@ -12,4 +12,7 @@ git clone --recursive https://github.com/akinomyoga/ble.sh.git
 cd ble.sh || exit
 make
 make INSDIR="$HOME/.local/share/blesh" install
+## Inatall bws via mise
+mise use -g usage
+mise use -g bitwarden-secrets-manager@latest
 {{ end -}}
