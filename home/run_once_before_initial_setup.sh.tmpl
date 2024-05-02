@@ -1,20 +1,29 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/sh
+
 ## Install homebrew
-if grep -q "Bluefin" /etc/os-release; then
-    echo "YES I UNDERSTAND" | ujust install-brew
-else
+if ! command -v brew &> /dev/null; then
+  if grep -q "Bluefin" /etc/os-release; then
+    echo "YES I UNDERSTAND" | sudo ujust install-brew
+  else
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
 fi
+
 ## Install ble.sh
-cd "$HOME" || exit
-git clone --recursive https://github.com/akinomyoga/ble.sh.git
-cd ble.sh || exit
-make
-make INSDIR="$HOME/.local/share/blesh" install
+if [ ! -d "$HOME/ble.sh" ]; then
+  cd "$HOME" || exit
+  git clone --recursive https://github.com/akinomyoga/ble.sh.git
+  cd ble.sh || exit
+  make
+  make INSDIR="$HOME/.local/share/blesh" install
+fi
+
 ## Install bws via mise
-source ~/.bashrc
-brew install mise
-mise use -gy usage
-mise use -gy bitwarden-secrets-manager@latest
+if ! command -v mise &> /dev/null; then
+  source ~/.bashrc
+  brew install mise
+  mise use -gy usage
+  mise use -gy bitwarden-secrets-manager@latest
+fi
 {{ end -}}
