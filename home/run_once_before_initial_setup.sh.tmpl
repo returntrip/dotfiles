@@ -21,7 +21,7 @@ fi
 
 ## Install bws via mise
 if ! command -v mise &> /dev/null; then
-  source ~/.bashrc
+  export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
   brew install mise
   mise use -gy usage
   mise use -gy bitwarden-secrets-manager@latest
