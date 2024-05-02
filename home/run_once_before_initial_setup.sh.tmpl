@@ -4,7 +4,7 @@
 ## Install homebrew
 if ! command -v brew &> /dev/null; then
   if grep -q "Bluefin" /etc/os-release; then
-    echo "YES I UNDERSTAND" | sudo ujust install-brew
+    echo "YES I UNDERSTAND" | ujust install-brew
   else
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
