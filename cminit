@@ -3,11 +3,12 @@
 set -e
 
 OPATH=$PATH
-export PATH=/new/path:$PATH
 
 GITHUB_USERNAME="returntrip"
 REPO="bitwarden/sdk"
 TEMP_DIR=$(mktemp -d)
+
+export PATH=$TEMP_DIR:$PATH
 
 # Get the latest release URL
 RELEASE_ARCHIVE_URL=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" | grep -Eo 'https://[^"]*' | grep 'bws-x86_64-unknown-linux-gnu-')
