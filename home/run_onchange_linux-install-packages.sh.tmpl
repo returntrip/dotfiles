@@ -1,7 +1,7 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 
-/home/linuxbrew/.linuxbrew//bin/bundle --no-lock --file=/dev/stdin <<EOF
+/home/linuxbrew/.linuxbrew/bin/brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range .packages.linux.taps -}}
 tap {{ . | quote }}
 {{ end -}}
