@@ -2,6 +2,9 @@
 
 set -e
 
+OPATH=$PATH
+export PATH=/new/path:$PATH
+
 GITHUB_USERNAME="returntrip"
 REPO="bitwarden/sdk"
 TEMP_DIR=$(mktemp -d)
@@ -14,4 +17,6 @@ curl -sLo "$TEMP_DIR/bws-x86_64-unknown-linux-gnu-latest.zip" "$RELEASE_ARCHIVE_
 # Extract the ZIP in the output directory
 unzip -q "$TEMP_DIR/bws-x86_64-unknown-linux-gnu-latest.zip" -d "$TEMP_DIR"
 
-BINDIR="$TEMP_DIR" sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply "$GITHUB_USERNAME"
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply "$GITHUB_USERNAME"
+
+export PATH=$OPATH
