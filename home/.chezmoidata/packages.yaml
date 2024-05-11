@@ -24,6 +24,7 @@ packages:
     - 'ripgrep'
     - 'shellcheck'
     - 'skaffold'
+    - 'superfile'
     - 'tanzu-cli'
     - 'tmux'
     - 'yq'
