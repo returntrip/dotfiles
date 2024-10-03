@@ -1,6 +1,5 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
-
 /home/linuxbrew/.linuxbrew/bin/brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range .packages.linux.taps -}}
 tap {{ . | quote }}
@@ -8,5 +7,11 @@ tap {{ . | quote }}
 {{ range .packages.linux.brews -}}
 brew {{ . | quote }}
 {{ end -}}
+{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{ range .packages.wsl.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ end -}}
 EOF
 {{ end -}}
+
