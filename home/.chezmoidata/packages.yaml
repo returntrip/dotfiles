@@ -29,3 +29,6 @@ packages:
     - 'tmux'
     - 'yq'
     - 'yt-dlp'
+  wsl:
+    brews:
+    - 'topgrde'
