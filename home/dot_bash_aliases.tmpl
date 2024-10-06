@@ -73,6 +73,7 @@ alias vim='nvim'
 
 {{- if stat "/home/linuxbrew/.linuxbrew/bin/kubecolor" }}
 alias kubectl=kubecolor
+alias oc="env KUBECTL_COMMAND=oc kubecolor"
 {{- end }}
 
 {{- if or (stat "/home/homebrew/.linuxbrew/exa") (stat "/usr/bin/exa") }}
