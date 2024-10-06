@@ -72,6 +72,10 @@ alias vim='nvim'
 {{- end }}
 
 {{- if stat "/usr/bin/exa" }}
+alias kubectl=kubecolor
+{{- end }}
+
+{{- if stat "/usr/bin/exa" }}
 alias tree='exa --tree'
 {{- end }}
 
