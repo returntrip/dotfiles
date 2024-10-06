@@ -71,11 +71,11 @@ alias vim='nvim'
 {{-  end }}
 {{- end }}
 
-{{- if stat "" }}
+{{- if stat "/home/linuxbrew/.linuxbrew/bin/kubecolor" }}
 alias kubectl=kubecolor
 {{- end }}
 
-{{- if stat "/usr/bin/exa" }}
+{{- if or (stat "/home/homebrew/.linuxbrew/exa") (stat "/usr/bin/exa") }}
 alias tree='exa --tree'
 {{- end }}
 
