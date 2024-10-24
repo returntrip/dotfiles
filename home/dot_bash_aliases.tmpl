@@ -68,10 +68,9 @@ alias dmesg='dmesg --color=always'
 {{-  if eq .chezmoi.hostname "t490s-sb" }}
 # nvim
 alias vim="nvim"
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{-  else if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # nvim
 alias vim="unset WAYLAND_DISPLAY; nvim; export WAYLAND_DISPLAY=wayland-0"
-{{-  end }}
 {{-  end }}
 {{- end }}
 
