@@ -69,14 +69,15 @@ alias dmesg='dmesg --color=always'
 # nvim
 alias vim="nvim"
 {{-  else if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+# nvim
 vim() {
   if [ -n "$WAYLAND_DISPLAY" ]; then
     ORIG_WAYLAND_DISPLAY=$WAYLAND_DISPLAY
     unset WAYLAND_DISPLAY
-    nvim
+    nvim "$@"
     export WAYLAND_DISPLAY=$ORIG_WAYLAND_DISPLAY
   else
-    nvim
+    nvim "$@"
   fi
 }
 {{-  end }}
