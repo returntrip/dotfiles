@@ -64,12 +64,15 @@ alias diff='diff --color=auto'
 ## Coloured `dmesg`
 alias dmesg='dmesg --color=always'
 
+#{{- if eq .chezmoi.os "linux" }}
+#{{-  if (or (eq .chezmoi.hostname "t490s-sb") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+## nvim
+#alias vim='nvim'
+#{{-  end }}
+#{{- end }}
+
 {{- if eq .chezmoi.os "linux" }}
-{{-  if (or (eq .chezmoi.hostname "t490s-sb") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
-# nvim
-alias vim='nvim'
-{{-  end }}
-{{- end }}
+{{-  if eq .chezmoi.hostname "t490s-sb" }}                                                                                                                                                 # nvim                                                                                                                                                                                     alias vim="nvim"                                                                                                                                                                           {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}                                                                                                                      # nvim                                                                                                                                                                                     alias vim="unset WAYLAND_DISPLAY; nvim; export WAYLAND_DISPLAY=wayland-0"                                                                                                                  {{-  end }}                                                                                                                                                                                {{- end }}
 
 {{- if stat "/home/linuxbrew/.linuxbrew/bin/kubecolor" }}
 alias kubectl=kubecolor
