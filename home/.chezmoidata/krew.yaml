@@ -1,0 +1,5 @@
+krew:
+  plugins:
+    - ctx
+    - ns
+    - neat

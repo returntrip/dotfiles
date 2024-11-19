@@ -1,0 +1,6 @@
+#!/bin/bash
+{{ if .krew.plugins -}}
+{{ range .krew.plugins -}}
+kubectl krew install {{ . | quote }}
+{{ end -}}
+{{ end }}
