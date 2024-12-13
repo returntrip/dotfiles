@@ -53,9 +53,6 @@ set -o noclobber
 # Ignore command beginning with space character and duplicated history entries
 HISTCONTROL=ignoreboth
 
-# Update window size after every command 
-shopt -s checkwinsize
-
 # Save multi-line commands as one command
 shopt -s cmdhist
 
@@ -138,14 +135,18 @@ CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi
 
 {{- end }}
 
-shopt -s histappend
-
 # mise
 if type mise &>/dev/null; then
     eval "$(mise activate bash)"
 fi
 
 {{- if ne .chezmoi.osRelease.name "Bluefin" }}
+# Update window size after every command 
+shopt -s checkwinsize
+
+# Turn on parallel history
+shopt -s histappend
+
 if type brew &>/dev/null; then
   HOMEBREW_PREFIX="$(brew --prefix)"
   if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
@@ -163,7 +164,6 @@ fi
 if type starship &>/dev/null; then
     eval "$(starship init bash)"
 fi
-
 {{- end }}
 
 {{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
