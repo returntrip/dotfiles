@@ -10,7 +10,7 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-{{- if eq .chezmoi.osRelease.name "Bluefin" }}
+{{- if ne .chezmoi.osRelease.name "Bluefin" }}
 # Create pathmunge to avoid path duplications
 pathmunge () {
     case ":${PATH}:" in
