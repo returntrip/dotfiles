@@ -10,7 +10,6 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-{{- if ne .chezmoi.osRelease.name "Bluefin" }}
 # Create pathmunge to avoid path duplications
 pathmunge () {
     case ":${PATH}:" in
@@ -24,7 +23,6 @@ pathmunge () {
             fi
     esac
 }
-{{- end }}
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME"/.local/bin ]] ; then
@@ -142,6 +140,7 @@ CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi
 
 shopt -s histappend
 
+{{- if ne .chezmoi.osRelease.name "Bluefin" }}
 if type brew &>/dev/null; then
   HOMEBREW_PREFIX="$(brew --prefix)"
   if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
@@ -154,6 +153,7 @@ if type brew &>/dev/null; then
     done
   fi
 fi
+{{- end }}
 
 # mise
 if type mise &>/dev/null; then
