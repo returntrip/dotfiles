@@ -140,6 +140,11 @@ CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi
 
 shopt -s histappend
 
+# mise
+if type mise &>/dev/null; then
+    eval "$(mise activate bash)"
+fi
+
 {{- if ne .chezmoi.osRelease.name "Bluefin" }}
 if type brew &>/dev/null; then
   HOMEBREW_PREFIX="$(brew --prefix)"
@@ -153,17 +158,13 @@ if type brew &>/dev/null; then
     done
   fi
 fi
-{{- end }}
-
-# mise
-if type mise &>/dev/null; then
-    eval "$(mise activate bash)"
-fi
 
 # starship
 if type starship &>/dev/null; then
     eval "$(starship init bash)"
 fi
+
+{{- end }}
 
 {{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
 # ble.sh
