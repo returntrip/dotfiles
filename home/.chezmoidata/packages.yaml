@@ -13,6 +13,7 @@ packages:
     - 'helm'
     - 'jq'
     - 'k9s'
+    - 'kcl-lang/tap/kcl'
     - 'kind'
     - 'krew'
     - 'kubecolor'
