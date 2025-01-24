@@ -2,6 +2,7 @@ packages:
   linux:
     taps:
     - 'vmware-tanzu/tanzu'
+    - 'kcl-lang/tap'
     brews:
     - 'bash-completion'
     - 'bitwarden-cli'
