@@ -23,6 +23,7 @@ packages:
     - 'kustomize'
     - 'mise'
     - 'neovim'
+    - 'ntfy'
     - 'openshift-cli'
     - 'opentofu'
     - 'ripgrep'
