@@ -1,2 +1,2 @@
 #!/bin/bash
-usbipd.exe attach -w --busid 2-1
+usbipd.exe attach  --unplugged -w --busid 2-1
