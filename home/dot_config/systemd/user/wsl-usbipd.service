@@ -1,0 +1,10 @@
+[Unit]
+Description=Attach USB device to WSL
+After=network.target
+
+[Service]
+ExecStart="/mnt/c/Program Files/usbipd-win/usbipd.exe" attach -w --unplugged --auto-attach --busid 2-1
+#Restart=on-failure
+
+[Install]
+WantedBy=default.target

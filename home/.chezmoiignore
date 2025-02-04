@@ -32,7 +32,8 @@
 .config/gtk-3.0/
 .config/mpv/
 .config/sway/
-.config/systemd/user/
+.config/systemd/user/sway-session.target
+.config/systemd/user/sway.service
 .config/waybar/
 .config/wofi/
 .terminfo/
