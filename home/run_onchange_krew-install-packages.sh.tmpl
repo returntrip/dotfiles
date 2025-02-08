@@ -1,6 +1,9 @@
 #!/bin/bash
 {{ if .krew.plugins -}}
 {{ range .krew.plugins -}}
+if [[ ":$PATH:" != *":home/linuxbrew/.linuxbrew/bin/:"* ]]; then
+    source ~/.bashrc &> /dev/null
+fi
 kubectl krew install {{ . | quote }}
 {{ end -}}
 {{ end }}
