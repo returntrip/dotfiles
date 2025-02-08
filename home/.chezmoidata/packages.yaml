@@ -30,7 +30,7 @@ packages:
     - 'shellcheck'
     - 'skaffold'
     - 'superfile'
-    - 'tanzu-cli'
+    - 'vmware-tanzu/tanzu/tanzu-cli'
     - 'tmux'
     - 'yq'
     - 'yt-dlp'
