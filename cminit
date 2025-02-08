@@ -3,13 +3,15 @@
 set -e
 
 GITHUB_USERNAME="returntrip"
-REPO="bitwarden/sdk"
+REPO="bitwarden/sdk-sm"
 TEMP_DIR=$(mktemp -d)
 OPATH=$PATH
 export PATH=$TEMP_DIR:$PATH
 
+# Get BWS TAG
+TAG=$(curl -sL https://api.github.com/repos/$REPO/tags | grep -o 'bws-v[^"]*' | sort -un | tail -n 1)
 # Get the latest release URL
-RELEASE_ARCHIVE_URL=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" | grep -Eo 'https://[^"]*' | grep 'bws-x86_64-unknown-linux-gnu-')
+RELEASE_ARCHIVE_URL=$(curl -Ls "https://api.github.com/repos/$REPO/releases/tags/$TAG" | grep -Eo 'https://[^"]*' | grep 'bws-x86_64-unknown-linux-gnu-')
 # Download the release ZIP
 curl -sLo "$TEMP_DIR/bws-x86_64-unknown-linux-gnu-latest.zip" "$RELEASE_ARCHIVE_URL"
 # Extract the ZIP in the output directory
