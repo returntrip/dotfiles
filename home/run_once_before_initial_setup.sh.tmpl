@@ -19,6 +19,12 @@ if [ ! -d "$HOME/ble.sh" ]; then
   make INSDIR="$HOME/.local/share/blesh" install
 fi
 
+## Install kubectl as dependency to krew
+if ! command -v kubetl &> /dev/null; then
+  export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
+  /home/linuxbrew/.linuxbrew/bin/brew install kubernetes-cli
+fi
+
 ## Install bws via mise
 if ! command -v mise &> /dev/null; then
   export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
