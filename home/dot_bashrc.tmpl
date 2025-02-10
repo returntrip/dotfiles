@@ -109,7 +109,8 @@ fi
 
 {{- if eq .chezmoi.os "linux" }}
 if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]] ; then
-    pathmunge /home/linuxbrew/.linuxbrew/bin after
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    #pathmunge /home/linuxbrew/.linuxbrew/bin after
 fi
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # gpg config with Yubikey
@@ -147,18 +148,18 @@ shopt -s checkwinsize
 # Turn on parallel history
 shopt -s histappend
 
-if type brew &>/dev/null; then
-  HOMEBREW_PREFIX="$(brew --prefix)"
-  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
-  then
-    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-  else
-    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
-    do
-      [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
-    done
-  fi
-fi
+#if type brew &>/dev/null; then
+#  HOMEBREW_PREFIX="$(brew --prefix)"
+#  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+#  then
+#    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+#  else
+#    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+#    do
+#      [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+#    done
+#  fi
+#fi
 
 # starship
 if type starship &>/dev/null; then
