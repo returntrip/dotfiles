@@ -14,13 +14,13 @@ ssh () {
     {{-  end }}
     {{- end }}
     TERM=xterm
-    if [ $# -lt 2 ]; then
-        if  [ $# -eq 1 ] && [[ ! "$*" =~ ^-.* ]]; then
-            command ssh -t "$@" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
-        else
-            command ssh
-        fi
-    elif [ $# -gt 1 ]; then
+    if [ $# -eq 0 ]; then
+        command ssh
+    elif [ $# -eq 1 ] && [[ ! "$1" =~ ^- ]]; then
+        command ssh -t "$1" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
+    elif [ $# -gt 1 ] && [[ "$2" =~ ^[^-] ]]; then
+        command ssh -t "$@" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
+    else
         command ssh "$@"
     fi
 }
