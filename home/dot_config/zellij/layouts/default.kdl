@@ -7,8 +7,8 @@ layout {
         plugin location="status-bar"
     }
 }
-\\ layout {
-\\     pane split_direction="horizontal" {
-\\         pane
-\\     }
-\\ }
+// layout {
+//     pane split_direction="horizontal" {
+//         pane
+//     }
+// }
