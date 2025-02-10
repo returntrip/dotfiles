@@ -14,15 +14,30 @@ ssh () {
     {{-  end }}
     {{- end }}
     TERM=xterm
-    if [ $# -eq 0 ]; then
-        command ssh
-    elif [ $# -eq 1 ] && [[ ! "$1" =~ ^- ]]; then
-        command ssh -t "$1" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
-    elif [ $# -gt 1 ] && [[ "$2" =~ ^[^-] ]]; then
-        command ssh -t "$@" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
-    else
-        command ssh "$@"
-    fi
+    case "$#" in
+        0)
+            # No arguments, just run ssh
+            command ssh
+            ;;
+        1)
+            if [[ ! "$1" =~ ^- ]]; then
+                # One argument and it's not an option
+                command ssh -t "$1" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
+            else
+                # One argument and it's an option
+                command ssh "$@"
+            fi
+            ;;
+        *)
+            if [[ "$2" =~ ^[^-] ]]; then
+                # More than one argument and second argument is not an option
+                command ssh -t "$@" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
+            else
+                # Default case
+                command ssh "$@"
+            fi
+            ;;
+    esac
 }
 
 ## PGP Enc/Dec functions
