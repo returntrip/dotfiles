@@ -359,7 +359,7 @@ pane_frames false
  
 // Path to the default editor to use to edit pane scrollbuffer
 // Default: $EDITOR or $VISUAL
-scrollback_editor "nvim"
+scrollback_editor "/home/linuxbrew/.linuxbrew/bin/nvim"
  
 // A fixed name to always give the Zellij session.
 // Consider also setting `attach_to_session true,`
