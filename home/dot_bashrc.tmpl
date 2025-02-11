@@ -110,10 +110,12 @@ fi
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" }}
+{{-   if ne .chezmoi.osRelease.name "Bluefin" }}
 if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]] ; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     #pathmunge /home/linuxbrew/.linuxbrew/bin after
 fi
+{{-   end }}
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # gpg config with Yubikey
 export GPG_TTY="$(tty)"
