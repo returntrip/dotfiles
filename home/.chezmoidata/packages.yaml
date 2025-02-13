@@ -4,7 +4,6 @@ packages:
     - 'vmware-tanzu/tanzu'
     - 'kcl-lang/tap'
     brews:
-    - 'bash-completion'
     - 'bitwarden-cli'
     - 'chezmoi'
     - 'clusterctl'

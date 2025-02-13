@@ -171,6 +171,9 @@ fi
 {{- end }}
 
 {{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
+# atuin
+eval "$(atuin init bash)"
+
 # ble.sh
 [[ ${BLE_VERSION-} ]] && ble-attach
 {{- end }}
