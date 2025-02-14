@@ -11,5 +11,6 @@ no_retry = false
 [linux]
 dnf_arguments = "-y"
 {{- end }}
+{{- end }}
 [post_commands]
 "ble.sh update" = "[[ -f ~/.local/share/blesh/ble.sh ]] && source ~/.local/share/blesh/ble.sh --update"
