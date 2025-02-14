@@ -5,7 +5,7 @@ disable = ["system", "flatpak", "distrobox", "firmware", "node", "toolbx", "helm
 ignore_failures = ["distrobox", "flatpak", "brew_cask", "brew_formula", "nix", "node", "pip3", "home_manager", "firmware"]
 assume_yes = true
 no_retry = false
-{{- if and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 [linux]
 dnf_arguments = "-y"
 {{- end }}
