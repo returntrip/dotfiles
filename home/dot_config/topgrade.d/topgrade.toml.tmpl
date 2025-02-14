@@ -6,9 +6,11 @@ ignore_failures = ["distrobox", "flatpak", "brew_cask", "brew_formula", "nix", "
 assume_yes = true
 no_retry = false
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+
 [linux]
 dnf_arguments = "-y"
 {{-  end }}
 {{- end }}
+
 [post_commands]
 "ble.sh update" = "[[ -f ~/.local/share/blesh/ble.sh ]] && source ~/.local/share/blesh/ble.sh --update"
