@@ -1,4 +1,12 @@
 # User specific aliases and functions loaded by `~/.bashrc`
+# ujust alias: https://github.com/ublue-os/config/issues/256#issuecomment-2661130534
+{{- if (eq .chezmoi.os "linux") }} 
+{{- if (eq .chezmoi.osRelease.name "Bluefin") }}
+ujust() {                                                                                                                                            
+    /usr/bin/just "${@}"                                                                                                                             
+}
+{{- end }}
+{{- end }}
 
 ## addalias function to add aliases to `.bash_aliases` and source the file
 addalias() {
