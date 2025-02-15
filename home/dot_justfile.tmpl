@@ -1,0 +1,10 @@
+import "/usr/share/ublue-os/justfile"
+
+default:
+  #!/bin/bash
+  /usr/bin/ujust 
+
+update:
+  #!/bin/bash
+  topgrade --skip-notify
+  topgrade --config /usr/share/ublue-os/topgrade.toml --keep
