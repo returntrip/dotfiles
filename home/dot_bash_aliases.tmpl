@@ -48,6 +48,12 @@ ssh () {
     esac
 }
 
+
+## age secret load
+{{- if stat "$HOME/.local/bin/age" }}
+source "$HOME/.local/bin/age"
+{{- end }}
+
 ## PGP Enc/Dec functions
 secret () {
         output=~/"${1}".$(date +%s).enc
