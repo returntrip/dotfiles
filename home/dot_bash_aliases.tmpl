@@ -48,10 +48,9 @@ ssh () {
     esac
 }
 
-echo $HOME
-{{- if stat "/var/home/returntrip/.local/bin/secretload" }}
-## age secret load
-source "$HOME/.local/bin/secretload"
+{{- if stat {joinPath .chezmoi.homeDir ".local/bin/secretsload") }}
+## Secrets load
+source "$HOME/.local/bin/secretsload"
 {{- end }}
 
 ## PGP Enc/Dec functions
