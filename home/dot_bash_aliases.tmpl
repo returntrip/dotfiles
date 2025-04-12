@@ -2,8 +2,8 @@
 # ujust alias: https://github.com/ublue-os/config/issues/256#issuecomment-2661130534
 {{- if (eq .chezmoi.os "linux") }} 
 {{- if (eq .chezmoi.osRelease.name "Bluefin") }}
-ujust() {                                                                                                                                            
-    /usr/bin/just "${@}"                                                                                                                             
+ujust() {
+    /usr/bin/just "${@}"
 }
 {{- end }}
 {{- end }}
@@ -48,7 +48,7 @@ ssh () {
     esac
 }
 
-
+echo $HOME
 {{- if stat "/var/home/returntrip/.local/bin/secretload" }}
 ## age secret load
 source "$HOME/.local/bin/secretload"
