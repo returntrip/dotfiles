@@ -48,7 +48,7 @@ ssh () {
     esac
 }
 
-{{- if stat {joinPath .chezmoi.homeDir ".local/bin/secretsload") }}
+{{- if stat (joinPath .chezmoi.homeDir ".local/bin/secretsload") }}
 ## Secrets load
 source "$HOME/.local/bin/secretsload"
 {{- end }}
