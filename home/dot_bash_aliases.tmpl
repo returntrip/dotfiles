@@ -49,7 +49,7 @@ ssh () {
 }
 
 
-{{- if stat "$HOME/.local/bin/secretload" }}
+{{- if stat "/var/home/returntrip/.local/bin/secretload" }}
 ## age secret load
 source "$HOME/.local/bin/secretload"
 {{- end }}
