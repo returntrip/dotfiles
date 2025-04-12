@@ -49,9 +49,9 @@ ssh () {
 }
 
 
-{{- if stat "$HOME/.local/bin/age" }}
+{{- if stat "$HOME/.local/bin/secretload" }}
 ## age secret load
-source "$HOME/.local/bin/age"
+source "$HOME/.local/bin/secretload"
 {{- end }}
 
 ## PGP Enc/Dec functions
