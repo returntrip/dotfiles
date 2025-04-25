@@ -133,6 +133,18 @@ if type mise &>/dev/null; then
     eval "$(mise activate bash)"
 fi
 
+# Set $EDITOR and $PAGER
+{{- if eq .chezmoi.os "linux" }}
+{{-  if eq .chezmoi.hostname "rauros" }}
+export EDITOR=vim
+export VISUAL=vim
+{{- else }}
+export EDITOR=$(which nvim)
+export VISUAL=$(which nvim)
+{{-  end }}
+{{- end }}
+export PAGER=less
+
 {{- if ne .chezmoi.osRelease.name "Bluefin" }}
 # Update window size after every command 
 shopt -s checkwinsize
@@ -151,18 +163,6 @@ if type brew &>/dev/null; then
     done
   fi
 fi
-
-# Set $EDITOR and $PAGER
-{{- if eq .chezmoi.os "linux" }}
-{{-  if eq .chezmoi.hostname "rauros" }}
-export EDITOR=vim
-export VISUAL=vim
-{{- else }}
-export EDITOR=$(which nvim)
-export VISUAL=$(which nvim)
-{{-  end }}
-{{- end }}
-export PAGER=less
 
 # starship
 if type starship &>/dev/null; then
