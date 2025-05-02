@@ -26,6 +26,7 @@ packages:
     - 'kubecolor'
     - 'kubernetes-cli'
     - 'kubescape'
+    - 'kubetail'
     - 'kustomize'
     - 'mise'
     - 'neovim'
