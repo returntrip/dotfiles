@@ -9,7 +9,7 @@ no_retry = false
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 [misc]
 disable = ["node", "pnpm"]
-["linux]
+["linux"]
 dnf_arguments = "-y"
 {{- end }}
 {{- end }}
