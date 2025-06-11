@@ -1,6 +1,5 @@
 {{- if (eq .chezmoi.os "linux") }} 
 {{- if (eq .chezmoi.osRelease.name "Bluefin") }}
-[misc]
 no_self_update = true
 disable = ["system", "flatpak", "node", "self_update", "brew_cask", "brew_formula"]
 ignore_failures = ["distrobox", "flatpak", "brew_cask", "brew_formula", "nix", "node", "pip3", "home_manager", "firmware"]
@@ -8,6 +7,8 @@ assume_yes = true
 no_retry = false
 {{- end }}
 {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+[misc]
+disable = ["node"]
 [linux]
 dnf_arguments = "-y"
 {{- end }}
