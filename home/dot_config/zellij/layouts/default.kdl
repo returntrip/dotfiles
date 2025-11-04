@@ -1,0 +1,35 @@
+layout {
+    tab name="Default" {
+        pane size=1 borderless=true {
+            plugin location="tab-bar"
+        }
+        pane
+        pane size=1 borderless=true {
+            plugin location="status-bar"
+        }
+    }
+    tab name="Horizontal" {
+        pane size=1 borderless=true {
+            plugin location="tab-bar"
+        }
+        pane split_direction="horizontal" {
+            pane
+            pane
+        }
+        pane size=1 borderless=true {
+            plugin location="status-bar"
+        }
+    }
+    tab name="Vertical" {
+        pane size=1 borderless=true {
+            plugin location="tab-bar"
+        }
+        pane split_direction="vertical" {
+            pane
+            pane
+        }
+        pane size=1 borderless=true {
+            plugin location="status-bar"
+        }
+    }
+}
