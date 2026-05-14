@@ -15,7 +15,7 @@ Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
 {{-  end }}
 {{- end }}
 call plug#end()
-"" vviki 
+"" vviki
 {{- if eq .chezmoi.os "linux" }}
 {{-  if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 nnoremap <leader>ww :e ~/Nextcloud/wiki/index.adoc<cr>
@@ -39,7 +39,7 @@ set mouse=a "activates mouse for all modes
 filetype plugin indent on " indentation base on file type
 set tabstop=4 " sets space number for tab
 set softtabstop=4 " set space like tabstops for <BS> to function correctly
-set shiftwidth=4 " when indenting with '>', use 4 spaces width 
+set shiftwidth=4 " when indenting with '>', use 4 spaces width
 set expandtab " On pressing tab, insert 4 spaces
 set undofile " activate undo also if vim was closed
 set errorbells
@@ -68,3 +68,5 @@ nnoremap <leader><tab> :b#<cr>
 "" Spellcheck
 nnoremap <leader>sc :setlocal spell spelllang=en_gb<CR>
 nnoremap <leader>so :setlocal nospell<CR>
+"" Remove trailing whitespace on save
+autocmd InsertLeave * %s/\s\+$//e
