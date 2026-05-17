@@ -1,0 +1,22 @@
+[Desktop Entry]
+Name=Ptyxis Host
+Comment=Terminal for GNOME
+Exec=ptyxis --new-window --tab-with-profile=2871e8027773ae74d6c87a5f659bbc74
+Icon=org.gnome.Ptyxis
+Type=Application
+Terminal=false
+Categories=GNOME;GTK;System;TerminalEmulator;
+StartupNotify=true
+Actions=new-window;new-tab;preferences;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=ptyxis --new-window
+
+[Desktop Action new-tab]
+Name=New Tab
+Exec=ptyxis --tab
+
+[Desktop Action preferences]
+Name=Preferences
+Exec=ptyxis --preferences
