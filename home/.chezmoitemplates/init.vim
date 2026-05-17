@@ -11,7 +11,7 @@ Plug 'ratfactor/vviki'
 Plug 'habamax/vim-asciidoctor'
 {{- if eq .chezmoi.os "linux" }}
 {{-  if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
+"" Plug 'Exafunction/codeium.vim', { 'branch': 'main' } " Disable for now
 {{-  end }}
 {{- end }}
 call plug#end()
