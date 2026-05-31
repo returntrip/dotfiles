@@ -350,6 +350,11 @@ pane_frames false
 // Examples:
 //
 // copy_command "xclip -selection clipboard" // x11
+{{- if (eq .chezmoi.os "linux") }} 
+{{- if (eq .chezmoi.osRelease.name "Bluefin") }}
+copy_command "wl-copy"
+{{- end }}
+{{- end }}
 // copy_command "wl-copy"                    // wayland
 // copy_command "pbcopy"                     // osx
 //
