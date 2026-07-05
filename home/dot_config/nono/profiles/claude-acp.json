@@ -12,8 +12,10 @@
     ]
   },
   "filesystem": {
+    "read": [
+      "$HOME/.claude"
+    ],
     "allow": [
-      "$HOME/.claude",
       "$HOME/.claude/session-env",
       "$HOME/.claude/projects"
     ]
