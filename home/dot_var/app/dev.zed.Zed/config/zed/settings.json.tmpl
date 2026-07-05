@@ -1,0 +1,132 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+//
+// CHEZMOI TEMPLATE: this file is processed by chezmoi. The
+// bitwardenSecrets template calls below are resolved at
+// `chezmoi apply` time from Bitwarden Secrets Manager (bws) -
+// the real key is never committed to git. Requires .accessToken
+// set in chezmoi.toml's [data] section.
+{
+  "cli_default_open_behavior": "existing_window",
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry",
+      "env": {
+        "CLAUDE_CODE_EXECUTABLE": "/home/linuxbrew/.linuxbrew/bin/claude",
+      },
+    },
+    "🔴 SENSITIVE — Claude (nono)": {
+      "command": "flatpak-spawn",
+      "args": [
+        "--host",
+        "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "/home/linuxbrew/.linuxbrew/bin/nono",
+        "run",
+        "--profile", "/var/home/returntrip/.config/nono/profiles/claude-acp.json",
+        "--startup-timeout", "0",
+        "--allow", "/var/home/returntrip/repos/fleetops",
+        "--allow-domain", "api.anthropic.com",
+        "--",
+        "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
+      ],
+    },
+    "🟡 INTERNAL — DeepSeek (nono)": {
+      "command": "flatpak-spawn",
+      "args": [
+        "--host",
+        "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
+        "--env=ANTHROPIC_DEEPSEEK_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
+        "/home/linuxbrew/.linuxbrew/bin/nono",
+        "run",
+        "--profile", "/var/home/returntrip/.config/nono/profiles/deepseek-acp.json",
+        "--startup-timeout", "0",
+        "--allow", "/var/home/returntrip/repos/CHANGE-ME-internal-repo",
+        "--allow-domain", "api.deepseek.com",
+        "--",
+        "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
+      ],
+    },
+    "🟢 PUBLIC — DeepSeek (nono)": {
+      "command": "flatpak-spawn",
+      "args": [
+        "--host",
+        "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
+        "--env=ANTHROPIC_DEEPSEEK_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
+        "/home/linuxbrew/.linuxbrew/bin/nono",
+        "run",
+        "--profile", "/var/home/returntrip/.config/nono/profiles/deepseek-acp.json",
+        "--startup-timeout", "0",
+        "--allow", "/var/home/returntrip/repos/CHANGE-ME-public-repo",
+        "--allow-domain", "api.deepseek.com",
+        "--",
+        "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
+      ],
+    },
+  },
+  "project_panel": {
+    "dock": "right",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "agent": {
+    "profiles": {
+    },
+    "dock": "left",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "git_panel": {
+    "dock": "left",
+  },
+  "session": {
+    "restore_unsaved_buffers": true,
+  },
+  "autosave": "on_focus_change",
+  "ssh_connections": [
+    {
+      "host": "archdemon.figura.io",
+      "username": "returntrip",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/returntrip"],
+        },
+        {
+          "paths": ["/home/ubuntu"],
+        },
+      ],
+    },
+    {
+      "host": "se-container01",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/ubuntu"],
+        },
+        {
+          "paths": ["/home/ubuntu/docker/./"],
+        },
+      ],
+    },
+  ],
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 18.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark",
+  },
+}

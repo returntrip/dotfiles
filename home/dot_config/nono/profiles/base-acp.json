@@ -1,0 +1,22 @@
+{
+  "extends": "linux-host-compat",
+  "meta": {
+    "name": "base-acp",
+    "version": "1.0.0",
+    "description": "Generic scaffolding for nono-wrapped ACP agents. No Claude-specific state, no credentials. Claude and DeepSeek tiers extend this separately."
+  },
+  "groups": {
+    "include": [
+      "git_config",
+      "unlink_protection"
+    ]
+  },
+  "filesystem": {
+    "read": [
+      "/home/linuxbrew/.linuxbrew"
+    ],
+    "allow": [
+      "/tmp"
+    ]
+  }
+}

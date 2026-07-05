@@ -1,0 +1,20 @@
+{
+  "extends": "base-acp",
+  "meta": {
+    "name": "deepseek-acp",
+    "version": "1.0.0",
+    "description": "DeepSeek tier: extends base-acp only. Deliberately does NOT include claude_code_linux/claude_cache_linux groups or any $HOME/.claude access - this profile is used for lower-trust routing and must never see Claude Code's session state or .credentials.json. Credential is injected via nono's phantom-token proxy from ANTHROPIC_DEEPSEEK_KEY, which is itself populated at chezmoi-apply time from Bitwarden Secrets Manager - never committed in plaintext."
+  },
+  "network": {
+    "credentials": ["deepseek"],
+    "custom_credentials": {
+      "deepseek": {
+        "upstream": "https://api.deepseek.com",
+        "credential_key": "env://ANTHROPIC_DEEPSEEK_KEY",
+        "inject_mode": "header",
+        "inject_header": "Authorization",
+        "credential_format": "Bearer {}"
+      }
+    }
+  }
+}

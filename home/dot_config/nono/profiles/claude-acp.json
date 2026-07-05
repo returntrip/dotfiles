@@ -1,0 +1,21 @@
+{
+  "extends": "base-acp",
+  "meta": {
+    "name": "claude-acp",
+    "version": "1.0.0",
+    "description": "Claude Code tier: extends base-acp with access to ~/.claude state (session-env, projects, credentials). Do not reuse for DeepSeek or other lower-trust tiers - this is the profile that can see .credentials.json."
+  },
+  "groups": {
+    "include": [
+      "claude_code_linux",
+      "claude_cache_linux"
+    ]
+  },
+  "filesystem": {
+    "allow": [
+      "$HOME/.claude",
+      "$HOME/.claude/session-env",
+      "$HOME/.claude/projects"
+    ]
+  }
+}
