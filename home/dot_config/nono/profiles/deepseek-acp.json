@@ -10,7 +10,7 @@
     "custom_credentials": {
       "deepseek": {
         "upstream": "https://api.deepseek.com",
-        "credential_key": "env://ANTHROPIC_DEEPSEEK_KEY",
+        "credential_key": "env://ANTHROPIC_AUTH_TOKEN",
         "inject_mode": "header",
         "inject_header": "Authorization",
         "credential_format": "Bearer {}"
