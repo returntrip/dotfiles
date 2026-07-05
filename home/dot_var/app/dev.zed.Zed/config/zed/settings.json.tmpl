@@ -26,6 +26,7 @@
       "args": [
         "--host",
         "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=CLAUDE_CODE_OAUTH_TOKEN={{ (bitwardenSecrets \"91fa7002-b486-4d81-80cc-b47e01545eb6" .accessToken).value }}",
         "/home/linuxbrew/.linuxbrew/bin/nono",
         "run",
         "--profile", "/var/home/returntrip/.config/nono/profiles/claude-acp.json",
