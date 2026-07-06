@@ -2,15 +2,21 @@
   "extends": "base-acp",
   "meta": {
     "name": "deepseek-acp",
-    "version": "1.0.0",
-    "description": "DeepSeek tier: extends base-acp only. Deliberately does NOT include claude_code_linux/claude_cache_linux groups or any $HOME/.claude access - this profile is used for lower-trust routing and must never see Claude Code's session state or .credentials.json. Credential is injected via nono's phantom-token proxy from ANTHROPIC_DEEPSEEK_KEY, which is itself populated at chezmoi-apply time from Bitwarden Secrets Manager - never committed in plaintext."
+    "version": "2.0.0",
+    "description": "DeepSeek tier: extends base-acp only. Deliberately grants NO access to the real $HOME/.claude tree - session/project state is relocated entirely to $HOME/.claude-deepseek via CLAUDE_CONFIG_DIR (set in settings.json.tmpl), so there is no shared directory with the Claude tier to over-grant. Uses its own /tmp/deepseek-1000 root via CLAUDE_CODE_TMPDIR. Credential is injected via nono's phantom-token proxy: the agent process only ever sees a placeholder value in its own environment: the real DeepSeek key lives only in nono's credential resolution, sourced from a differently-named env var the agent never reads. NOTE: CLAUDE_CONFIG_DIR is known to not fully relocate all Claude Code state - a sibling file, $HOME/.claude.json, is NOT covered by this variable per upstream reports. This profile intentionally does not grant that file - if the agent tries to touch it, that should fail closed, which is correct, not a bug to fix by widening."
+  },
+  "filesystem": {
+    "allow": [
+      "$HOME/.claude-deepseek",
+      "/tmp/deepseek-1000"
+    ]
   },
   "network": {
     "credentials": ["deepseek"],
     "custom_credentials": {
       "deepseek": {
         "upstream": "https://api.deepseek.com",
-        "credential_key": "env://ANTHROPIC_AUTH_TOKEN",
+        "credential_key": "env://DEEPSEEK_REAL_KEY",
         "inject_mode": "header",
         "inject_header": "Authorization",
         "credential_format": "Bearer {}"
