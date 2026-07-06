@@ -16,7 +16,7 @@
       "/home/linuxbrew/.linuxbrew"
     ],
     "allow": [
-      "/tmp"
+      "/tmp/claude-1000"
     ]
   }
 }
