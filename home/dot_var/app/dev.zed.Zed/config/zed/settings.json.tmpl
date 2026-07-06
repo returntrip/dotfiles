@@ -21,11 +21,12 @@
         "CLAUDE_CODE_EXECUTABLE": "/home/linuxbrew/.linuxbrew/bin/claude",
       },
     },
-    "🔴 SENSITIVE — Claude (nono)": {
+    "[SENSITIVE] Claude (nono)": {
       "command": "flatpak-spawn",
       "args": [
         "--host",
         "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=CLAUDE_CODE_TMPDIR=/tmp/claude-1000",
         "--env=CLAUDE_CODE_OAUTH_TOKEN={{ (bitwardenSecrets "91fa7002-b486-4d81-80cc-b47e01545eb6" .accessToken).value }}",
         "/home/linuxbrew/.linuxbrew/bin/nono",
         "run",
@@ -37,13 +38,16 @@
         "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
       ],
     },
-    "🟡 INTERNAL — DeepSeek (nono)": {
+    "[INTERNAL] DeepSeek (nono)": {
       "command": "flatpak-spawn",
       "args": [
         "--host",
         "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
         "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
-        "--env=ANTHROPIC_AUTH_TOKEN={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
+        "--env=ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder",
+        "--env=DEEPSEEK_REAL_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
+        "--env=CLAUDE_CONFIG_DIR=/var/home/returntrip/.claude-deepseek",
+        "--env=CLAUDE_CODE_TMPDIR=/tmp/deepseek-1000",
         "/home/linuxbrew/.linuxbrew/bin/nono",
         "run",
         "--profile", "/var/home/returntrip/.config/nono/profiles/deepseek-acp.json",
@@ -54,13 +58,16 @@
         "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
       ],
     },
-    "🟢 PUBLIC — DeepSeek (nono)": {
+    "[PUBLIC] DeepSeek (nono)": {
       "command": "flatpak-spawn",
       "args": [
         "--host",
         "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
         "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
-        "--env=ANTHROPIC_AUTH_TOKEN={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
+        "--env=ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder",
+        "--env=DEEPSEEK_REAL_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
+        "--env=CLAUDE_CONFIG_DIR=/var/home/returntrip/.claude-deepseek",
+        "--env=CLAUDE_CODE_TMPDIR=/tmp/deepseek-1000",
         "/home/linuxbrew/.linuxbrew/bin/nono",
         "run",
         "--profile", "/var/home/returntrip/.config/nono/profiles/deepseek-acp.json",
