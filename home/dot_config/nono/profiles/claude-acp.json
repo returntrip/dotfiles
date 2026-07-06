@@ -2,8 +2,8 @@
   "extends": "base-acp",
   "meta": {
     "name": "claude-acp",
-    "version": "1.0.0",
-    "description": "Claude Code tier: extends base-acp with access to ~/.claude state (session-env, projects, credentials). Do not reuse for DeepSeek or other lower-trust tiers - this is the profile that can see .credentials.json."
+    "version": "1.1.0",
+    "description": "Claude Code tier: read-only ~/.claude (auth is via static CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle, so no write needed on the credentials file itself). Session-env and projects are scoped to the fleetops project hash specifically, not the whole ~/.claude/projects tree, to avoid exposing history from other repos this account has used Claude Code on. Uses its own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR - do not share this path with any other tier's profile."
   },
   "groups": {
     "include": [
@@ -17,7 +17,8 @@
     ],
     "allow": [
       "$HOME/.claude/session-env",
-      "$HOME/.claude/projects"
+      "$HOME/.claude/projects/-var-home-returntrip-repos-fleetops",
+      "/tmp/claude-1000"
     ]
   }
 }
