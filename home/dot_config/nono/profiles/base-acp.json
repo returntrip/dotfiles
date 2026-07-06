@@ -2,8 +2,8 @@
   "extends": "linux-host-compat",
   "meta": {
     "name": "base-acp",
-    "version": "1.0.0",
-    "description": "Generic scaffolding for nono-wrapped ACP agents. No Claude-specific state, no credentials. Claude and DeepSeek tiers extend this separately."
+    "version": "1.1.0",
+    "description": "Generic scaffolding for nono-wrapped ACP agents. No Claude-specific state, no credentials, no /tmp - each tier grants its own /tmp/<tier>-1000 via CLAUDE_CODE_TMPDIR to avoid cross-tier scratch-file leakage. Claude and DeepSeek tiers extend this separately."
   },
   "groups": {
     "include": [
@@ -15,8 +15,8 @@
     "read": [
       "/home/linuxbrew/.linuxbrew"
     ],
-    "allow": [
-      "/tmp/claude-1000"
+    "read_file": [
+      "/etc/gitconfig"
     ]
   }
 }
