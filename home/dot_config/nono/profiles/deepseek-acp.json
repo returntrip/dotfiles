@@ -7,7 +7,7 @@
   },
   "filesystem": {
     "allow": [
-      "$HOME/.claude-deepseek",
+      "/var/home/returntrip/.claude-deepseek",
       "/tmp/deepseek-tmp"
     ]
   },
