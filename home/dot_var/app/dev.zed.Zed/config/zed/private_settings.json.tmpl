@@ -1,0 +1,83 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+//
+// CHEZMOI TEMPLATE: this file is processed by chezmoi. The
+// bitwardenSecrets template calls below are resolved at
+// `chezmoi apply` time from Bitwarden Secrets Manager (bws) -
+// the real key is never committed to git. Requires .accessToken
+// set in chezmoi.toml's [data] section.
+{
+  "cli_default_open_behavior": "existing_window",
+  "agent_servers": {
+    "[PUBLIC] DeepSeek (nono)": {
+      "type": "registry",
+      "default_config_options": {
+        "model": "sonnet"
+      }
+    }
+  },
+  "project_panel": {
+    "dock": "right",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "agent": {
+    "profiles": {
+    },
+    "dock": "left",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "git_panel": {
+    "dock": "left",
+  },
+  "session": {
+    "restore_unsaved_buffers": true,
+  },
+  "autosave": "on_focus_change",
+  "ssh_connections": [
+    {
+      "host": "archdemon.figura.io",
+      "username": "returntrip",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/returntrip"],
+        },
+        {
+          "paths": ["/home/ubuntu"],
+        },
+      ],
+    },
+    {
+      "host": "se-container01",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/ubuntu"],
+        },
+        {
+          "paths": ["/home/ubuntu/docker/./"],
+        },
+      ],
+    },
+  ],
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 18.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark",
+  },
+}
