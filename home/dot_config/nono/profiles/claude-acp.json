@@ -2,8 +2,8 @@
   "extends": "base-acp",
   "meta": {
     "name": "claude-acp",
-    "version": "1.1.0",
-    "description": "Claude Code tier: read-only ~/.claude (auth is via static CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle, so no write needed on the credentials file itself). Session-env and projects are scoped to the fleetops project hash specifically, not the whole ~/.claude/projects tree, to avoid exposing history from other repos this account has used Claude Code on. Uses its own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR - do not share this path with any other tier's profile."
+    "version": "1.2.0",
+    "description": "Claude Code tier: read-only ~/.claude (auth is via static CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle, so no write needed on the credentials file itself). Uses its own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR - do not share this path with any other tier's profile. Network + filesystem policy now both live here; settings.json.tmpl only supplies the repo path and credential."
   },
   "groups": {
     "include": [
@@ -15,6 +15,17 @@
     "allow": [
       "$HOME/.claude",
       "/tmp/claude-1000"
+    ],
+    "read_file": [
+      "/etc/gitconfig",
+      "/etc/passwd",
+      "/etc/group"
+    ]
+  },
+  "network": {
+    "allow_domain": [
+      "api.anthropic.com",
+      "git.figura.io"
     ]
   }
 }
