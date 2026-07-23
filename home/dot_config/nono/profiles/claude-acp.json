@@ -20,8 +20,7 @@
       "/etc/gitconfig",
       "/etc/passwd",
       "/etc/group"
-    ]
-  },
+    ],
   "network": {
     "allow_domain": [
       "api.anthropic.com",
