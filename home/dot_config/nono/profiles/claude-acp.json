@@ -18,7 +18,8 @@
       "$HOME/.cache/go-build",
     ],
     "read": [
-      "/usr/libexec"
+      "/usr/libexec",
+      "/usr/include"
     ],
     "read_file": [
       "/etc/gitconfig",
