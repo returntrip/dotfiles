@@ -12,10 +12,10 @@
     ]
   },
   "filesystem": {
-    "allow": [
-      "$HOME/.claude",
-      "/tmp/claude-1000"
-    ],
+    "allow": ["$HOME/.claude", "/tmp/claude-1000"],
+    "read": ["/usr/libexec/git-core"],
+    "read_file": ["/etc/gitconfig", "/etc/passwd", "/etc/group"]
+  },
     "read_file": [
       "/etc/gitconfig",
       "/etc/passwd",
