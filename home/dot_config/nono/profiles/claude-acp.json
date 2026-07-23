@@ -26,6 +26,15 @@
     "allow_domain": [
       "api.anthropic.com",
       "git.figura.io"
-    ]
+    ],
+    "credentials": ["forgejo"],
+    "custom_credentials": {
+      "forgejo": {
+        "upstream": "https://git.figura.io",
+        "credential_key": "env://FORGEJO_TOKEN",
+        "inject_header": "Authorization",
+        "credential_format": "Bearer {}"
+      }
+    }
   }
 }
