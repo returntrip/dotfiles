@@ -17,7 +17,7 @@
       "/tmp/claude-1000"
     ],
     "read": [
-      "/usr/libexec/git-core"
+      "/usr/libexec"
     ],
     "read_file": [
       "/etc/gitconfig",
