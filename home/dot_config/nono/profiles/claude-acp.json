@@ -2,7 +2,7 @@
   "extends": "base-acp",
   "meta": {
     "name": "claude-acp",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Claude Code tier: read-only ~/.claude (auth via static CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle). Own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR. Network + filesystem policy live here; settings.json.tmpl supplies repo paths and credential only. Used for both private and public repos - same trust level either way (your subscription, your main model)."
   },
   "groups": {
@@ -12,15 +12,19 @@
     ]
   },
   "filesystem": {
-    "allow": ["$HOME/.claude", "/tmp/claude-1000"],
-    "read": ["/usr/libexec/git-core"],
-    "read_file": ["/etc/gitconfig", "/etc/passwd", "/etc/group"]
-  },
+    "allow": [
+      "$HOME/.claude",
+      "/tmp/claude-1000"
+    ],
+    "read": [
+      "/usr/libexec/git-core"
+    ],
     "read_file": [
       "/etc/gitconfig",
       "/etc/passwd",
       "/etc/group"
-    ],
+    ]
+  },
   "network": {
     "allow_domain": [
       "api.anthropic.com",
