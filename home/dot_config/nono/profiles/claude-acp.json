@@ -29,7 +29,8 @@
     "allow_domain": [
       "api.anthropic.com",
       "github.com",
-      "git.figura.io"
+      "git.figura.io",
+      "go.dev"
     ],
     "credentials": ["forgejo"],
     "custom_credentials": {
