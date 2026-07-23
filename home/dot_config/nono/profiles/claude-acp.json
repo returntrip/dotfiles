@@ -3,7 +3,7 @@
   "meta": {
     "name": "claude-acp",
     "version": "1.2.0",
-    "description": "Claude Code tier: read-only ~/.claude (auth is via static CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle, so no write needed on the credentials file itself). Uses its own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR - do not share this path with any other tier's profile. Network + filesystem policy now both live here; settings.json.tmpl only supplies the repo path and credential."
+    "description": "Claude Code tier: read-only ~/.claude (auth via static CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle). Own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR. Network + filesystem policy live here; settings.json.tmpl supplies repo paths and credential only. Used for both private and public repos - same trust level either way (your subscription, your main model)."
   },
   "groups": {
     "include": [
