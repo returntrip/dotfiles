@@ -31,6 +31,9 @@
       "github.com",
       "git.figura.io",
       "go.dev"
+      "*.golang.org",
+      "*.googleapis.com",
+      "dl.google.com"
     ],
     "credentials": ["forgejo"],
     "custom_credentials": {
