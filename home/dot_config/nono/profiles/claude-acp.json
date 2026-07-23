@@ -15,6 +15,7 @@
     "allow": [
       "$HOME/.claude",
       "/tmp/claude-1000"
+      "$HOME/.cache/go-build",
     ],
     "read": [
       "/usr/libexec"
