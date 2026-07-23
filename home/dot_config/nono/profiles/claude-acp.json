@@ -28,6 +28,7 @@
   "network": {
     "allow_domain": [
       "api.anthropic.com",
+      "github.com",
       "git.figura.io"
     ],
     "credentials": ["forgejo"],
