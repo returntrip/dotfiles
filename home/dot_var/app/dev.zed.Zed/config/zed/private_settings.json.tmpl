@@ -13,11 +13,14 @@
 // the real key is never committed to git. Requires .accessToken
 // set in chezmoi.toml's [data] section.
 //
-// WARNING: do not change the model or other settings for the
-// nono-wrapped entries below via Zed's UI. Doing so has been
-// observed to silently strip the flatpak-spawn/nono wrapping
-// and convert the entry into an unsandboxed "type": "registry"
-// stub. Edit this source file directly instead.
+// NOTE: network policy (allow_domain) lives in each nono profile's
+// own network.allow_domain field (see .config/nono/profiles/), not
+// here. To add a domain for a tier, edit that tier's profile JSON.
+//
+// Trust model: Claude handles both internal (fleetops etc.) and
+// public repos - same trust level either way, your subscription,
+// your main model. DeepSeek is used ONLY for repos/code that are
+// already publicly available - never internal/sensitive content.
 {
   "cli_default_open_behavior": "existing_window",
   "agent_servers": {
@@ -27,48 +30,29 @@
         "CLAUDE_CODE_EXECUTABLE": "/home/linuxbrew/.linuxbrew/bin/claude",
       },
     },
-    "[SENSITIVE] Claude (nono)": {
+    "[Claude] (nono)": {
       "type": "custom",
       "command": "flatpak-spawn",
       "args": [
         "--host",
         "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=CLAUDE_CODE_TMPDIR=/tmp/claude-1000",
         "--env=CLAUDE_CODE_OAUTH_TOKEN={{ (bitwardenSecrets "91fa7002-b486-4d81-80cc-b47e01545eb6" .accessToken).value }}",
         "/home/linuxbrew/.linuxbrew/bin/nono",
         "run",
         "--profile", "/var/home/returntrip/.config/nono/profiles/claude-acp.json",
         "--startup-timeout", "0",
         "--allow", "/var/home/returntrip/repos/fleetops",
+        "--allow", "/var/home/returntrip/repos/CHANGE-ME-public-repo",
         "--",
         "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
       ],
     },
-    "[INTERNAL] DeepSeek (nono)": {
+    "[DeepSeek — Public only] (nono)": {
       "type": "custom",
-      "command": "flatpak-spawn",
-      "args": [
-        "--host",
-        "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
-        "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
-        "--env=ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder",
-        "--env=DEEPSEEK_REAL_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
-        "--env=CLAUDE_CONFIG_DIR=/var/home/returntrip/.claude-deepseek",
-        "--env=CLAUDE_CODE_TMPDIR=/tmp/deepseek-tmp",
-        "/home/linuxbrew/.linuxbrew/bin/nono",
-        "run",
-        "--profile", "/var/home/returntrip/.config/nono/profiles/deepseek-acp.json",
-        "--startup-timeout", "0",
-        "--allow", "/var/home/returntrip/repos/CHANGE-ME-internal-repo",
-        "--allow-domain", "api.deepseek.com",
-        "--",
-        "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
-      ],
-    },
-    "[PUBLIC] DeepSeek (nono)": {
       "default_config_options": {
         "model": "sonnet"
       },
-      "type": "custom",
       "command": "flatpak-spawn",
       "args": [
         "--host",
@@ -83,7 +67,6 @@
         "--profile", "/var/home/returntrip/.config/nono/profiles/deepseek-acp.json",
         "--startup-timeout", "0",
         "--allow", "/var/home/returntrip/repos/public",
-        "--allow-domain", "api.deepseek.com",
         "--",
         "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
       ],
