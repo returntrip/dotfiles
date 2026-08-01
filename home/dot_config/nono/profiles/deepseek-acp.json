@@ -13,7 +13,8 @@
   },
   "network": {
     "allow_domain": [
-      "api.deepseek.com"
+      "api.deepseek.com",
+      "github.com"
     ],
     "credentials": ["deepseek"],
     "custom_credentials": {
