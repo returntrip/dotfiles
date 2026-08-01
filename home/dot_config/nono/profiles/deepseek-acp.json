@@ -9,6 +9,10 @@
     "allow": [
       "$HOME/.claude-deepseek",
       "/tmp/deepseek-tmp"
+    ],
+    "read": [
+      "/usr/libexec",
+      "/usr/include"
     ]
   },
   "network": {
