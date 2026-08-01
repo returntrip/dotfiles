@@ -2,8 +2,8 @@
   "extends": "base-acp",
   "meta": {
     "name": "deepseek-acp",
-    "version": "2.0.0",
-    "description": "DeepSeek tier: extends base-acp only. Deliberately grants NO access to the real $HOME/.claude tree - session/project state is relocated entirely to $HOME/.claude-deepseek via CLAUDE_CONFIG_DIR (set in settings.json.tmpl), so there is no shared directory with the Claude tier to over-grant. Uses its own /tmp/deepseek-1000 root via CLAUDE_CODE_TMPDIR. Credential is injected via nono's phantom-token proxy: the agent process only ever sees a placeholder value in its own environment: the real DeepSeek key lives only in nono's credential resolution, sourced from a differently-named env var the agent never reads. NOTE: CLAUDE_CONFIG_DIR is known to not fully relocate all Claude Code state - a sibling file, $HOME/.claude.json, is NOT covered by this variable per upstream reports. This profile intentionally does not grant that file - if the agent tries to touch it, that should fail closed, which is correct, not a bug to fix by widening."
+    "version": "2.1.0",
+    "description": "DeepSeek tier: extends base-acp only. No access to real $HOME/.claude - session/project state relocated to $HOME/.claude-deepseek via CLAUDE_CONFIG_DIR. Own /tmp/deepseek-tmp root via CLAUDE_CODE_TMPDIR. Credential injected via nono's phantom-token proxy - agent only ever sees a placeholder value; real key lives only in nono's own credential resolution via DEEPSEEK_REAL_KEY, never in the agent's environment. Network + credential policy now both live here; settings.json.tmpl only supplies the repo path."
   },
   "filesystem": {
     "allow": [
@@ -12,6 +12,9 @@
     ]
   },
   "network": {
+    "allow_domain": [
+      "api.deepseek.com"
+    ],
     "credentials": ["deepseek"],
     "custom_credentials": {
       "deepseek": {

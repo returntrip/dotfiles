@@ -2,8 +2,8 @@
   "extends": "base-acp",
   "meta": {
     "name": "claude-acp",
-    "version": "1.1.0",
-    "description": "Claude Code tier: read-only ~/.claude (auth is via static CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle, so no write needed on the credentials file itself). Session-env and projects are scoped to the fleetops project hash specifically, not the whole ~/.claude/projects tree, to avoid exposing history from other repos this account has used Claude Code on. Uses its own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR - do not share this path with any other tier's profile."
+    "version": "1.2.1",
+    "description": "Claude Code tier: read-only ~/.claude (auth via static CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle). Own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR. Network + filesystem policy live here; settings.json.tmpl supplies repo paths and credential only. Used for both private and public repos - same trust level either way (your subscription, your main model)."
   },
   "groups": {
     "include": [
@@ -15,6 +15,36 @@
     "allow": [
       "$HOME/.claude",
       "/tmp/claude-1000"
+      "$HOME/.cache/go-build",
+    ],
+    "read": [
+      "/usr/libexec",
+      "/usr/include"
+    ],
+    "read_file": [
+      "/etc/gitconfig",
+      "/etc/passwd",
+      "/etc/group"
     ]
+  },
+  "network": {
+    "allow_domain": [
+      "api.anthropic.com",
+      "github.com",
+      "git.figura.io",
+      "go.dev"
+      "*.golang.org",
+      "*.googleapis.com",
+      "dl.google.com"
+    ],
+    "credentials": ["forgejo"],
+    "custom_credentials": {
+      "forgejo": {
+        "upstream": "https://git.figura.io",
+        "credential_key": "env://FORGEJO_TOKEN",
+        "inject_header": "Authorization",
+        "credential_format": "Bearer {}"
+      }
+    }
   }
 }
