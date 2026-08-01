@@ -1,6 +1,6 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
-/home/linuxbrew/.linuxbrew/bin/brew bundle --file=/dev/stdin <<EOF
+{{ .brew_bin }}/brew bundle --file=/dev/stdin <<EOF
 {{ range .packages.linux.taps -}}
 tap {{ . | quote }}
 {{ end -}}

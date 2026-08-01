@@ -24,7 +24,7 @@
     "claude-acp": {
       "type": "registry",
       "env": {
-        "CLAUDE_CODE_EXECUTABLE": "/home/linuxbrew/.linuxbrew/bin/claude",
+        "CLAUDE_CODE_EXECUTABLE": "{{ .brew_bin }}/claude",
       },
     },
     "[SENSITIVE] Claude (nono)": {
@@ -32,16 +32,16 @@
       "command": "flatpak-spawn",
       "args": [
         "--host",
-        "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=PATH={{ .brew_bin }}:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
         "--env=CLAUDE_CODE_OAUTH_TOKEN={{ (bitwardenSecrets "91fa7002-b486-4d81-80cc-b47e01545eb6" .accessToken).value }}",
-        "/home/linuxbrew/.linuxbrew/bin/nono",
+        "{{ .brew_bin }}/nono",
         "run",
         "--profile", "/var/home/returntrip/.config/nono/profiles/claude-acp.json",
         "--startup-timeout", "0",
         "--allow", "/var/home/returntrip/repos/fleetops",
         "--allow-domain", "api.anthropic.com",
         "--",
-        "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
+        "{{ .brew_bin }}/claude-agent-acp"
       ],
     },
     "[INTERNAL] DeepSeek (nono)": {
@@ -49,20 +49,20 @@
       "command": "flatpak-spawn",
       "args": [
         "--host",
-        "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=PATH={{ .brew_bin }}:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
         "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
         "--env=ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder",
         "--env=DEEPSEEK_REAL_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
         "--env=CLAUDE_CONFIG_DIR=/var/home/returntrip/.claude-deepseek",
         "--env=CLAUDE_CODE_TMPDIR=/tmp/deepseek-tmp",
-        "/home/linuxbrew/.linuxbrew/bin/nono",
+        "{{ .brew_bin }}/nono",
         "run",
         "--profile", "/var/home/returntrip/.config/nono/profiles/deepseek-acp.json",
         "--startup-timeout", "0",
         "--allow", "/var/home/returntrip/repos/CHANGE-ME-internal-repo",
         "--allow-domain", "api.deepseek.com",
         "--",
-        "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
+        "{{ .brew_bin }}/claude-agent-acp"
       ],
     },
     "[PUBLIC] DeepSeek (nono)": {
@@ -73,20 +73,20 @@
       "command": "flatpak-spawn",
       "args": [
         "--host",
-        "--env=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=PATH={{ .brew_bin }}:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
         "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
         "--env=ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder",
         "--env=DEEPSEEK_REAL_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
         "--env=CLAUDE_CONFIG_DIR=/var/home/returntrip/.claude-deepseek",
         "--env=CLAUDE_CODE_TMPDIR=/tmp/deepseek-tmp",
-        "/home/linuxbrew/.linuxbrew/bin/nono",
+        "{{ .brew_bin }}/nono",
         "run",
         "--profile", "/var/home/returntrip/.config/nono/profiles/deepseek-acp.json",
         "--startup-timeout", "0",
         "--allow", "/var/home/returntrip/repos/CHANGE-ME-public-repo",
         "--allow-domain", "api.deepseek.com",
         "--",
-        "/home/linuxbrew/.linuxbrew/bin/claude-agent-acp"
+        "{{ .brew_bin }}/claude-agent-acp"
       ],
     },
   },

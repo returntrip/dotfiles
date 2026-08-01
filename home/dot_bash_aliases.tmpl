@@ -95,7 +95,7 @@ alias dmesg='dmesg --color=always'
 # nvim
 alias vim="nvim"
 
-{{- if stat "/home/linuxbrew/.linuxbrew/bin/kubecolor" }}
+{{- if stat (joinPath .brew_bin "kubecolor") }}
 alias kubectl=kubecolor
 alias oc="env KUBECTL_COMMAND=oc kubecolor"
 {{- end }}

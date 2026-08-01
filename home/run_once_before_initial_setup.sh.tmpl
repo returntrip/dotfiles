@@ -21,15 +21,15 @@ fi
 
 ## Install kubectl and krew
 if ! command -v kubectl &> /dev/null || ! command -v krew &> /dev/null; then
-  export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
-  /home/linuxbrew/.linuxbrew/bin/brew install kubernetes-cli krew
+  export PATH=$PATH:{{ .brew_bin }}
+  {{ .brew_bin }}/brew install kubernetes-cli krew
 fi
 
 ## Install bws via mise
 if ! command -v mise &> /dev/null; then
-  export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
-  /home/linuxbrew/.linuxbrew/bin/brew install mise
-  /home/linuxbrew/.linuxbrew/bin/mise use -gy usage
-  /home/linuxbrew/.linuxbrew/bin/mise use -gy bitwarden-secrets-manager@latest
+  export PATH=$PATH:{{ .brew_bin }}
+  {{ .brew_bin }}/brew install mise
+  {{ .brew_bin }}/mise use -gy usage
+  {{ .brew_bin }}/mise use -gy bitwarden-secrets-manager@latest
 fi
 {{ end -}}
