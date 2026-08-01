@@ -7,7 +7,6 @@
 .gtk-bookmarks
 .local/bin/**
 !.local/bin
-!.local/bin/upgrd
 !.local/bin/yka
 !.local/bin/vmtft
 !.local/bin/vmbearer
