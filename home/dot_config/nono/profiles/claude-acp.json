@@ -14,8 +14,8 @@
   "filesystem": {
     "allow": [
       "$HOME/.claude",
-      "/tmp/claude-1000"
-      "$HOME/.cache/go-build",
+      "/tmp/claude-1000",
+      "$HOME/.cache/go-build"
     ],
     "read": [
       "/usr/libexec",
@@ -32,7 +32,7 @@
       "api.anthropic.com",
       "github.com",
       "git.figura.io",
-      "go.dev"
+      "go.dev",
       "*.golang.org",
       "*.googleapis.com",
       "dl.google.com"
