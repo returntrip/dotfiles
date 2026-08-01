@@ -14,7 +14,9 @@
   "network": {
     "allow_domain": [
       "api.deepseek.com",
-      "github.com"
+      "github.com",
+      "api.github.com",
+      "*.githubusercontent.com"
     ],
     "credentials": ["deepseek"],
     "custom_credentials": {
