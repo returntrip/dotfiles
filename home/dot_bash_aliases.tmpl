@@ -6,9 +6,13 @@ ujust() {
 }
 {{- end }}
 
-## addalias function to add aliases to `.bash_aliases` and source the file
+## Add an alias, writing to the chezmoi source if we're managed.
 addalias() {
-    printf "alias %s='%s'\n" "$1" "$2" >> ~/.bash_aliases
+    if type chezmoi &>/dev/null && chezmoi source-path ~/.bash_aliases &>/dev/null; then
+        printf "alias %s='%s'\n" "$1" "$2" >> "$(chezmoi source-path ~/.bash_aliases)"
+    else
+        printf "alias %s='%s'\n" "$1" "$2" >> ~/.bash_aliases
+    fi
     source ~/.bash_aliases
 }
 
