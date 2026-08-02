@@ -16,6 +16,14 @@ tap {{ . | quote }}
 brew {{ . | quote }}
 {{ end -}}
 {{- end }}
+{{- if .work }}
+{{- range .packages.work.taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{- range .packages.work.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{- end }}
 {{ if .isWSL }}
 {{ range .packages.wsl.brews -}}
 brew {{ . | quote }}

@@ -1,7 +1,6 @@
 packages:
   linux:
     taps:
-    - 'vmware-tanzu/tanzu'
     - 'kcl-lang/tap'
     brews:
     - 'age'
@@ -41,10 +40,14 @@ packages:
     - 'tealdeer'
     - 'tmux'
     - 'topgrade'
-    - 'vmware-tanzu/tanzu/tanzu-cli'
     - 'yq'
     - 'yt-dlp'
     - 'zellij'
+  work:
+    taps:
+    - 'vmware-tanzu/tanzu'
+    brews:
+    - 'vmware-tanzu/tanzu/tanzu-cli'
   mac:
     taps: []
     brews:
