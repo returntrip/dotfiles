@@ -65,19 +65,11 @@ HISTFILESIZE=100000
 # %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
 
-{{- if (or (eq .chezmoi.hostname "t490s-sb") (eq .chezmoi.hostname "rauros")) }}
+{{- if .isBlueX }}
 # User specific environment and startup programs
 ## To execute flatpaks without needing `flatpak run` including autocomplete
 if [[ "$(hostname)" != "toolbox" ]] ; then
     pathmunge /var/lib/flatpak/exports/bin after
-fi
-
-# toolbox customisation
-## toolbox path customisation
-if [[ "$(hostname)" = "toolbox" ]] ; then
-    PATH=$(echo "$PATH" | sed -e 's;:\?/var/lib/flatpak/exports/bin;;' -e 's;/var/lib/flatpak/exports/bin:\?;;')
-    pathmunge "$HOME"/.local/toolbox/bin after
-	export TERM=xterm-256color
 fi
 {{- end }}
 
@@ -97,14 +89,14 @@ if [[ -d "$HOME"/development/dart-sdk/bin ]] ; then
 fi
 {{- end }}
 
-{{- if eq .chezmoi.os "linux" }}
-{{-   if ne .chezmoi.osRelease.name "Bluefin" }}
+{{- if .isLinux }}
+{{-   if not .isBlueX }}
 if [[ -d {{ .brew_bin | quote }} ]] ; then
     eval "$({{ .brew_bin }}/brew shellenv)"
     #pathmunge {{ .brew_bin }} after
 fi
 {{-   end }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{-  if .isWSL }}
 # gpg config with Yubikey
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
@@ -117,12 +109,12 @@ unset -f pathmunge
 
 # CDPATH
 CDPATH=/home/{{ .chezmoi.username }}/devel:/home/{{ .chezmoi.username }}/devel/repos
-{{- if eq .chezmoi.hostname "rauros" "t490s-sb" }}
+{{- if .personal }}
 CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi.username }}/Nextcloud:/home/{{ .chezmoi.username }}/Nextcloud/Documents
 {{- end }}
 
 
-{{- if eq .chezmoi.hostname "rauros" "t490s-sb" }}
+{{- if .personal }}
 # Oracle CLI
 [[ -e "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh" ]] && source "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh"
 
@@ -134,19 +126,17 @@ if type mise &>/dev/null; then
 fi
 
 # Set $EDITOR and $PAGER
-{{- if eq .chezmoi.os "linux" }}
-{{-  if eq .chezmoi.hostname "rauros" }}
+{{- if eq .chezmoi.hostname "rauros" }}
 export EDITOR=vim
 export VISUAL=vim
 {{- else }}
 export EDITOR=$(which nvim)
 export VISUAL=$(which nvim)
-{{-  end }}
 {{- end }}
 export PAGER=less
 
-{{- if ne .chezmoi.osRelease.name "Bluefin" }}
-# Update window size after every command 
+{{- if not .isBlueX }}
+# Update window size after every command
 shopt -s checkwinsize
 
 # Turn on parallel history

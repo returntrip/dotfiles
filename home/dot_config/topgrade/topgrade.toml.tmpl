@@ -1,17 +1,15 @@
 [misc]
-{{- if (eq .chezmoi.os "linux") }} 
-{{- if (eq .chezmoi.osRelease.name "Bluefin") }}
+{{- if .isBlueX }}
 no_self_update = true
 disable = ["system", "flatpak", "self_update", "brew_cask", "brew_formula"]
 ignore_failures = ["distrobox", "flatpak", "brew_cask", "brew_formula", "nix", "node", "pip3", "home_manager", "firmware"]
 assume_yes = true
 no_retry = false
 {{- end }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if .isWSL }}
 disable = ["node", "pnpm", "helm"]
 ["linux"]
 dnf_arguments = "-y"
-{{- end }}
 {{- end }}
 [post_commands]
 "ble.sh update" = "[[ -f ~/.local/share/blesh/ble.sh ]] && source ~/.local/share/blesh/ble.sh --update"

@@ -1,11 +1,9 @@
 # User specific aliases and functions loaded by `~/.bashrc`
 # ujust alias: https://github.com/ublue-os/config/issues/256#issuecomment-2661130534
-{{- if (eq .chezmoi.os "linux") }} 
-{{- if (eq .chezmoi.osRelease.name "Bluefin") }}
+{{- if .isBlueX }}
 ujust() {
     /usr/bin/just "${@}"
 }
-{{- end }}
 {{- end }}
 
 ## addalias function to add aliases to `.bash_aliases` and source the file
@@ -16,10 +14,8 @@ addalias() {
 
 ## ssh start $SHELL if tmux not found
 ssh () {
-    {{- if eq .chezmoi.os "linux" }}
-    {{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+    {{- if .isWSL }}
     gpg-connect-agent -q updatestartuptty /bye > /dev/null
-    {{-  end }}
     {{- end }}
     TERM=xterm
     case "$#" in
@@ -100,7 +96,7 @@ alias kubectl=kubecolor
 alias oc="env KUBECTL_COMMAND=oc kubecolor"
 {{- end }}
 
-{{- if or (stat "/home/homebrew/.linuxbrew/exa") (stat "/usr/bin/exa") }}
+{{- if or (stat (joinPath .brew_bin "exa")) (stat "/usr/bin/exa") }}
 alias tree='exa --tree'
 {{- end }}
 

@@ -1,5 +1,3 @@
-{{- if eq .chezmoi.os "linux" }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if .isWSL }}
 Match host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"
-{{-  end }}
 {{- end }}

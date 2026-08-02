@@ -1,22 +1,47 @@
-{{- if eq .chezmoi.os "linux" }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if .isWSL }}
 .gtk-bookmarks
 .local/bin/**
 !.local/bin
 !.local/bin/yka
 !.local/bin/vmtft
 !.local/bin/vmbearer
-.local/toolbox/
+!.local/bin/vim
 .local/share/
 .mozilla/
 .var/
-{{-  end }}
-{{-  if ne .chezmoi.hostname "rauros" }}
-.local/bin/pactl
+{{- end }}
+{{- if and .isLinux (ne .chezmoi.hostname "rauros") }}
 .local/share/flatpak/overrides/com.valvesoftware.Steam
 .config/gtk-3.0/
-.config/mpv/
-{{-  end }}
+{{- end }}
+{{- if .isMacOS }}
+.bash_aliases
+.bash_profile
+.bashrc
+.inputrc
+.config/blesh/
+.local/bin/**
+!.local/bin
+!.local/bin/yka
+!.local/bin/vmtft
+!.local/bin/vmbearer
+!.local/bin/vim
+.local/share/
+.mozilla/
+.var/
+.config/gtk-3.0/
+.config/libvirt/
+.config/nono/
+.config/systemd/
+{{- end }}
+{{- if .work }}
+.config/nono/
+{{- end }}
+{{- if not .isBlueX }}
+.justfile
+{{- end }}
+{{- if and .isLinux (not .isWSL) }}
+.config/systemd/
 {{- end }}
 .local/bin/yka
 .local/bin/vmtft

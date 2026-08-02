@@ -1,0 +1,5 @@
+machines:
+  t490s-sb: personal   # Bluefin desktop
+  rauros: personal     # Bazzite desktop
+  W5CG2241T4: work     # legacy WSL laptop
+  instdt: work         # tty work box

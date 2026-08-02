@@ -1,4 +1,4 @@
-{{ if eq .chezmoi.os "linux" -}}
+{{ if or .isLinux .isMacOS -}}
 #!/bin/bash
 {{ .brew_bin }}/brew bundle --file=/dev/stdin <<EOF
 {{ range .packages.linux.taps -}}
@@ -7,7 +7,7 @@ tap {{ . | quote }}
 {{ range .packages.linux.brews -}}
 brew {{ . | quote }}
 {{ end -}}
-{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{ if .isWSL }}
 {{ range .packages.wsl.brews -}}
 brew {{ . | quote }}
 {{ end -}}

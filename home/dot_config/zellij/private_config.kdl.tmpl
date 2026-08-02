@@ -255,10 +255,11 @@ pane_frames false
 
 
 
-{{- if (eq .chezmoi.os "linux") }} 
-{{- if (eq .chezmoi.osRelease.name "Bluefin") }}
+{{- if .isBlueX }}
 copy_command "wl-copy"
 {{- end }}
+{{- if .isMacOS }}
+copy_command "pbcopy"
 {{- end }}
 
 

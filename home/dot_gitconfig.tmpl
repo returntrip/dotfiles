@@ -2,14 +2,9 @@
     email = {{ .email | quote }}
     name = {{ .name | quote }}
     signingkey = 0xE8D9210D206385D6
-{{- if eq .chezmoi.os "linux" }}
-{{-  if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if or .isWSL .isMacOS }}
 [core]
     editor = nvim
-{{-  end }}
-{{- end }}
-{{- if eq .chezmoi.hostname "rauros" }}
-    editor = io.neovim.nvim
 {{- end }}
 {{ if lookPath "difft" }}
 [diff]
