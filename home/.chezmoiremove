@@ -1,5 +1,7 @@
 # Targets removed from the source state; chezmoi deletes any stale copies on apply.
 # https://www.chezmoi.io/user-guide/manage-different-types-of-file/#ensure-that-a-target-is-removed
+# Safe to delete this file once every machine has pulled and applied.
+# --- .local/bin ---
 .local/bin/toolbox-base-runner
 .local/bin/toolbox-devenv-runner
 .local/bin/dnf
@@ -9,7 +11,36 @@
 .local/bin/ranger
 .local/bin/tmux_paned
 .local/bin/upgrd
+.local/bin/imv
+.local/bin/make
+.local/bin/vagrant
+.local/bin/youtube-dl
+.local/bin/ansible
+.local/bin/ansible-playbook
+.local/bin/secretload
+.local/bin/ageload
+.local/bin/ff2mpv.py
+.local/bin/grimshot
+.local/bin/pavucontrol
+.local/bin/swapshot
+.local/bin/sway
+.local/bin/sway-service.sh
+.local/bin/waybar-uptime
+.local/bin/waybar-weather
+# --- .local/toolbox ---
 .local/toolbox
+# --- .config ---
+.config/sway
+.config/waybar
+.config/wofi
+.config/dunst
+.config/alacritty
 .config/mpv/mpv.conf
 .config/zellij/config.kdl.bak
+.config/environment.d/env.conf
+.config/systemd/user/sway-session.target
+.config/systemd/user/sway.service
+# --- other ---
 .var/app/io.neovim.nvim/config/nvim/init.vim
+.terminfo/a/alacritty
+.mozilla/native-messaging-hosts/ff2mpv.json
