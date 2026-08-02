@@ -19,3 +19,9 @@ pinentry-program {{ .brew_prefix }}/bin/pinentry-mac
 #pinentry-program /usr/local/bin/pinentry-curses
 #pinentry-program /usr/local/bin/pinentry-mac
 #pinentry-program /opt/homebrew/bin/pinentry-mac
+{{- if stat "/usr/libexec/scdaemon" }}
+scdaemon-program /usr/libexec/scdaemon
+{{- end }}
+{{- if stat (joinPath .brew_prefix "bin/scdaemon") }}
+scdaemon-program {{ .brew_prefix }}/bin/scdaemon
+{{- end }}
