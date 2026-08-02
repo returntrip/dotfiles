@@ -9,7 +9,6 @@
 .local/bin/pactl
 .local/bin/playerctl
 .local/bin/ranger
-.local/bin/tmux_paned
 .local/bin/upgrd
 .local/bin/imv
 .local/bin/make

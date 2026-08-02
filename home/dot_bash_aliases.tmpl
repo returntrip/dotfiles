@@ -9,7 +9,7 @@ ujust() {
 ## addalias function to add aliases to `.bash_aliases` and source the file
 addalias() {
     printf "alias %s='%s'\n" "$1" "$2" >> ~/.bash_aliases
-    source ~/.bash_profile
+    source ~/.bash_aliases
 }
 
 ## ssh start $SHELL if tmux not found
@@ -17,7 +17,7 @@ ssh () {
     {{- if .isWSL }}
     gpg-connect-agent -q updatestartuptty /bye > /dev/null
     {{- end }}
-    TERM=xterm
+    export TERM=${TERM:-xterm-256color}
     case "$#" in
         0)
             # No arguments, just run ssh
@@ -96,8 +96,8 @@ alias kubectl=kubecolor
 alias oc="env KUBECTL_COMMAND=oc kubecolor"
 {{- end }}
 
-{{- if or (stat (joinPath .brew_bin "exa")) (stat "/usr/bin/exa") }}
-alias tree='exa --tree'
+{{- if or (stat (joinPath .brew_bin "eza")) (stat "/usr/bin/eza") }}
+alias tree='eza --tree'
 {{- end }}
 
 {{- if stat "/usr/bin/terraform" }}

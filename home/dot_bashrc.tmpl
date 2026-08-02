@@ -36,7 +36,7 @@ fi
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
-# Source aliases and functions
+# Add krew kubectl plugin manager to PATH
 if [[ -d "$HOME"/.krew/bin ]] ; then
     pathmunge "${KREW_ROOT:-$HOME/.krew}/bin" after 
 fi
@@ -130,8 +130,8 @@ fi
 export EDITOR=vim
 export VISUAL=vim
 {{- else }}
-export EDITOR=$(which nvim)
-export VISUAL=$(which nvim)
+export EDITOR=$(command -v nvim || echo vim)
+export VISUAL=$(command -v nvim || echo vim)
 {{- end }}
 export PAGER=less
 
@@ -160,10 +160,11 @@ if type starship &>/dev/null; then
 fi
 {{- end }}
 
-{{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
 # atuin
-eval "$(atuin init bash)"
-eval "$(atuin hex init)"
-# ble.sh
+if type atuin &>/dev/null; then
+    eval "$(atuin init bash)"
+fi
+{{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
+# ble.sh (must be last)
 [[ ${BLE_VERSION-} ]] && ble-attach
 {{- end }}
