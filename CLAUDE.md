@@ -9,8 +9,7 @@
 
 ## TODO
 
-- **macOS shell**: decide between adapting bash configs for zsh vs switching to zsh globally. For now bash-only files (`.bashrc`, `.bash_aliases`, `.bash_profile`, `.inputrc`, blesh) are excluded from macOS because it uses zsh.
+- **macOS shell**: decided — macOS uses zsh with `dot_zshrc.tmpl` (cross-shell bits: aliases, addalias, EDITOR, atuin, mise, starship, secretsload). bash-only files (`.bashrc`, `.bash_aliases`, `.bash_profile`, `.inputrc`, blesh) stay excluded from macOS. Remaining: verify the zshrc on real hardware.
 - **zed**: needs per-profile config (work vs personal, macOS variant). Currently only ships to personal Linux.
 - **nono**: work-machine variants needed. Currently excluded from the work profile entirely.
-- **krew-install-packages.sh**: runs on macOS too — confirm whether macOS needs krew plugins, or gate it to Linux.
 - **Remove `.chezmoiremove`**: once every machine (t490s, rauros, W5CG2241T4, any Mac) has pulled and run `chezmoi apply`, the stale targets are gone and `.chezmoiremove` becomes a no-op — safe to delete in a follow-up commit.

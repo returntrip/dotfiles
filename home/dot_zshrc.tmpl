@@ -1,0 +1,42 @@
+# .zshrc — macOS shell core (installed only on macOS)
+
+# PATH
+typeset -U path
+path=(~/.local/bin ~/bin $path)
+
+# Homebrew
+if [[ -f {{ .brew_bin }}/brew ]]; then
+    eval "$({{ .brew_bin }}/brew shellenv)"
+fi
+
+# Shell-agnostic aliases, exports, and secrets load (shared with .bash_aliases)
+{{ template "shell-common" . }}
+
+## Add an alias, writing to the chezmoi source if we're managed.
+addalias() {
+    if [[ $# -ne 2 ]]; then
+        echo "usage: addalias <name> <value>"
+        return 1
+    fi
+    if type chezmoi &>/dev/null && chezmoi source-path ~/.zshrc &>/dev/null; then
+        printf "alias %s='%s'\n" "$1" "$2" >> "$(chezmoi source-path ~/.zshrc)"
+    else
+        printf "alias %s='%s'\n" "$1" "$2" >> ~/.zshrc
+    fi
+    source ~/.zshrc
+}
+
+# mise
+if type mise &>/dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
+# atuin
+if type atuin &>/dev/null; then
+    eval "$(atuin init zsh)"
+fi
+
+# starship
+if type starship &>/dev/null; then
+    eval "$(starship init zsh)"
+fi

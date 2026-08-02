@@ -1,12 +1,21 @@
 {{ if or .isLinux .isMacOS -}}
 #!/bin/bash
 {{ .brew_bin }}/brew bundle --file=/dev/stdin <<EOF
-{{ range .packages.linux.taps -}}
+{{ if .isMacOS -}}
+{{- range .packages.mac.taps -}}
 tap {{ . | quote }}
 {{ end -}}
-{{ range .packages.linux.brews -}}
+{{- range .packages.mac.brews -}}
 brew {{ . | quote }}
 {{ end -}}
+{{- else }}
+{{- range .packages.linux.taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{- range .packages.linux.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{- end }}
 {{ if .isWSL }}
 {{ range .packages.wsl.brews -}}
 brew {{ . | quote }}

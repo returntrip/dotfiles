@@ -1,5 +1,5 @@
 #!/bin/bash
-{{ if .krew.plugins -}}
+{{ if and .isLinux .krew.plugins -}}
 {{ range .krew.plugins -}}
 if [[ ":$PATH:" != *":{{ $.brew_bin }}:"* ]]; then
     source ~/.bashrc &> /dev/null

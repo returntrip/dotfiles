@@ -125,15 +125,11 @@ if type mise &>/dev/null; then
     eval "$(mise activate bash)"
 fi
 
-# Set $EDITOR and $PAGER
+# Set $EDITOR and $PAGER (defaults live in shell-common)
 {{- if eq .chezmoi.hostname "rauros" }}
 export EDITOR=vim
 export VISUAL=vim
-{{- else }}
-export EDITOR=$(command -v nvim || echo vim)
-export VISUAL=$(command -v nvim || echo vim)
 {{- end }}
-export PAGER=less
 
 {{- if not .isBlueX }}
 # Update window size after every command

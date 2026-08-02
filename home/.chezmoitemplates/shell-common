@@ -1,0 +1,46 @@
+# Shared shell config — included by .bash_aliases and .zshrc.
+# Edit here to change something on every shell, then `chezmoi apply`.
+# NOTE: this is a source-only template, there is no target path for it.
+
+# Editor and pager
+export EDITOR=$(command -v nvim || echo vim)
+export VISUAL=$EDITOR
+export PAGER=less
+
+# Coloured `less`
+export LESS=-R
+export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
+export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
+export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
+export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+export GROFF_NO_SGR=1                  # for gnome-terminal
+
+# Coloured `ls`
+{{- if or (stat (joinPath .brew_bin "eza")) (stat "/usr/bin/eza") }}
+alias ls='eza'
+alias tree='eza --tree'
+{{- else if .isMacOS }}
+alias ls='ls -G'
+{{- else }}
+alias ls='ls --color=auto'
+{{- end }}
+
+## Coloured grep/diff, interactive cp/mv/rm
+alias grep='grep --color=auto'
+alias diff='diff --color=auto'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+
+# nvim
+alias vim="nvim"
+
+alias exip='curl -s https://checkip.amazonaws.com'
+
+# Secrets load
+{{- if stat (joinPath .chezmoi.homeDir ".local/bin/secretsload") }}
+source "$HOME/.local/bin/secretsload"
+{{- end }}

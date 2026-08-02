@@ -22,8 +22,8 @@
     defaultBranch = main
 [url "https://github.com/returntrip/dotfiles.git"]
   insteadOf = "git@github.com:returntrip/dotfiles.git"
-#[url "https://github.com/"]
-# insteadOf = "git@github.com:"
+# Keep both pushInsteadOf lines. The identity transform below is load-bearing:
+# removing it silently breaks `git push` (push falls back to https and fails auth).
 [url "git@github.com:"]
   pushInsteadOf = "https://github.com/"
   pushInsteadOf = "git@github.com:"

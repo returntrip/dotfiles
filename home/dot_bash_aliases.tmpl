@@ -6,8 +6,15 @@ ujust() {
 }
 {{- end }}
 
+# Shell-agnostic aliases, exports, and secrets load (shared with .zshrc)
+{{ template "shell-common" . }}
+
 ## Add an alias, writing to the chezmoi source if we're managed.
 addalias() {
+    if [[ $# -ne 2 ]]; then
+        echo "usage: addalias <name> <value>"
+        return 1
+    fi
     if type chezmoi &>/dev/null && chezmoi source-path ~/.bash_aliases &>/dev/null; then
         printf "alias %s='%s'\n" "$1" "$2" >> "$(chezmoi source-path ~/.bash_aliases)"
     else
@@ -34,11 +41,6 @@ ssh () {
     fi
 }
 
-{{- if stat (joinPath .chezmoi.homeDir ".local/bin/secretsload") }}
-## Secrets load
-source "$HOME/.local/bin/secretsload"
-{{- end }}
-
 ## PGP Enc/Dec functions
 secret () {
         output=~/"${1}".$(date +%s).enc
@@ -50,40 +52,8 @@ reveal () {
         gpg --decrypt --output "${output}" "${1}" && echo "${1} -> ${output}"
 }
 
-{{- if or (stat (joinPath .brew_bin "eza")) (stat "/usr/bin/eza") }}
-alias ls='eza'
-alias tree='eza --tree'
-{{- else }}
-alias ls='ls --color=auto'
-{{- end }}
-
-## Coloured `less`
-export LESS=-R
-export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
-export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
-export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
-export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
-export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
-export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
-export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
-export GROFF_NO_SGR=1                  # for gnome-terminal
-
-## Coloured `grep`
-alias grep='grep --color=auto'
-
-## Interactive cp, mv and rm commands
-alias cp='cp -i'
-alias mv='mv -i'
-alias rm='rm -i'
-
-## Coloured diff
-alias diff='diff --color=auto'
-
 ## Coloured `dmesg`
 alias dmesg='dmesg --color=always'
-
-# nvim
-alias vim="nvim"
 
 {{- if stat (joinPath .brew_bin "kubecolor") }}
 alias kubectl=kubecolor
@@ -98,5 +68,3 @@ complete -C /usr/bin/terraform terraform
 {{- if eq .chezmoi.hostname "rauros" }}
 alias codium='toolbox run --container vscode bash -l -c codium'
 {{- end }}
-
-alias exip='curl -s https://checkip.amazonaws.com'

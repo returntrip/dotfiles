@@ -21,11 +21,13 @@ if [ ! -d "$HOME/ble.sh" ]; then
 fi
 {{- end }}
 
+{{- if .isLinux }}
 ## Install kubectl and krew
 if ! command -v kubectl &> /dev/null || ! command -v krew &> /dev/null; then
   export PATH=$PATH:{{ .brew_bin }}
   {{ .brew_bin }}/brew install kubernetes-cli krew
 fi
+{{- end }}
 
 ## Install bws via mise
 if ! command -v mise &> /dev/null; then

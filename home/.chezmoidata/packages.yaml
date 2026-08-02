@@ -45,6 +45,32 @@ packages:
     - 'yq'
     - 'yt-dlp'
     - 'zellij'
+  mac:
+    taps: []
+    brews:
+    - 'age'
+    - 'atuin'
+    - 'bat'
+    - 'bitwarden-cli'
+    - 'chezmoi'
+    - 'difftastic'
+    - 'direnv'
+    - 'eza'
+    - 'fd'
+    - 'gh'
+    - 'jq'
+    - 'mise'
+    - 'neovim'
+    - 'ntfy'
+    - 'ripgrep'
+    - 'shellcheck'
+    - 'sops'
+    - 'tealdeer'
+    - 'tmux'
+    - 'topgrade'
+    - 'yq'
+    - 'yt-dlp'
+    - 'zellij'
   wsl:
     brews:
     - 'starship'

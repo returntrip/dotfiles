@@ -27,6 +27,7 @@
 !.local/bin/vmtft
 !.local/bin/vmbearer
 !.local/bin/vim
+!.local/bin/secretsload
 .local/share/
 .mozilla/
 .var/
@@ -34,6 +35,9 @@
 .config/libvirt/
 .config/nono/
 .config/systemd/
+{{- end }}
+{{- if not .isMacOS }}
+.zshrc
 {{- end }}
 {{- if .work }}
 .config/nono/
