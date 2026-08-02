@@ -18,30 +18,16 @@ ssh () {
     gpg-connect-agent -q updatestartuptty /bye > /dev/null
     {{- end }}
     export TERM=${TERM:-xterm-256color}
-    case "$#" in
-        0)
-            # No arguments, just run ssh
-            command ssh
-            ;;
-        1)
-            if [[ ! "$1" =~ ^- ]]; then
-                # One argument and it's not an option
-                command ssh -t "$1" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
-            else
-                # One argument and it's an option
-                command ssh "$@"
-            fi
-            ;;
-        *)
-            if [[ "$2" =~ ^[^-] ]]; then
-                # More than one argument and second argument is not an option
-                command ssh -t "$@" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
-            else
-                # Default case
-                command ssh "$@"
-            fi
-            ;;
-    esac
+    # Only inject tmux for interactive sessions without -T (no pty) flag
+    local inject_tmux=true
+    for arg in "$@"; do
+        [[ "$arg" == "-T" ]] && inject_tmux=false
+    done
+    if $inject_tmux && [ $# -eq 1 ] && [[ ! "$1" =~ ^- ]]; then
+        command ssh -t "$1" -- 'tmux -u new -A -D -s 0 2>/dev/null || "$SHELL"'
+    else
+        command ssh "$@"
+    fi
 }
 
 {{- if stat (joinPath .chezmoi.homeDir ".local/bin/secretsload") }}
@@ -76,7 +62,7 @@ export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
 export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
-export GROFF_NO_SGR=1                  # for gnome-terminal 
+export GROFF_NO_SGR=1                  # for gnome-terminal
 
 ## Coloured `grep`
 alias grep='grep --color=auto'
