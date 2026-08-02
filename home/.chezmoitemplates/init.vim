@@ -7,20 +7,21 @@ Plug 'preservim/vim-markdown'
 Plug 'hashivim/vim-terraform'
 Plug 'dense-analysis/ale'
 Plug 'alker0/chezmoi.vim'
+{{- if .isLinux }}
 Plug 'ratfactor/vviki'
+{{- end }}
 Plug 'habamax/vim-asciidoctor'
-{{- if eq .chezmoi.os "linux" }}
-{{-  if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{- if and .isLinux (not .isWSL) }}
 "" Plug 'Exafunction/codeium.vim', { 'branch': 'main' } " Disable for now
-{{-  end }}
 {{- end }}
 call plug#end()
+{{- if .isLinux }}
+{{-  if not .isWSL }}
 "" vviki
-{{- if eq .chezmoi.os "linux" }}
-{{-  if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 nnoremap <leader>ww :e ~/Nextcloud/wiki/index.adoc<cr>
 let g:vviki_root = "~/Nextcloud/wiki"
 {{-  else }}
+"" vviki
 nnoremap <leader>ww :e ~/wiki/index.adoc<cr>
 let g:vviki_root = "~/wiki"
 {{-  end }}

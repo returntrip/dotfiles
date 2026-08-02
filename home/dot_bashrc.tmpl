@@ -116,7 +116,7 @@ CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi
 
 {{- if .personal }}
 # Oracle CLI
-[[ -e "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh" ]] && source "/var/home/returntrip/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh"
+[[ -e "{{ .chezmoi.homeDir }}/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh" ]] && source "{{ .chezmoi.homeDir }}/lib/oracle-cli/lib/python3.10/site-packages/oci_cli/bin/oci_autocomplete.sh"
 
 {{- end }}
 

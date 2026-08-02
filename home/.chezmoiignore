@@ -18,6 +18,7 @@
 .bash_aliases
 .bash_profile
 .bashrc
+.gtk-bookmarks
 .inputrc
 .config/blesh/
 .local/bin/**
