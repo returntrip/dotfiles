@@ -1,0 +1,15 @@
+# Targets removed from the source state; chezmoi deletes any stale copies on apply.
+# https://www.chezmoi.io/user-guide/manage-different-types-of-file/#ensure-that-a-target-is-removed
+.local/bin/toolbox-base-runner
+.local/bin/toolbox-devenv-runner
+.local/bin/dnf
+.local/bin/mpv
+.local/bin/pactl
+.local/bin/playerctl
+.local/bin/ranger
+.local/bin/tmux_paned
+.local/bin/upgrd
+.local/toolbox
+.config/mpv/mpv.conf
+.config/zellij/config.kdl.bak
+.var/app/io.neovim.nvim/config/nvim/init.vim
