@@ -3,14 +3,14 @@
 {{ .brew_bin }}/brew bundle --file=/dev/stdin <<EOF
 {{ if .isMacOS -}}
 {{- range .packages.mac.taps -}}
-tap {{ . | quote }}
+tap {{ . | quote }}, trusted: true
 {{ end -}}
 {{- range .packages.mac.brews -}}
 brew {{ . | quote }}
 {{ end -}}
 {{- else }}
 {{- range .packages.linux.taps -}}
-tap {{ . | quote }}
+tap {{ . | quote }}, trusted: true
 {{ end -}}
 {{- range .packages.linux.brews -}}
 brew {{ . | quote }}
@@ -18,7 +18,7 @@ brew {{ . | quote }}
 {{- end }}
 {{- if .work }}
 {{- range .packages.work.taps -}}
-tap {{ . | quote }}
+tap {{ . | quote }}, trusted: true
 {{ end -}}
 {{- range .packages.work.brews -}}
 brew {{ . | quote }}
