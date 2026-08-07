@@ -68,6 +68,7 @@ packages:
     - 'ripgrep'
     - 'shellcheck'
     - 'sops'
+    - 'starship'
     - 'tealdeer'
     - 'tmux'
     - 'topgrade'

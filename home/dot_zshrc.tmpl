@@ -20,6 +20,7 @@ addalias() {
     fi
     if type chezmoi &>/dev/null && chezmoi source-path ~/.zshrc &>/dev/null; then
         printf "alias %s='%s'\n" "$1" "$2" >> "$(chezmoi source-path ~/.zshrc)"
+        chezmoi apply ~/.zshrc
     else
         printf "alias %s='%s'\n" "$1" "$2" >> ~/.zshrc
     fi

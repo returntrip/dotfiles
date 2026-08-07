@@ -17,6 +17,7 @@ addalias() {
     fi
     if type chezmoi &>/dev/null && chezmoi source-path ~/.bash_aliases &>/dev/null; then
         printf "alias %s='%s'\n" "$1" "$2" >> "$(chezmoi source-path ~/.bash_aliases)"
+        chezmoi apply ~/.bash_aliases
     else
         printf "alias %s='%s'\n" "$1" "$2" >> ~/.bash_aliases
     fi
