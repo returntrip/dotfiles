@@ -1,0 +1,151 @@
+{{- /* zed-core: shared Zed settings, included by the Linux flatpak wrapper
+       (.var/app/.../settings.json) and the macOS wrapper (Library/Application
+       Support/Zed/settings.json). bws secret calls are resolved at apply time. */ -}}
+{{- $repoPriv := printf "%s/repos/private" .chezmoi.homeDir -}}
+{{- $repoPub  := printf "%s/repos/public" .chezmoi.homeDir -}}
+{
+  "cli_default_open_behavior": "existing_window",
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry",
+      "env": {
+        "CLAUDE_CODE_EXECUTABLE": "{{ .brew_bin }}/claude"
+      }
+    }
+    {{- if and .personal (not .isWSL) (not .isMacOS) }},
+    "[Claude] (nono)": {
+      "type": "custom",
+      {{- if .isBlueX }}
+      "command": "flatpak-spawn",
+      "args": [
+        "--host",
+        "--env=PATH={{ .brew_bin }}:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=CLAUDE_CODE_TMPDIR=/tmp/claude-{{ .chezmoi.uid }}",
+        "--env=PRE_COMMIT_HOME=/tmp/claude-{{ .chezmoi.uid }}/pre-commit-cache",
+        "--env=CLAUDE_CODE_OAUTH_TOKEN={{ (bitwardenSecrets "91fa7002-b486-4d81-80cc-b47e01545eb6" .accessToken).value }}",
+        "--env=FORGEJO_TOKEN={{ (bitwardenSecrets "da40f921-7da0-41e2-9f04-b49000e03a57" .accessToken).value }}",
+        "{{ .brew_bin }}/nono",
+        "run",
+        "--profile", "{{ .chezmoi.homeDir }}/.config/nono/profiles/claude-acp.json",
+        "--startup-timeout", "0",
+        "--allow", "{{ $repoPriv }}",
+        "--allow", "{{ $repoPub }}",
+        "--",
+        "{{ .brew_bin }}/claude-agent-acp"
+      ]
+      {{- else }}
+      "command": "{{ .brew_bin }}/nono",
+      "args": [
+        "run",
+        "--profile", "{{ .chezmoi.homeDir }}/.config/nono/profiles/claude-acp.json",
+        "--startup-timeout", "0",
+        "--allow", "{{ $repoPriv }}",
+        "--allow", "{{ $repoPub }}",
+        "--",
+        "{{ .brew_bin }}/claude-agent-acp"
+      ]
+      {{- end }}
+    },
+    "[DeepSeek — Public only] (nono)": {
+      "type": "custom",
+      "default_config_options": {
+        "model": "sonnet[1m]"
+      },
+      {{- if .isBlueX }}
+      "command": "flatpak-spawn",
+      "args": [
+        "--host",
+        "--env=PATH={{ .brew_bin }}:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
+        "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
+        "--env=ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder",
+        "--env=DEEPSEEK_REAL_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
+        "--env=CLAUDE_CONFIG_DIR={{ .chezmoi.homeDir }}/.claude-deepseek",
+        "--env=CLAUDE_CODE_TMPDIR=/tmp/deepseek-tmp",
+        "{{ .brew_bin }}/nono",
+        "run",
+        "--profile", "{{ .chezmoi.homeDir }}/.config/nono/profiles/deepseek-acp.json",
+        "--startup-timeout", "0",
+        "--allow", "{{ $repoPub }}",
+        "--",
+        "{{ .brew_bin }}/claude-agent-acp"
+      ]
+      {{- else }}
+      "command": "{{ .brew_bin }}/nono",
+      "args": [
+        "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
+        "--env=ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder",
+        "--env=DEEPSEEK_REAL_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
+        "--env=CLAUDE_CONFIG_DIR={{ .chezmoi.homeDir }}/.claude-deepseek",
+        "--env=CLAUDE_CODE_TMPDIR=/tmp/deepseek-tmp",
+        "run",
+        "--profile", "{{ .chezmoi.homeDir }}/.config/nono/profiles/deepseek-acp.json",
+        "--startup-timeout", "0",
+        "--allow", "{{ $repoPub }}",
+        "--",
+        "{{ .brew_bin }}/claude-agent-acp"
+      ]
+      {{- end }}
+    }
+    {{- end }}
+  },
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "agent": {
+    "profiles": {
+    },
+    "dock": "left",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "session": {
+    "restore_unsaved_buffers": true
+  },
+  "autosave": "on_focus_change",
+  {{- if .personal }}
+  "ssh_connections": [
+    {
+      "host": "archdemon.figura.io",
+      "username": "returntrip",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/returntrip"]
+        },
+        {
+          "paths": ["/home/ubuntu"]
+        }
+      ]
+    },
+    {
+      "host": "se-container01",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/ubuntu"]
+        },
+        {
+          "paths": ["/home/ubuntu/docker/./"]
+        }
+      ]
+    }
+  ],
+  {{- end }}
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 18.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  }
+}

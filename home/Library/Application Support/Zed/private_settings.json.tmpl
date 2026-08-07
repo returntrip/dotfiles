@@ -1,0 +1,9 @@
+// Zed settings (macOS wrapper)
+//
+// Zed on macOS reads ~/Library/Application Support/Zed/settings.json.
+// Content is shared with the Linux flatpak wrapper via zed-core; only
+// the launcher and target path differ per platform.
+//
+// CHEZMOI TEMPLATE: bws secret values resolved at `chezmoi apply` time.
+// Requires .accessToken in chezmoi.toml's [data] section.
+{{ template "zed-core" . }}

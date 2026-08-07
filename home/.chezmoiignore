@@ -38,6 +38,7 @@
 {{- end }}
 {{- if not .isMacOS }}
 .zshrc
+Library/
 {{- end }}
 {{- if .work }}
 .config/nono/
