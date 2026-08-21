@@ -43,4 +43,4 @@ alias exip='curl -s https://checkip.amazonaws.com'
 # Secrets load
 {{- if stat (joinPath .chezmoi.homeDir ".local/bin/secretsload") }}
 source "$HOME/.local/bin/secretsload"
-{{- end }}
+{{- end -}}
