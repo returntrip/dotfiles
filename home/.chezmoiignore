@@ -10,16 +10,19 @@
 .mozilla/
 .var/
 {{- end }}
+
 {{- if and .isLinux (ne .chezmoi.hostname "rauros") }}
 .local/share/flatpak/overrides/com.valvesoftware.Steam
 .config/gtk-3.0/
 {{- end }}
+
 {{- if .isMacOS }}
 .bash_aliases
 .bash_profile
 .bashrc
 .gtk-bookmarks
 .inputrc
+.ssh/config
 .config/blesh/
 .local/bin/**
 !.local/bin
@@ -36,19 +39,24 @@
 .config/nono/
 .config/systemd/
 {{- end }}
+
 {{- if not .isMacOS }}
 .zshrc
 Library/
 {{- end }}
+
 {{- if .work }}
 .config/nono/
 {{- end }}
+
 {{- if not .isBlueX }}
 .justfile
 {{- end }}
+
 {{- if and .isLinux (not .isWSL) }}
 .config/systemd/
 {{- end }}
+
 .local/bin/yka
 .local/bin/vmtft
 .local/bin/vmbearer
