@@ -12,6 +12,7 @@
 // keys are never committed to git. Requires .accessToken set in
 // chezmoi.toml's [data] section.
 //
-// This is the Linux (flatpak) wrapper. The macOS variant lives at
+// This is the Linux (flatpak) wrapper. The native Linux variant lives at
+// dot_config/zed/private_settings.json.tmpl; the macOS variant at
 // Library/Application Support/Zed/settings.json.tmpl.
-{{ template "zed-core" . }}
+{{ template "zed-core" (merge (dict "zed_install" "flatpak") .) }}

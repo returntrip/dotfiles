@@ -6,4 +6,4 @@
 //
 // CHEZMOI TEMPLATE: bws secret values resolved at `chezmoi apply` time.
 // Requires .accessToken in chezmoi.toml's [data] section.
-{{ template "zed-core" . }}
+{{ template "zed-core" (merge (dict "zed_install" "native") .) }}

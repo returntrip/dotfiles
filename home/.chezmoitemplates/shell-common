@@ -38,6 +38,11 @@ alias rm='rm -i'
 # nvim
 alias vim="nvim"
 
+# zed editor (not the ZFS `zed` daemon)
+{{- if or (lookPath "zed") (lookPath "zed-editor") (stat (joinPath .brew_bin "zed")) }}
+alias zed='{{ .brew_bin }}/zed'
+{{- end }}
+
 alias exip='curl -s https://checkip.amazonaws.com'
 
 # Secrets load

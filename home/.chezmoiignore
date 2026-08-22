@@ -1,3 +1,5 @@
+{{- $nativeZed  := or (lookPath "zed") (lookPath "zed-editor") -}}
+{{- $flatpakZed := stat "/var/lib/flatpak/exports/bin/dev.zed.Zed" -}}
 {{- if .isWSL }}
 .gtk-bookmarks
 .local/bin/**
@@ -9,6 +11,7 @@
 .local/share/
 .mozilla/
 .var/
+.config/zed/
 {{- end }}
 
 {{- if and .isLinux (ne .chezmoi.hostname "rauros") }}
@@ -38,11 +41,19 @@
 .config/libvirt/
 .config/nono/
 .config/systemd/
+.config/zed/
 {{- end }}
 
 {{- if not .isMacOS }}
 .zshrc
 Library/
+{{- end }}
+
+{{- if not $nativeZed }}
+.config/zed/
+{{- end }}
+{{- if not $flatpakZed }}
+.var/app/dev.zed.Zed/
 {{- end }}
 
 {{- if .work }}
