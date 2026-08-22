@@ -76,19 +76,10 @@
         "{{ .brew_bin }}/claude-agent-acp"
       ]
       {{- else }}
-      "command": "{{ .brew_bin }}/nono",
+      "command": "/bin/bash",
       "args": [
-        "--env=ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic",
-        "--env=ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder",
-        "--env=DEEPSEEK_REAL_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }}",
-        "--env=CLAUDE_CONFIG_DIR={{ .chezmoi.homeDir }}/.claude-deepseek",
-        "--env=CLAUDE_CODE_TMPDIR=/tmp/deepseek-tmp",
-        "run",
-        "--profile", "{{ .chezmoi.homeDir }}/.config/nono/profiles/deepseek-acp.json",
-        "--startup-timeout", "0",
-        "--allow", "{{ $repoPub }}",
-        "--",
-        "{{ .brew_bin }}/claude-agent-acp"
+        "-c",
+        "export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder DEEPSEEK_REAL_KEY={{ (bitwardenSecrets "a3b58c8d-453b-4d34-a39a-b47e014031af" .accessToken).value }} CLAUDE_CONFIG_DIR={{ .chezmoi.homeDir }}/.claude-deepseek CLAUDE_CODE_TMPDIR=/tmp/deepseek-tmp; exec {{ .brew_bin }}/nono run --profile {{ .chezmoi.homeDir }}/.config/nono/profiles/deepseek-acp.json --startup-timeout 0 --allow {{ $repoPub }} -- {{ .brew_bin }}/claude-agent-acp"
       ]
       {{- end }}
     }
