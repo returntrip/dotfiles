@@ -19,12 +19,18 @@
 - Secrets are bws-referenced at apply time: the repo only contains bws secret
   IDs, never values. Values materialize at `chezmoi apply` via bitwardenSecrets.
 - settings.json is 0600 (private_).
-- KNOWN residual exposure: the bws tokens (CLAUDE_CODE_OAUTH_TOKEN,
-  DEEPSEEK_REAL_KEY, FORGEJO_TOKEN) are inherited into the `claude` process
-  env, and a same-uid process can read them via /proc/<pid>/environ. They are
-  NOT in the cmdline (ps) — nono's own env is masked, but the claude
-  grandchild is not. Planned hardening: `nono run --env-credential` +
-  `--env-credential-map` to load from nono keystore instead of env.
+- FORGEJO_TOKEN: now held only by nono's proxy (custom_credentials.forgejo
+  injects `Authorization: Bearer` on egress). Its source is
+  `file://~/.config/nono/secrets/forgejo` (0600, bws-rendered), so it is no
+  longer exported to the child — removed from the cross-agent surface.
+- KNOWN residual exposure: CLAUDE_CODE_OAUTH_TOKEN and DEEPSEEK_REAL_KEY are
+  read directly by claude-agent-acp, so they must be in the child env; a
+  same-uid process (or the *other* agent's sandbox) can read them via
+  /proc/<pid>/environ. nono's phantom-token mechanism (credential_providers,
+  type oauth_capture) only covers OAuth *login* flows, not pre-provisioned
+  static tokens, so it does not close this. See "Known nono issue" and the
+  open question of whether custom_credentials header-override can replace a
+  static token the SDK reads directly.
 
 ## Known nono issue (v0.74.0)
 

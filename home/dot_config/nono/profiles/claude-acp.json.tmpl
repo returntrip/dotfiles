@@ -41,7 +41,7 @@
     "custom_credentials": {
       "forgejo": {
         "upstream": "https://git.figura.io",
-        "credential_key": "env://FORGEJO_TOKEN",
+        "credential_key": "file://{{ .chezmoi.homeDir }}/.config/nono/secrets/forgejo",
         "inject_header": "Authorization",
         "credential_format": "Bearer {}"
       }
