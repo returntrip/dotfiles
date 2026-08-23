@@ -40,15 +40,10 @@
         "{{ .brew_bin }}/claude-agent-acp"
       ]
       {{- else }}
-      "command": "{{ .brew_bin }}/nono",
+      "command": "/bin/bash",
       "args": [
-        "run",
-        "--profile", "{{ .chezmoi.homeDir }}/.config/nono/profiles/claude-acp.json",
-        "--startup-timeout", "0",
-        "--allow", "{{ $repoPriv }}",
-        "--allow", "{{ $repoPub }}",
-        "--",
-        "{{ .brew_bin }}/claude-agent-acp"
+        "-c",
+        "export CLAUDE_CODE_TMPDIR=/tmp/claude-{{ .chezmoi.uid }} PRE_COMMIT_HOME=/tmp/claude-{{ .chezmoi.uid }}/pre-commit-cache CLAUDE_CODE_OAUTH_TOKEN={{ (bitwardenSecrets "91fa7002-b486-4d81-80cc-b47e01545eb6" .accessToken).value }} FORGEJO_TOKEN={{ (bitwardenSecrets "da40f921-7da0-41e2-9f04-b49000e03a57" .accessToken).value }}; exec {{ .brew_bin }}/nono run --profile {{ .chezmoi.homeDir }}/.config/nono/profiles/claude-acp.json --startup-timeout 0 --allow {{ $repoPriv }} --allow {{ $repoPub }} -- {{ .brew_bin }}/claude-agent-acp"
       ]
       {{- end }}
     },
