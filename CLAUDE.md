@@ -19,18 +19,21 @@
 - Secrets are bws-referenced at apply time: the repo only contains bws secret
   IDs, never values. Values materialize at `chezmoi apply` via bitwardenSecrets.
 - settings.json is 0600 (private_).
-- FORGEJO_TOKEN: now held only by nono's proxy (custom_credentials.forgejo
-  injects `Authorization: Bearer` on egress). Its source is
-  `file://~/.config/nono/secrets/forgejo` (0600, bws-rendered), so it is no
-  longer exported to the child — removed from the cross-agent surface.
-- KNOWN residual exposure: CLAUDE_CODE_OAUTH_TOKEN and DEEPSEEK_REAL_KEY are
-  read directly by claude-agent-acp, so they must be in the child env; a
-  same-uid process (or the *other* agent's sandbox) can read them via
-  /proc/<pid>/environ. nono's phantom-token mechanism (credential_providers,
-  type oauth_capture) only covers OAuth *login* flows, not pre-provisioned
-  static tokens, so it does not close this. See "Known nono issue" and the
-  open question of whether custom_credentials header-override can replace a
-  static token the SDK reads directly.
+- FORGEJO_TOKEN and DEEPSEEK_REAL_KEY: held only by nono's proxy
+  (custom_credentials injects `Authorization: Bearer` on egress). Their
+  source is `file://~/.config/nono/secrets/{forgejo,deepseek}` (0600,
+  bws-rendered), so they are no longer exported to the child — removed from
+  the cross-agent surface. The DeepSeek SDK already relies on a placeholder
+  (ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder) + proxy injection.
+- KNOWN residual exposure: CLAUDE_CODE_OAUTH_TOKEN is read directly by
+  claude-agent-acp, so it must be in the child env; a same-uid process (or
+  the *other* agent's sandbox) can read it via /proc/<pid>/environ. Plan: the
+  same proxy pattern (placeholder in the env + a claude_oauth
+  custom_credential injecting `Authorization: Bearer` on egress to
+  api.anthropic.com). Verified that inject_header replaces on egress, and the
+  DeepSeek agent already proves a placeholder is tolerated; the remaining
+  unknown is whether Claude Code rejects a non-sk-ant-oat placeholder at
+  startup (needs a host test).
 
 ## Known nono issue (v0.74.0)
 
