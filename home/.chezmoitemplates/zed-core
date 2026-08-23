@@ -8,13 +8,10 @@
 {
   "cli_default_open_behavior": "existing_window",
   "agent_servers": {
-    "claude-acp": {
-      "type": "registry",
-      "env": {
-        "CLAUDE_CODE_EXECUTABLE": "{{ .brew_bin }}/claude"
-      }
-    }
-    {{- if and .personal (not .isWSL) (not .isMacOS) }},
+    {{- /* No unsandboxed registry agent (claude-acp). Every agent runs through
+           nono so nothing has unsandboxed access to the machine. See commit
+           b46614b for the removed claude-acp block if it's ever needed. */ -}}
+    {{- if and .personal (not .isWSL) (not .isMacOS) }}
     "[Claude] (nono)": {
       "type": "custom",
       "default_config_options": {
