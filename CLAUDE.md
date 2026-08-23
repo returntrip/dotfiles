@@ -11,6 +11,30 @@
 
 - **macOS shell**: decided — macOS uses zsh with `dot_zshrc.tmpl` (cross-shell bits: aliases, addalias, EDITOR, atuin, mise, starship, secretsload). bash-only files (`.bashrc`, `.bash_aliases`, `.bash_profile`, `.inputrc`, blesh) stay excluded from macOS. Near term: verify the zshrc on a real Mac. Longer term: port the Linux side (`.bashrc` + `.bash_aliases`) to zsh so it's zsh everywhere — `shell-common` is already shared and mostly shell-agnostic, easing that port; then fold it into a single `zshrc` and drop the bash files. Chose zsh over fish (non-POSIX).
 - **nono**: work-machine variants needed. Currently excluded from the work profile entirely.
+
+## Security model (Zed agents)
+
+- Every Zed agent runs through nono (no unsandboxed agent). Claude + DeepSeek
+  both use nono profiles; the old claude-acp registry agent was removed.
+- Secrets are bws-referenced at apply time: the repo only contains bws secret
+  IDs, never values. Values materialize at `chezmoi apply` via bitwardenSecrets.
+- settings.json is 0600 (private_).
+- KNOWN residual exposure: the bws tokens (CLAUDE_CODE_OAUTH_TOKEN,
+  DEEPSEEK_REAL_KEY, FORGEJO_TOKEN) are inherited into the `claude` process
+  env, and a same-uid process can read them via /proc/<pid>/environ. They are
+  NOT in the cmdline (ps) — nono's own env is masked, but the claude
+  grandchild is not. Planned hardening: `nono run --env-credential` +
+  `--env-credential-map` to load from nono keystore instead of env.
+
+## Known nono issue (v0.74.0)
+
+- A bare `nono run --profile ...` from an interactive shell fails with
+  "Landlock deny-overlap": 48 default denies (e.g. ~/.1password, ~/.aws,
+  ~/.bash_history) under linux-host-compat conflict with the implicit home
+  mount. Agents launched by Zed work (different env context). Appears to be a
+  nono v0.74.0 regression, not a dotfiles issue. Blocks testing
+  --env-credential from the shell.
+
 ## Template safety rule (empty-render hazard)
 
 A template that can render empty on some profile will **overwrite an existing
