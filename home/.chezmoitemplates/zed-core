@@ -25,7 +25,7 @@
         "--env=PATH={{ .brew_bin }}:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin",
         "--env=CLAUDE_CODE_TMPDIR=/tmp/claude-{{ .chezmoi.uid }}",
         "--env=PRE_COMMIT_HOME=/tmp/claude-{{ .chezmoi.uid }}/pre-commit-cache",
-        "--env=CLAUDE_CODE_OAUTH_TOKEN={{ (bitwardenSecrets "91fa7002-b486-4d81-80cc-b47e01545eb6" .accessToken).value }}",
+        "--env=CLAUDE_CODE_OAUTH_TOKEN=nono-phantom-placeholder",
         "{{ .brew_bin }}/nono",
         "run",
         "--profile", "{{ .chezmoi.homeDir }}/.config/nono/profiles/claude-acp.json",
@@ -39,7 +39,7 @@
       "command": "/bin/bash",
       "args": [
         "-c",
-        "export CLAUDE_CODE_TMPDIR=/tmp/claude-{{ .chezmoi.uid }} PRE_COMMIT_HOME=/tmp/claude-{{ .chezmoi.uid }}/pre-commit-cache CLAUDE_CODE_OAUTH_TOKEN={{ (bitwardenSecrets "91fa7002-b486-4d81-80cc-b47e01545eb6" .accessToken).value }}; exec {{ .brew_bin }}/nono run --profile {{ .chezmoi.homeDir }}/.config/nono/profiles/claude-acp.json --startup-timeout 0 --allow {{ $repoPriv }} --allow {{ $repoPub }} -- {{ .brew_bin }}/claude-agent-acp"
+        "export CLAUDE_CODE_TMPDIR=/tmp/claude-{{ .chezmoi.uid }} PRE_COMMIT_HOME=/tmp/claude-{{ .chezmoi.uid }}/pre-commit-cache CLAUDE_CODE_OAUTH_TOKEN=nono-phantom-placeholder; exec {{ .brew_bin }}/nono run --profile {{ .chezmoi.homeDir }}/.config/nono/profiles/claude-acp.json --startup-timeout 0 --allow {{ $repoPriv }} --allow {{ $repoPub }} -- {{ .brew_bin }}/claude-agent-acp"
       ]
       {{- end }}
     },
