@@ -42,12 +42,14 @@
       "forgejo": {
         "upstream": "https://git.figura.io",
         "credential_key": "file://{{ .chezmoi.homeDir }}/.config/nono/secrets/forgejo",
+        "env_var": "FORGEJO_TOKEN",
         "inject_header": "Authorization",
         "credential_format": "Bearer {}"
       },
       "claude_oauth": {
         "upstream": "https://api.anthropic.com",
         "credential_key": "file://{{ .chezmoi.homeDir }}/.config/nono/secrets/claude-oauth",
+        "env_var": "CLAUDE_CODE_OAUTH_TOKEN",
         "inject_header": "Authorization",
         "credential_format": "Bearer {}"
       }

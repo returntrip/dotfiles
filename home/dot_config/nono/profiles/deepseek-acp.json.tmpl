@@ -27,6 +27,7 @@
       "deepseek": {
         "upstream": "https://api.deepseek.com",
         "credential_key": "file://{{ .chezmoi.homeDir }}/.config/nono/secrets/deepseek",
+        "env_var": "DEEPSEEK_REAL_KEY",
         "inject_mode": "header",
         "inject_header": "Authorization",
         "credential_format": "Bearer {}"
