@@ -19,21 +19,19 @@
 - Secrets are bws-referenced at apply time: the repo only contains bws secret
   IDs, never values. Values materialize at `chezmoi apply` via bitwardenSecrets.
 - settings.json is 0600 (private_).
-- FORGEJO_TOKEN and DEEPSEEK_REAL_KEY: held only by nono's proxy
-  (custom_credentials injects `Authorization: Bearer` on egress). Their
-  source is `file://~/.config/nono/secrets/{forgejo,deepseek}` (0600,
-  bws-rendered), so they are no longer exported to the child — removed from
-  the cross-agent surface. The DeepSeek SDK already relies on a placeholder
-  (ANTHROPIC_AUTH_TOKEN=nono-phantom-placeholder) + proxy injection.
-- KNOWN residual exposure: CLAUDE_CODE_OAUTH_TOKEN is read directly by
-  claude-agent-acp, so it must be in the child env; a same-uid process (or
-  the *other* agent's sandbox) can read it via /proc/<pid>/environ. Plan: the
-  same proxy pattern (placeholder in the env + a claude_oauth
-  custom_credential injecting `Authorization: Bearer` on egress to
-  api.anthropic.com). Verified that inject_header replaces on egress, and the
-  DeepSeek agent already proves a placeholder is tolerated; the remaining
-  unknown is whether Claude Code rejects a non-sk-ant-oat placeholder at
-  startup (needs a host test).
+- Real secrets (FORGEJO_TOKEN, DEEPSEEK_REAL_KEY, CLAUDE_CODE_OAUTH_TOKEN) are
+  rendered into 0600 files under `~/.config/nono/secrets/` by chezmoi, and
+  nono's proxy (custom_credentials) injects them as `Authorization: Bearer`
+  on egress. The agent process env only ever holds a placeholder
+  (nono-phantom-placeholder) or a SHA-256 hash of the secret, never the raw
+  value — so the cross-agent /proc/<pid>/environ leak is closed.
+- The DeepSeek SDK reads the placeholder from ANTHROPIC_AUTH_TOKEN; the proxy
+  swaps in the real key for api.deepseek.com. Claude Code reads
+  CLAUDE_CODE_OAUTH_TOKEN; the claude_oauth proxy credential handles
+  api.anthropic.com.
+- nono requires `env_var` on each file:// custom_credential — that's the
+  variable name the proxy resolves the file secret into; it does not expose
+  the raw value to the child.
 
 ## Known nono issue (v0.74.0)
 

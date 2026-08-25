@@ -3,7 +3,7 @@
   "meta": {
     "name": "claude-acp",
     "version": "1.2.1",
-    "description": "Claude Code tier: read-only ~/.claude (auth via static CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle). Own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR. Network + filesystem policy live here; settings.json.tmpl supplies repo paths and credential only. Used for both private and public repos - same trust level either way (your subscription, your main model)."
+    "description": "Claude Code tier: read-only ~/.claude (auth via CLAUDE_CODE_OAUTH_TOKEN, no refresh cycle). Own /tmp/claude-1000 root via CLAUDE_CODE_TMPDIR. Real OAuth token is resolved by nono's proxy from file://~/.config/nono/secrets/claude-oauth and injected as Authorization: Bearer on egress to api.anthropic.com; the agent env only holds nono-phantom-placeholder. Network + filesystem policy live here; settings.json.tmpl supplies repo paths and credential only. Used for both private and public repos - same trust level either way (your subscription, your main model)."
   },
   "groups": {
     "include": [

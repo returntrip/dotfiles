@@ -3,7 +3,7 @@
   "meta": {
     "name": "deepseek-acp",
     "version": "2.1.0",
-    "description": "DeepSeek tier: extends base-acp only. No access to real $HOME/.claude - session/project state relocated to $HOME/.claude-deepseek via CLAUDE_CONFIG_DIR. Own /tmp/deepseek-tmp root via CLAUDE_CODE_TMPDIR. Credential injected via nono's phantom-token proxy - agent only ever sees a placeholder value; real key lives only in nono's own credential resolution via DEEPSEEK_REAL_KEY, never in the agent's environment. Network + credential policy now both live here; settings.json.tmpl only supplies the repo path."
+    "description": "DeepSeek tier: extends base-acp only. No access to real $HOME/.claude - session/project state relocated to $HOME/.claude-deepseek via CLAUDE_CONFIG_DIR. Own /tmp/deepseek-tmp root via CLAUDE_CODE_TMPDIR. Real key is resolved by nono's proxy from file://~/.config/nono/secrets/deepseek and injected as Authorization: Bearer on egress to api.deepseek.com; the agent env only ever sees a placeholder (ANTHROPIC_AUTH_TOKEN) and a SHA-256 hash, never the raw key. Network + credential policy now both live here; settings.json.tmpl only supplies the repo path."
   },
   "filesystem": {
     "allow": [
