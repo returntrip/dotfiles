@@ -10,7 +10,7 @@
 ## TODO
 
 - **macOS shell**: decided — macOS uses zsh with `dot_zshrc.tmpl` (cross-shell bits: aliases, addalias, EDITOR, atuin, mise, starship, secretsload). bash-only files (`.bashrc`, `.bash_aliases`, `.bash_profile`, `.inputrc`, blesh) stay excluded from macOS. Near term: verify the zshrc on a real Mac. Longer term: port the Linux side (`.bashrc` + `.bash_aliases`) to zsh so it's zsh everywhere — `shell-common` is already shared and mostly shell-agnostic, easing that port; then fold it into a single `zshrc` and drop the bash files. Chose zsh over fish (non-POSIX).
-- **nono**: work-machine variants needed. Currently excluded from the work profile entirely.
+- **nono work variants**: dropped — no work-machine nono agents planned.
 
 ## Security model (Zed agents)
 
@@ -33,14 +33,15 @@
   variable name the proxy resolves the file secret into; it does not expose
   the raw value to the child.
 
-## Known nono issue (v0.74.0)
+## nono Landlock cwd interaction
 
-- A bare `nono run --profile ...` from an interactive shell fails with
-  "Landlock deny-overlap": 48 default denies (e.g. ~/.1password, ~/.aws,
-  ~/.bash_history) under linux-host-compat conflict with the implicit home
-  mount. Agents launched by Zed work (different env context). Appears to be a
-  nono v0.74.0 regression, not a dotfiles issue. Blocks testing
-  --env-credential from the shell.
+A bare `nono run --profile ...` from the **home directory** fails with
+"Landlock deny-overlap": nono wants to share the cwd (home) as an allowed
+parent, which conflicts with the ~48 default denies (e.g. ~/.1password,
+~/.aws, ~/.bash_history) — Landlock can't express deny-under-allow. Running
+from a non-home dir (`cd /tmp`) works fine. Zed launches agents with a
+different cwd, so they never hit it. Not a nono regression; a cwd-vs-deny
+interaction.
 
 ## Template safety rule (empty-render hazard)
 
