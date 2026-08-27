@@ -41,25 +41,3 @@ fi
 if type starship &>/dev/null; then
     eval "$(starship init zsh)"
 fi
-
-# Zellij shell integration (OSC 133) — prompt/command marking for scrollback
-if [[ -n "${ZELLIJ:-}" ]]; then
-    __zellij_osc133_prompt_start() {
-        printf '\033]133;A\007'
-    }
-    __zellij_osc133_prompt_end() {
-        printf '\033]133;B\007'
-    }
-    __zellij_osc133_command_start() {
-        printf '\033]133;C\007'
-    }
-    __zellij_osc133_command_end() {
-        local rc=$?
-        printf '\033]133;D;%s\007' "$rc"
-        return "$rc"
-    }
-    autoload -Uz add-zsh-hook
-    add-zsh-hook precmd __zellij_osc133_prompt_start
-    add-zsh-hook preexec __zellij_osc133_command_start
-    PROMPT='$(__zellij_osc133_command_end; __zellij_osc133_prompt_end)$PROMPT'
-fi
