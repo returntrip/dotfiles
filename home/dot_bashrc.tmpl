@@ -120,9 +120,10 @@ CDPATH="$CDPATH":/home/{{ .chezmoi.username }}/devel/packaging:/home/{{ .chezmoi
 
 {{- end }}
 
-# mise
+# mise — only for bws/usage; shims PATH instead of activate hook so
+# PROMPT_COMMAND stays free (mise's hook would clobber it)
 if type mise &>/dev/null; then
-    eval "$(mise activate bash)"
+    export PATH="$HOME/.local/share/mise/shims:$PATH"
 fi
 
 # Set $EDITOR and $PAGER (defaults live in shell-common)

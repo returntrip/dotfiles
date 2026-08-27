@@ -13,3 +13,4 @@ dnf_arguments = "-y"
 {{- end }}
 [post_commands]
 "ble.sh update" = "[[ -f ~/.local/share/blesh/ble.sh ]] && source ~/.local/share/blesh/ble.sh --update"
+"mise upgrade" = "type mise &>/dev/null && mise upgrade"

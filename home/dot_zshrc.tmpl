@@ -27,9 +27,10 @@ addalias() {
     source ~/.zshrc
 }
 
-# mise
+# mise — only for bws/usage; shims PATH instead of activate hook so
+# PROMPT_COMMAND stays free (mise's hook would clobber it)
 if type mise &>/dev/null; then
-    eval "$(mise activate zsh)"
+    export PATH="$HOME/.local/share/mise/shims:$PATH"
 fi
 
 # atuin
