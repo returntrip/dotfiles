@@ -160,23 +160,20 @@ fi
 if type atuin &>/dev/null; then
     eval "$(atuin init bash)"
 fi
-# Zellij shell integration (OSC 133) — prompt/command marking for scrollback
-# Runs before ble.sh so the markers wrap whatever prompt is active.
-if [[ -n "${ZELLIJ:-}" ]]; then
-    __zellij_osc133_prompt() {
-        printf '\033]133;A\007'
-    }
-    __zellij_osc133_command_end() {
-        local rc=$?
-        printf '\033]133;D;%s\007' "$rc"
-        return "$rc"
-    }
-    PROMPT_COMMAND="__zellij_osc133_command_end${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
-    PS0='\[$(printf "\033]133;C\007")\]'
-    PS1="\[$(printf "\033]133;A\007")\]$PS1\[$(printf "\033]133;B\007")\]"
-fi
-
 {{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
 # ble.sh (must be last)
 [[ ${BLE_VERSION-} ]] && ble-attach
 {{- end }}
+
+# Zellij shell integration (OSC 133) — prompt/command marking for scrollback
+# Uses PROMPT_COMMAND/PS0 only (not PS1), so starship/ble.sh ordering doesn't
+# wipe the markers.
+if [[ -n "${ZELLIJ:-}" ]]; then
+    __zellij_osc133_precmd() {
+        local rc=$?
+        printf '\033]133;D;%s\007' "$rc"
+        printf '\033]133;A\007'
+    }
+    PROMPT_COMMAND="__zellij_osc133_precmd${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+    PS0='\[$(printf "\033]133;C\007")\]'
+fi
