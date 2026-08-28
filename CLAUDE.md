@@ -11,6 +11,13 @@
 
 - **macOS shell**: decided — macOS uses zsh with `dot_zshrc.tmpl` (cross-shell bits: aliases, addalias, EDITOR, atuin, mise, starship, secretsload). bash-only files (`.bashrc`, `.bash_aliases`, `.bash_profile`, `.inputrc`, blesh) stay excluded from macOS. Near term: verify the zshrc on a real Mac. Longer term: port the Linux side (`.bashrc` + `.bash_aliases`) to zsh so it's zsh everywhere — `shell-common` is already shared and mostly shell-agnostic, easing that port; then fold it into a single `zshrc` and drop the bash files. Chose zsh over fish (non-POSIX).
 - **nono work variants**: dropped — no work-machine nono agents planned.
+- **Zellij scroll-by-command**: OSC 133 shell integration doesn't work because
+  mise's PROMPT_COMMAND hook clobbers the markers. mise is now shims-PATH-only
+  (no activate hook, commit c5cab96), so PROMPT_COMMAND is free — the standard
+  OSC 133 snippet should now work. Re-add it and verify `[`/`]` jump between
+  prompts. Also: `s` in the config = scroll mode; scroll is reached via
+  `Ctrl g` (locked→normal) then `s`. Keybindings `[`/`]`/`m`/`c` are in scroll
+  mode.
 
 ## Security model (Zed agents)
 
