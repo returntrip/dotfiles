@@ -165,3 +165,14 @@ fi
 # ble.sh (must be last)
 [[ ${BLE_VERSION-} ]] && ble-attach
 {{- end }}
+
+# Zellij shell integration (OSC 133) — prompt/command marking for scrollback
+if [[ -n "${ZELLIJ:-}" ]]; then
+    __zellij_osc133_precmd() {
+        local rc=$?
+        printf '\033]133;D;%s\007' "$rc"
+        printf '\033]133;A\007'
+    }
+    PROMPT_COMMAND="__zellij_osc133_precmd${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+    PS0='\[$(printf "\033]133;C\007")\]'
+fi
