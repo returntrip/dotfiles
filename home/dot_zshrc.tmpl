@@ -43,17 +43,19 @@ if type starship &>/dev/null; then
     eval "$(starship init zsh)"
 fi
 
-# Zellij shell integration (OSC 133) — prompt/command marking for scrollback
-if [[ -n "${ZELLIJ:-}" ]]; then
-    __zellij_osc133_precmd() {
-        local rc=$?
-        printf '\033]133;D;%s\007' "$rc"
-        printf '\033]133;A\007'
-    }
-    __zellij_osc133_preexec() {
-        printf '\033]133;C\007'
-    }
-    autoload -Uz add-zsh-hook
-    add-zsh-hook precmd __zellij_osc133_precmd
-    add-zsh-hook preexec __zellij_osc133_preexec
-fi
+# Zellij shell integration (OSC 133) — prompt/command marking for scrollback.
+# $ZELLIJ is set only AFTER zshrc sources, so check it at hook time,
+# not source time — otherwise the markers never activate.
+__zellij_osc133_precmd() {
+    [[ -n "${ZELLIJ:-}" ]] || return
+    local rc=$?
+    printf '\033]133;D;%s\007' "$rc"
+    printf '\033]133;A\007'
+}
+__zellij_osc133_preexec() {
+    [[ -n "${ZELLIJ:-}" ]] || return
+    printf '\033]133;C\007'
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd __zellij_osc133_precmd
+add-zsh-hook preexec __zellij_osc133_preexec
