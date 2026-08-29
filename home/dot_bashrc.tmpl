@@ -171,29 +171,30 @@ fi
 # ble.sh manages the prompt via its own blehook, so register there when
 # ble.sh is active; otherwise use PROMPT_COMMAND.
 #
-# Mark B (command-start) has to be appended to PS1 itself, re-applied every
-# cycle, because it must land in the byte stream right after the prompt is
-# drawn and before input starts — precmd fires too early (before PS1 draws)
-# and preexec fires too late. It's also why this hook must run AFTER
-# starship's own precmd (which rewrites PS1 from scratch each time): in the
-# non-ble.sh branch that means appending to PROMPT_COMMAND, not prepending.
+# Both A (prompt-start) and B (command-start) live INSIDE PS1, wrapping it.
+# They can't be printf'd from precmd: ble.sh doesn't draw the prompt once,
+# it erases and redraws it (\e[1A, \e[2K, \e[1G) for its own layout and
+# highlighting passes. A printf'd A marks a screen position that ble.sh then
+# erases and redraws over, leaving zellij holding a stale prompt-start — the
+# region it then reports for jump/select is offset from the real prompt.
+# Marks embedded in PS1 ride along with every redraw and land correctly.
+# This mirrors WezTerm's ble.sh-aware integration, which wraps PS1 the same
+# way and deliberately skips the standalone prompt-start printf under ble.sh.
+# Marks therefore repeat once per redraw by design — that's the mechanism
+# working, not duplication to suppress.
 #
-# Under ble.sh, leaving the B mark baked into PS1 makes it echo more than
-# once per prompt (ble.sh redraws PS1 for its own layout passes, re-emitting
-# whatever's embedded in it). WezTerm's own ble.sh-aware integration works
-# around this by restoring PS1 to its unmarked form in preexec (only if
-# nothing else already changed it) and re-marking fresh on the next precmd —
-# same fix applied here. preexec can also fire more than once per prompt
-# (e.g. for commands ble.sh runs internally while composing the prompt), so
-# C is guarded to only print once per cycle.
+# PS1 is restored to its unmarked form in preexec (only if nothing else
+# changed it meanwhile) so the wrap doesn't accumulate. This hook must also
+# run AFTER starship's own precmd, which rewrites PS1 from scratch each
+# cycle: in the non-ble.sh branch that means appending to PROMPT_COMMAND,
+# not prepending. C is guarded to print once per cycle.
 __zellij_osc133_precmd() {
     local rc=$?
     [[ -n "${ZELLIJ:-}" ]] || return
     printf '\033]133;D;%s\007' "$rc"
-    printf '\033]133;A\007'
     __zellij_osc133_preexec_fired=
     __zellij_osc133_saved_ps1="$PS1"
-    PS1="${PS1}"'\[\033]133;B\007\]'
+    PS1='\[\033]133;A\007\]'"${PS1}"'\[\033]133;B\007\]'
     __zellij_osc133_marked_ps1="$PS1"
 }
 __zellij_osc133_preexec() {
