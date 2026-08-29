@@ -161,15 +161,16 @@ fi
 if type atuin &>/dev/null; then
     eval "$(atuin init bash)"
 fi
-{{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
-# ble.sh (must be last)
-[[ ${BLE_VERSION-} ]] && ble-attach
-{{- end }}
 
 # Zellij shell integration (OSC 133) — prompt/command marking for scrollback.
 # $ZELLIJ is set only AFTER bashrc sources, so check it at prompt time.
 # ble.sh manages the prompt via its own blehook, so register there when
-# ble.sh is active; otherwise use PROMPT_COMMAND.
+# ble.sh is active; otherwise use PROMPT_COMMAND. This must be configured
+# BEFORE ble-attach, not after: ble.sh's own docs say all configuration
+# (hooks, PS1) must be finished before attaching — ble.sh captures PS1 at
+# attach time for the first prompt, and anything registered afterward is
+# competing with a live, already-attached editor instead of being in place
+# from the start.
 #
 # Both A (prompt-start) and B (command-start) live INSIDE PS1, wrapping it.
 # They can't be printf'd from precmd: ble.sh doesn't draw the prompt once,
@@ -224,3 +225,8 @@ else
     PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }__zellij_osc133_precmd"
     PS0='\[$(printf "\033]133;C\007")\]'
 fi
+
+{{- if stat (joinPath .chezmoi.homeDir "/.local/share/blesh/ble.sh") }}
+# ble.sh (must be last)
+[[ ${BLE_VERSION-} ]] && ble-attach
+{{- end }}
