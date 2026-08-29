@@ -12,23 +12,29 @@
 - **macOS shell**: decided — macOS uses zsh with `dot_zshrc.tmpl` (cross-shell bits: aliases, addalias, EDITOR, atuin, mise, starship, secretsload). bash-only files (`.bashrc`, `.bash_aliases`, `.bash_profile`, `.inputrc`, blesh) stay excluded from macOS. Near term: verify the zshrc on a real Mac. Longer term: port the Linux side (`.bashrc` + `.bash_aliases`) to zsh so it's zsh everywhere — `shell-common` is already shared and mostly shell-agnostic, easing that port; then fold it into a single `zshrc` and drop the bash files. Chose zsh over fish (non-POSIX).
 - **nono work variants**: dropped — no work-machine nono agents planned.
 - **Zellij scroll-by-command**: mise clobbering PROMPT_COMMAND was fixed
-  (shims-PATH-only, commit c5cab96). Root cause of jump/select still not
-  working: `blehook/precmd += ...` / `blehook/preexec += ...` in
-  `dot_bashrc.tmpl` used lowercase hook names — ble.sh's real hook names are
-  uppercase (`PRECMD`/`PREEXEC`, confirmed via `blehook precmd` → "undefined
-  hook 'precmd'"). The functions were defined correctly (verified by calling
-  `__zellij_osc133_preexec` directly) but never actually wired into ble.sh's
-  prompt cycle, so no marks were ever emitted automatically. Fixed to
-  `blehook/PRECMD` / `blehook/PREEXEC`. Also fixed along the way (real but
-  secondary): mark B (command-start) was missing entirely — only A/C/D were
-  emitted, so zellij had no signal for prompt-end/command-start even where
-  hooks did fire; `$?` was captured after `[[ ]]` clobbered it (OSC 133;D
-  always reported exit 0); non-ble.sh branch prepended its hook instead of
+  (shims-PATH-only, commit c5cab96). Actual root cause of jump/select never
+  working, found by capturing the direct error (it flashed by as a mystery
+  "white line" in zellij before the next prompt overwrote it): `blehook`
+  is a plain function, called as `blehook NAME+=handler` (one token, no
+  spaces, no slash). `dot_bashrc.tmpl` used `blehook/PRECMD += handler`
+  (literal slash) — bash parses that as a command name containing a `/`
+  and tries to exec it as a file path, failing silently at shell startup
+  with "bash: blehook/PRECMD: No such file or directory". Nothing was ever
+  registered, through several earlier attempts (an initial lowercase
+  `blehook/precmd` typo, "fixed" to `blehook/PRECMD` — same wrong syntax,
+  same silent failure). Fixed to `blehook PRECMD+=__zellij_osc133_precmd`
+  / `blehook PREEXEC+=__zellij_osc133_preexec`. Also fixed along the way
+  (real but secondary, and moot until the above landed): mark B
+  (command-start) was missing entirely — only A/C/D were emitted, so
+  zellij had no signal for prompt-end/command-start even once hooks did
+  fire; `$?` was captured after `[[ ]]` clobbered it (OSC 133;D always
+  reported exit 0); non-ble.sh branch prepended its hook instead of
   appending, so it would've run before starship's PS1 rewrite and lost the
   B mark. Needs verification on a real machine (`chezmoi update`, `exec
-  bash` or new pane, run a couple commands, jump). Also: `s` in the config
-  = scroll mode; scroll is reached via `Ctrl g` (locked→normal) then `s`.
-  Keybindings `[`/`]`/`m`/`c` are in scroll mode.
+  bash` or new pane, `blehook precmd | grep zellij` to confirm
+  registration, then run a couple commands and test jump). Also: `s` in
+  the config = scroll mode; scroll is reached via `Ctrl g` (locked→normal)
+  then `s`. Keybindings `[`/`]`/`m`/`c` are in scroll mode.
 
 ## Security model (Zed agents)
 
