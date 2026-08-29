@@ -159,12 +159,12 @@ keybinds clear-defaults=true {
         bind "Alt l" { MoveFocusOrTab "right"; }
         bind "Alt n" { NewPane; }
         bind "Alt o" { MoveTab "right"; }
+    }
+    shared_except "locked" {
         bind "Ctrl s" { SwitchToMode "scroll"; }
         bind "Ctrl p" { SwitchToMode "pane"; }
         bind "Ctrl t" { SwitchToMode "tab"; }
         bind "Ctrl o" { SwitchToMode "session"; }
-    }
-    shared_except "locked" {
         bind "Alt f" { LaunchPlugin "filepicker"; }
     }
     shared_except "locked" "renametab" "renamepane" {
