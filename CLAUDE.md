@@ -23,18 +23,42 @@
   registered, through several earlier attempts (an initial lowercase
   `blehook/precmd` typo, "fixed" to `blehook/PRECMD` — same wrong syntax,
   same silent failure). Fixed to `blehook PRECMD+=__zellij_osc133_precmd`
-  / `blehook PREEXEC+=__zellij_osc133_preexec`. Also fixed along the way
-  (real but secondary, and moot until the above landed): mark B
-  (command-start) was missing entirely — only A/C/D were emitted, so
-  zellij had no signal for prompt-end/command-start even once hooks did
-  fire; `$?` was captured after `[[ ]]` clobbered it (OSC 133;D always
+  / `blehook PREEXEC+=__zellij_osc133_preexec`.
+
+  Once hooks actually fired, captured raw OSC bytes via `script -qc bash
+  file.log` + `grep -aoE $'\033\]133;[A-D][^\a\033]{0,20}' file.log`
+  (viewing the raw log directly, e.g. `cat -v`, is risky — it can contain
+  unterminated mouse-tracking enable sequences that leak through and break
+  mouse text selection in the real terminal; `reset` or `printf
+  '\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1015l\e[?25h'` recovers it).
+  That capture showed A/D firing exactly once per prompt (correct) but B
+  twice and C 2-4 times per prompt. Root cause for B: it was baked
+  directly into the `PS1` string and left there — ble.sh redraws PS1 for
+  its own internal layout passes, re-emitting whatever's embedded in it
+  each time. Fixed by mirroring WezTerm's own ble.sh-aware shell
+  integration (`__wezterm_semantic_precmd`/`preexec` in
+  wezterm/assets/shell-integration/wezterm.sh): preexec restores PS1 to
+  its saved unmarked value (only if PS1 still matches what precmd set —
+  skip if something else already changed it) right before the command
+  runs, then precmd re-marks it fresh next cycle. C's over-firing is
+  separate (ble.sh's PREEXEC can fire for commands it runs internally
+  while composing the prompt, not just the user's typed command) — guarded
+  with a once-per-cycle flag reset in precmd.
+
+  Also fixed earlier (real but secondary, and moot until the blehook
+  syntax landed): mark B was missing entirely at first — only A/C/D were
+  emitted; `$?` was captured after `[[ ]]` clobbered it (OSC 133;D always
   reported exit 0); non-ble.sh branch prepended its hook instead of
   appending, so it would've run before starship's PS1 rewrite and lost the
-  B mark. Needs verification on a real machine (`chezmoi update`, `exec
-  bash` or new pane, `blehook precmd | grep zellij` to confirm
-  registration, then run a couple commands and test jump). Also: `s` in
-  the config = scroll mode; scroll is reached via `Ctrl g` (locked→normal)
-  then `s`. Keybindings `[`/`]`/`m`/`c` are in scroll mode.
+  B mark.
+
+  Needs verification on a real machine (`chezmoi update`, `exec bash` or
+  new pane, re-run the `script`/grep capture to confirm one A/B/C/D per
+  prompt, then test `[`/`]`/`m` in scroll mode). Also: `s` in the config =
+  scroll mode; scroll is reached via `Ctrl g` (locked→normal) then `s`.
+  Search in scroll mode is bound to `f`, not `/` (`clear-defaults=true` on
+  this config means zellij's stock bindings don't exist unless redefined
+  here). Keybindings `[`/`]`/`m`/`c` are in scroll mode.
 
 ## Security model (Zed agents)
 

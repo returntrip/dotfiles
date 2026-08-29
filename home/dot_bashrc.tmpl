@@ -177,15 +177,33 @@ fi
 # and preexec fires too late. It's also why this hook must run AFTER
 # starship's own precmd (which rewrites PS1 from scratch each time): in the
 # non-ble.sh branch that means appending to PROMPT_COMMAND, not prepending.
+#
+# Under ble.sh, leaving the B mark baked into PS1 makes it echo more than
+# once per prompt (ble.sh redraws PS1 for its own layout passes, re-emitting
+# whatever's embedded in it). WezTerm's own ble.sh-aware integration works
+# around this by restoring PS1 to its unmarked form in preexec (only if
+# nothing else already changed it) and re-marking fresh on the next precmd —
+# same fix applied here. preexec can also fire more than once per prompt
+# (e.g. for commands ble.sh runs internally while composing the prompt), so
+# C is guarded to only print once per cycle.
 __zellij_osc133_precmd() {
     local rc=$?
     [[ -n "${ZELLIJ:-}" ]] || return
     printf '\033]133;D;%s\007' "$rc"
     printf '\033]133;A\007'
+    __zellij_osc133_preexec_fired=
+    __zellij_osc133_saved_ps1="$PS1"
     PS1="${PS1}"'\[\033]133;B\007\]'
+    __zellij_osc133_marked_ps1="$PS1"
 }
 __zellij_osc133_preexec() {
     [[ -n "${ZELLIJ:-}" ]] || return
+    if [[ -n "${__zellij_osc133_saved_ps1+1}" && "${__zellij_osc133_marked_ps1-}" == "$PS1" ]]; then
+        PS1="$__zellij_osc133_saved_ps1"
+        unset __zellij_osc133_saved_ps1
+    fi
+    [[ -z "${__zellij_osc133_preexec_fired:-}" ]] || return
+    __zellij_osc133_preexec_fired=1
     printf '\033]133;C\007'
 }
 if [[ -n "${BLE_VERSION:-}" ]] && declare -F blehook >/dev/null 2>&1; then
