@@ -11,13 +11,19 @@
 
 - **macOS shell**: decided — macOS uses zsh with `dot_zshrc.tmpl` (cross-shell bits: aliases, addalias, EDITOR, atuin, mise, starship, secretsload). bash-only files (`.bashrc`, `.bash_aliases`, `.bash_profile`, `.inputrc`, blesh) stay excluded from macOS. Near term: verify the zshrc on a real Mac. Longer term: port the Linux side (`.bashrc` + `.bash_aliases`) to zsh so it's zsh everywhere — `shell-common` is already shared and mostly shell-agnostic, easing that port; then fold it into a single `zshrc` and drop the bash files. Chose zsh over fish (non-POSIX).
 - **nono work variants**: dropped — no work-machine nono agents planned.
-- **Zellij scroll-by-command**: OSC 133 shell integration doesn't work because
-  mise's PROMPT_COMMAND hook clobbers the markers. mise is now shims-PATH-only
-  (no activate hook, commit c5cab96), so PROMPT_COMMAND is free — the standard
-  OSC 133 snippet should now work. Re-add it and verify `[`/`]` jump between
-  prompts. Also: `s` in the config = scroll mode; scroll is reached via
-  `Ctrl g` (locked→normal) then `s`. Keybindings `[`/`]`/`m`/`c` are in scroll
-  mode.
+- **Zellij scroll-by-command**: mise clobbering PROMPT_COMMAND was fixed
+  (shims-PATH-only, commit c5cab96), but jump still didn't work because the
+  OSC 133 snippet in `dot_bashrc.tmpl` never emitted mark B (command-start) —
+  only A/C/D. Without B, zellij has no signal for where the prompt ends and
+  command input begins, so `[`/`]`/`m` had no region to act on. Also fixed:
+  `$?` was captured after the `[[ ]]` test clobbered it (OSC 133;D always
+  reported exit 0), and in the non-ble.sh branch the hook was prepended
+  ahead of starship's PROMPT_COMMAND entry instead of appended, so anything
+  it appended to PS1 would've been wiped out by starship's own PS1 rewrite.
+  Patched; needs verification on a real machine (`chezmoi apply`, open
+  zellij, run a couple commands, jump). Also: `s` in the config = scroll
+  mode; scroll is reached via `Ctrl g` (locked→normal) then `s`. Keybindings
+  `[`/`]`/`m`/`c` are in scroll mode.
 
 ## Security model (Zed agents)
 

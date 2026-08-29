@@ -170,11 +170,19 @@ fi
 # $ZELLIJ is set only AFTER bashrc sources, so check it at prompt time.
 # ble.sh manages the prompt via its own blehook, so register there when
 # ble.sh is active; otherwise use PROMPT_COMMAND.
+#
+# Mark B (command-start) has to be appended to PS1 itself, re-applied every
+# cycle, because it must land in the byte stream right after the prompt is
+# drawn and before input starts — precmd fires too early (before PS1 draws)
+# and preexec fires too late. It's also why this hook must run AFTER
+# starship's own precmd (which rewrites PS1 from scratch each time): in the
+# non-ble.sh branch that means appending to PROMPT_COMMAND, not prepending.
 __zellij_osc133_precmd() {
-    [[ -n "${ZELLIJ:-}" ]] || return
     local rc=$?
+    [[ -n "${ZELLIJ:-}" ]] || return
     printf '\033]133;D;%s\007' "$rc"
     printf '\033]133;A\007'
+    PS1="${PS1}"'\[\033]133;B\007\]'
 }
 __zellij_osc133_preexec() {
     [[ -n "${ZELLIJ:-}" ]] || return
@@ -184,6 +192,6 @@ if [[ -n "${BLE_VERSION:-}" ]] && declare -F blehook >/dev/null 2>&1; then
     blehook/precmd += __zellij_osc133_precmd
     blehook/preexec += __zellij_osc133_preexec
 else
-    PROMPT_COMMAND="__zellij_osc133_precmd${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+    PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }__zellij_osc133_precmd"
     PS0='\[$(printf "\033]133;C\007")\]'
 fi
