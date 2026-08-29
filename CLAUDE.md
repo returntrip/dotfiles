@@ -12,18 +12,23 @@
 - **macOS shell**: decided — macOS uses zsh with `dot_zshrc.tmpl` (cross-shell bits: aliases, addalias, EDITOR, atuin, mise, starship, secretsload). bash-only files (`.bashrc`, `.bash_aliases`, `.bash_profile`, `.inputrc`, blesh) stay excluded from macOS. Near term: verify the zshrc on a real Mac. Longer term: port the Linux side (`.bashrc` + `.bash_aliases`) to zsh so it's zsh everywhere — `shell-common` is already shared and mostly shell-agnostic, easing that port; then fold it into a single `zshrc` and drop the bash files. Chose zsh over fish (non-POSIX).
 - **nono work variants**: dropped — no work-machine nono agents planned.
 - **Zellij scroll-by-command**: mise clobbering PROMPT_COMMAND was fixed
-  (shims-PATH-only, commit c5cab96), but jump still didn't work because the
-  OSC 133 snippet in `dot_bashrc.tmpl` never emitted mark B (command-start) —
-  only A/C/D. Without B, zellij has no signal for where the prompt ends and
-  command input begins, so `[`/`]`/`m` had no region to act on. Also fixed:
-  `$?` was captured after the `[[ ]]` test clobbered it (OSC 133;D always
-  reported exit 0), and in the non-ble.sh branch the hook was prepended
-  ahead of starship's PROMPT_COMMAND entry instead of appended, so anything
-  it appended to PS1 would've been wiped out by starship's own PS1 rewrite.
-  Patched; needs verification on a real machine (`chezmoi apply`, open
-  zellij, run a couple commands, jump). Also: `s` in the config = scroll
-  mode; scroll is reached via `Ctrl g` (locked→normal) then `s`. Keybindings
-  `[`/`]`/`m`/`c` are in scroll mode.
+  (shims-PATH-only, commit c5cab96). Root cause of jump/select still not
+  working: `blehook/precmd += ...` / `blehook/preexec += ...` in
+  `dot_bashrc.tmpl` used lowercase hook names — ble.sh's real hook names are
+  uppercase (`PRECMD`/`PREEXEC`, confirmed via `blehook precmd` → "undefined
+  hook 'precmd'"). The functions were defined correctly (verified by calling
+  `__zellij_osc133_preexec` directly) but never actually wired into ble.sh's
+  prompt cycle, so no marks were ever emitted automatically. Fixed to
+  `blehook/PRECMD` / `blehook/PREEXEC`. Also fixed along the way (real but
+  secondary): mark B (command-start) was missing entirely — only A/C/D were
+  emitted, so zellij had no signal for prompt-end/command-start even where
+  hooks did fire; `$?` was captured after `[[ ]]` clobbered it (OSC 133;D
+  always reported exit 0); non-ble.sh branch prepended its hook instead of
+  appending, so it would've run before starship's PS1 rewrite and lost the
+  B mark. Needs verification on a real machine (`chezmoi update`, `exec
+  bash` or new pane, run a couple commands, jump). Also: `s` in the config
+  = scroll mode; scroll is reached via `Ctrl g` (locked→normal) then `s`.
+  Keybindings `[`/`]`/`m`/`c` are in scroll mode.
 
 ## Security model (Zed agents)
 

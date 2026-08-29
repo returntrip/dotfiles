@@ -189,8 +189,10 @@ __zellij_osc133_preexec() {
     printf '\033]133;C\007'
 }
 if [[ -n "${BLE_VERSION:-}" ]] && declare -F blehook >/dev/null 2>&1; then
-    blehook/precmd += __zellij_osc133_precmd
-    blehook/preexec += __zellij_osc133_preexec
+    # ble.sh's hook names are uppercase (PRECMD/PREEXEC) — blehook/precmd
+    # silently targets a nonexistent hook and is never invoked.
+    blehook/PRECMD += __zellij_osc133_precmd
+    blehook/PREEXEC += __zellij_osc133_preexec
 else
     PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }__zellij_osc133_precmd"
     PS0='\[$(printf "\033]133;C\007")\]'
