@@ -52,13 +52,26 @@
   appending, so it would've run before starship's PS1 rewrite and lost the
   B mark.
 
-  Needs verification on a real machine (`chezmoi update`, `exec bash` or
-  new pane, re-run the `script`/grep capture to confirm one A/B/C/D per
-  prompt, then test `[`/`]`/`m` in scroll mode). Also: `s` in the config =
-  scroll mode; scroll is reached via `Ctrl g` (locked→normal) then `s`.
-  Search in scroll mode is bound to `f`, not `/` (`clear-defaults=true` on
-  this config means zellij's stock bindings don't exist unless redefined
-  here). Keybindings `[`/`]`/`m`/`c` are in scroll mode.
+  Bisect settled the cause: in a clean shell with no ble.sh/starship/atuin
+  (`printf '%s\n' <PS1/PROMPT_COMMAND/PS0 lines> > /tmp/osctest.rc` then
+  `env -u BLE_VERSION bash --rcfile /tmp/osctest.rc -i`, marks as
+  `PS1='\[\033]133;A\007\]test$ \[\033]133;B\007\]'`, D via
+  PROMPT_COMMAND, C via PS0) `[`/`]` jump correctly. So zellij and the
+  marks are both fine — ble.sh's prompt redraw was the whole problem, and
+  the working shell's structure (A and B embedded in PS1) is what the
+  ble.sh path now mirrors. Note when running this bisect: paste the rcfile
+  creation and the `bash --rcfile` launch as two separate pastes, and type
+  test commands by hand — pasting the launch together with follow-up lines
+  races the new shell's startup and silently leaves PS1 unset (prompt stays
+  `bash-5.3$` instead of `test$`, which invalidates the test).
+
+  Still needs end-to-end verification with ble.sh actually enabled
+  (`chezmoi update`, fresh pane, test `[`/`]`/`m`). Also: `s` in the config
+  = scroll mode; scroll is reached via `Ctrl g` (locked→normal) then `s`.
+  Search in scroll mode is bound to `f`, NOT `/` — `clear-defaults=true`
+  means zellij's stock bindings don't exist unless redefined here, so `/`
+  is unbound and will never do anything (repeatedly mistaken for a bug).
+  Keybindings `[`/`]`/`m`/`c` are in scroll mode.
 
 ## Security model (Zed agents)
 
