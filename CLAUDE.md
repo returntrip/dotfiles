@@ -11,67 +11,86 @@
 
 - **macOS shell**: decided — macOS uses zsh with `dot_zshrc.tmpl` (cross-shell bits: aliases, addalias, EDITOR, atuin, mise, starship, secretsload). bash-only files (`.bashrc`, `.bash_aliases`, `.bash_profile`, `.inputrc`, blesh) stay excluded from macOS. Near term: verify the zshrc on a real Mac. Longer term: port the Linux side (`.bashrc` + `.bash_aliases`) to zsh so it's zsh everywhere — `shell-common` is already shared and mostly shell-agnostic, easing that port; then fold it into a single `zshrc` and drop the bash files. Chose zsh over fish (non-POSIX).
 - **nono work variants**: dropped — no work-machine nono agents planned.
-- **Zellij scroll-by-command**: mise clobbering PROMPT_COMMAND was fixed
-  (shims-PATH-only, commit c5cab96). Actual root cause of jump/select never
-  working, found by capturing the direct error (it flashed by as a mystery
-  "white line" in zellij before the next prompt overwrote it): `blehook`
-  is a plain function, called as `blehook NAME+=handler` (one token, no
-  spaces, no slash). `dot_bashrc.tmpl` used `blehook/PRECMD += handler`
-  (literal slash) — bash parses that as a command name containing a `/`
-  and tries to exec it as a file path, failing silently at shell startup
-  with "bash: blehook/PRECMD: No such file or directory". Nothing was ever
-  registered, through several earlier attempts (an initial lowercase
-  `blehook/precmd` typo, "fixed" to `blehook/PRECMD` — same wrong syntax,
-  same silent failure). Fixed to `blehook PRECMD+=__zellij_osc133_precmd`
-  / `blehook PREEXEC+=__zellij_osc133_preexec`.
+- **Zellij scroll-by-command (OSC 133)**: `[`/`]` (jump between prompts)
+  and `c` (copy last command's output) work reliably as of `dot_bashrc.tmpl`'s
+  current `blehook`-based ble.sh integration. `m` (select command + output)
+  is a **known, unresolved limitation**: it reliably selects the right
+  region but only ever gives the output, never the command line too —
+  see "Known limitation" below before spending more time on it.
 
-  Once hooks actually fired, captured raw OSC bytes via `script -qc bash
-  file.log` + `grep -aoE $'\033\]133;[A-D][^\a\033]{0,20}' file.log`
-  (viewing the raw log directly, e.g. `cat -v`, is risky — it can contain
-  unterminated mouse-tracking enable sequences that leak through and break
-  mouse text selection in the real terminal; `reset` or `printf
-  '\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1015l\e[?25h'` recovers it).
-  That capture showed A/D firing exactly once per prompt (correct) but B
-  twice and C 2-4 times per prompt. Root cause for B: it was baked
-  directly into the `PS1` string and left there — ble.sh redraws PS1 for
-  its own internal layout passes, re-emitting whatever's embedded in it
-  each time. Fixed by mirroring WezTerm's own ble.sh-aware shell
-  integration (`__wezterm_semantic_precmd`/`preexec` in
-  wezterm/assets/shell-integration/wezterm.sh): preexec restores PS1 to
-  its saved unmarked value (only if PS1 still matches what precmd set —
-  skip if something else already changed it) right before the command
-  runs, then precmd re-marks it fresh next cycle. C's over-firing is
-  separate (ble.sh's PREEXEC can fire for commands it runs internally
-  while composing the prompt, not just the user's typed command) — guarded
-  with a once-per-cycle flag reset in precmd.
+  Bugs found and fixed along the way (all confirmed via byte capture —
+  `script -qc bash file.log` then `grep -aoE
+  $'\033\]133;[A-D][^\a\033]{0,20}' file.log`; viewing a raw OSC log
+  directly, e.g. `cat -v`, can leak an unterminated mouse-tracking-enable
+  sequence into the real terminal and break mouse selection — `reset` or
+  `printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1015l\e[?25h'` recovers
+  it):
+  - `blehook` is a plain function (`blehook NAME+=handler`, one token, no
+    slash) — `blehook/PRECMD += handler` parses as a command containing a
+    `/` and fails silently at startup ("No such file or directory"), so
+    nothing was ever registered through several earlier attempts.
+  - Mark `A` printf'd from `precmd` goes stale: ble.sh erases/redraws the
+    prompt for its own layout passes between `precmd` and Enter, and a
+    `printf`'d mark's screen position doesn't survive that. Fixed by
+    embedding `A` inside `PS1` itself so it rides along with every redraw
+    (mirrors WezTerm's ble.sh-aware integration).
+  - The `PS1` wrap must not accumulate: without undoing it, `PS1` grows by
+    a nested layer every single prompt, unbounded, and scrollback marks
+    become garbage within a few commands. `precmd` is self-healing instead
+    — if `PS1` still equals exactly what was set last cycle, unwrap back
+    to the saved base before wrapping again.
+  - `$?` must be captured before `[[ ]]` runs (it clobbers `$?` first) or
+    `D`'s exit code is always wrong; the non-ble.sh branch must *append*
+    its hook to `PROMPT_COMMAND`, not prepend, or it runs before
+    starship's `PS1` rewrite and loses everything appended to `PS1`.
+  - `/etc/profile.d/vte.sh` (Ptyxis/GNOME's own OSC 133 integration,
+    active whenever `$VTE_VERSION` is set, which is every pane here) was
+    independently emitting its own `C` mark via plain bash's native `PS0`
+    mechanism — not routed through ble.sh, so it fires regardless and
+    doubled up with ours (confirmed: `C` firing 2× per prompt, one from
+    each source). Its `A`/`B`/`D` contribution is harmless in practice
+    (baked once into `PS1` at shell startup, then wiped by starship's
+    first dynamic `PS1` render), but `C` lives in `PS0`, which nothing
+    else touches, so it persists. Fixed by clearing `PS0` in the ble.sh
+    branch so ours is the only source.
 
-  Also fixed earlier (real but secondary, and moot until the blehook
-  syntax landed): mark B was missing entirely at first — only A/C/D were
-  emitted; `$?` was captured after `[[ ]]` clobbered it (OSC 133;D always
-  reported exit 0); non-ble.sh branch prepended its hook instead of
-  appending, so it would've run before starship's PS1 rewrite and lost the
-  B mark.
+  **Known limitation, not expected to be fixable from `.bashrc`**: `B`
+  (command-start, needed for `m` to include the command line) was tested
+  every way that seemed reasonable — embedded in `PS1` next to `A`
+  (works for `A`, not `B`), `printf`'d from `preexec` at the same proven
+  timing as `C` (also failed, and was a conceptual error besides — lands
+  at the *end* of the typed command, not the start), with the VTE
+  duplication eliminated (no change), and across environments:
+  - Plain bash, no ble.sh: **100% reliable** — the only environment where
+    `B` has ever worked correctly.
+  - Plain zsh, no live-redraw editor at all (so it can't be a redraw-race
+    like ble.sh's): **100% consistently wrong**, always output-only.
+  - bash + ble.sh (the real daily driver): **intermittent** — mostly
+    output-only, occasionally correct, no identified pattern to *which*
+    commands.
+  - Fish (native OSC 133, zero shell-side code): also output-only,
+    matching zsh, not bash.
 
-  Bisect settled the cause: in a clean shell with no ble.sh/starship/atuin
-  (`printf '%s\n' <PS1/PROMPT_COMMAND/PS0 lines> > /tmp/osctest.rc` then
-  `env -u BLE_VERSION bash --rcfile /tmp/osctest.rc -i`, marks as
-  `PS1='\[\033]133;A\007\]test$ \[\033]133;B\007\]'`, D via
-  PROMPT_COMMAND, C via PS0) `[`/`]` jump correctly. So zellij and the
-  marks are both fine — ble.sh's prompt redraw was the whole problem, and
-  the working shell's structure (A and B embedded in PS1) is what the
-  ble.sh path now mirrors. Note when running this bisect: paste the rcfile
-  creation and the `bash --rcfile` launch as two separate pastes, and type
-  test commands by hand — pasting the launch together with follow-up lines
-  races the new shell's startup and silently leaves PS1 unset (prompt stays
-  `bash-5.3$` instead of `test$`, which invalidates the test).
+  Three different failure patterns across three environments using
+  structurally the same technique is genuinely strange and beyond what's
+  diagnosable from the shell-script side — plain bash being the *only*
+  reliable case, with zsh/fish/ble.sh all failing in different ways,
+  suggests the gap is in how zellij's `SelectCommandAtScrollPosition`
+  resolves `B`, not in any of these shells' mark delivery. Worth filing
+  upstream with zellij directly if picked back up — the isolation here is
+  about as clean as it gets. Also noticed but not chased: `[`/`]` combined
+  with pane frames off (`pane_frames false`, this config's setting)
+  sometimes needs pressing twice to land on the actual input line vs. the
+  first line of a multi-line prompt; no explanation found.
 
-  Still needs end-to-end verification with ble.sh actually enabled
-  (`chezmoi update`, fresh pane, test `[`/`]`/`m`). Also: `s` in the config
-  = scroll mode; scroll is reached via `Ctrl g` (locked→normal) then `s`.
-  Search in scroll mode is bound to `f`, NOT `/` — `clear-defaults=true`
-  means zellij's stock bindings don't exist unless redefined here, so `/`
-  is unbound and will never do anything (repeatedly mistaken for a bug).
-  Keybindings `[`/`]`/`m`/`c` are in scroll mode.
+  Misc: scroll mode is reached via `Ctrl g` (locked→normal) then `s` (or
+  `Ctrl s` directly, added to `shared_except "locked"`). Search in scroll
+  mode is bound to `f`, NOT `/` — `clear-defaults=true` means zellij's
+  stock bindings don't exist unless redefined here (this is zellij's own
+  actual default too, confirmed against its `default.kdl`), so `/` is
+  simply unbound, not broken; add `bind "/" { SwitchToMode "entersearch";
+  SearchInput 0; }` to the `scroll` block if wanted. Keybindings
+  `[`/`]`/`m`/`c` are in scroll mode.
 
 ## Security model (Zed agents)
 

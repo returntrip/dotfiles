@@ -221,6 +221,14 @@ if [[ -n "${BLE_VERSION:-}" ]] && declare -F blehook >/dev/null 2>&1; then
     # startup ("No such file or directory"), so nothing gets registered.
     blehook PRECMD+=__zellij_osc133_precmd
     blehook PREEXEC+=__zellij_osc133_preexec
+    # /etc/profile.d/vte.sh (Ptyxis/GNOME's own OSC 133 integration, active
+    # whenever $VTE_VERSION is set — true in every pane here) prepends its
+    # own C mark to PS0 using plain bash's native PS0 mechanism, which
+    # fires regardless of ble.sh — it isn't routed through ble.sh's hook
+    # system, so it keeps firing independently of blehook PREEXEC above.
+    # Confirmed via byte capture: C was firing twice per prompt, once from
+    # each source. Clear it so ours is the only one.
+    PS0=
 else
     PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }__zellij_osc133_precmd"
     PS0='\[$(printf "\033]133;C\007")\]'
