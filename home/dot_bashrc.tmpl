@@ -188,13 +188,26 @@ fi
 # run AFTER starship's own precmd, which rewrites PS1 from scratch each
 # cycle: in the non-ble.sh branch that means appending to PROMPT_COMMAND,
 # not prepending. C is guarded to print once per cycle.
+# A must be both correctly positioned AND emitted once. Inside PS1 it lands
+# at the prompt's real start line (surviving ble.sh's erase/redraw), but
+# ble.sh re-expands PS1 on every keystroke for highlighting, so a bare
+# embedded A repeats dozens of times per prompt — zellij then stacks that
+# many prompt marks on one line and ScrollToPreviousPrompt steps between
+# duplicates without appearing to move. Emitting it from a command
+# substitution that self-gates gives one A per cycle, at the right place.
+__zellij_osc133_emit_a() {
+    [[ -z "${__zellij_osc133_a_emitted:-}" ]] || return
+    __zellij_osc133_a_emitted=1
+    printf '\033]133;A\007'
+}
 __zellij_osc133_precmd() {
     local rc=$?
     [[ -n "${ZELLIJ:-}" ]] || return
     printf '\033]133;D;%s\007' "$rc"
     __zellij_osc133_preexec_fired=
+    __zellij_osc133_a_emitted=
     __zellij_osc133_saved_ps1="$PS1"
-    PS1='\[\033]133;A\007\]'"${PS1}"'\[\033]133;B\007\]'
+    PS1='\[$(__zellij_osc133_emit_a)\]'"${PS1}"'\[\033]133;B\007\]'
     __zellij_osc133_marked_ps1="$PS1"
 }
 __zellij_osc133_preexec() {
