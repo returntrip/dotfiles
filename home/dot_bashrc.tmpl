@@ -183,26 +183,32 @@ fi
 # Marks therefore repeat once per redraw by design — that's the mechanism
 # working, not duplication to suppress.
 #
-# PS1 is restored to its unmarked form in preexec (only if nothing else
-# changed it meanwhile) so the wrap doesn't accumulate. This hook must also
-# run AFTER starship's own precmd, which rewrites PS1 from scratch each
-# cycle: in the non-ble.sh branch that means appending to PROMPT_COMMAND,
-# not prepending. C is guarded to print once per cycle.
+# The wrap must not accumulate across cycles, or PS1 grows by one more
+# nested A/B layer every prompt (confirmed: 36 bytes/cycle, unbounded) and
+# scrollback marks become garbage. It can't be undone in preexec in the
+# non-ble.sh branch: PS0 evaluates via command substitution, which runs in
+# a subshell and can never mutate the parent shell's PS1. So precmd is
+# self-healing instead: at the top of every cycle, if PS1 still equals
+# exactly what this function set it to last time, unwrap it back to the
+# saved base before wrapping again. That works regardless of whether
+# anything ran in between to undo it, in both branches. This hook must
+# also run AFTER starship's own precmd, which rewrites PS1 from scratch
+# each cycle: in the non-ble.sh branch that means appending to
+# PROMPT_COMMAND, not prepending. C is guarded to print once per cycle.
 __zellij_osc133_precmd() {
     local rc=$?
     [[ -n "${ZELLIJ:-}" ]] || return
     printf '\033]133;D;%s\007' "$rc"
     __zellij_osc133_preexec_fired=
+    if [[ -n "${__zellij_osc133_marked_ps1-}" && "$PS1" == "$__zellij_osc133_marked_ps1" ]]; then
+        PS1="$__zellij_osc133_saved_ps1"
+    fi
     __zellij_osc133_saved_ps1="$PS1"
     PS1='\[\033]133;A\007\]'"${PS1}"'\[\033]133;B\007\]'
     __zellij_osc133_marked_ps1="$PS1"
 }
 __zellij_osc133_preexec() {
     [[ -n "${ZELLIJ:-}" ]] || return
-    if [[ -n "${__zellij_osc133_saved_ps1+1}" && "${__zellij_osc133_marked_ps1-}" == "$PS1" ]]; then
-        PS1="$__zellij_osc133_saved_ps1"
-        unset __zellij_osc133_saved_ps1
-    fi
     [[ -z "${__zellij_osc133_preexec_fired:-}" ]] || return
     __zellij_osc133_preexec_fired=1
     printf '\033]133;C\007'
